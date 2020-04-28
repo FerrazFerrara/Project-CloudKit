@@ -7,7 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		49D07AB32458C3A6003C43DA /* CrudJonatas.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D07AB22458C3A6003C43DA /* CrudJonatas.swift */; };
+		49D07AB82458C988003C43DA /* TesteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D07AB72458C988003C43DA /* TesteViewModel.swift */; };
+		49D07ABA2458C9B5003C43DA /* Usuario.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D07AB92458C9B5003C43DA /* Usuario.swift */; };
+		49D07ABC2458C9C3003C43DA /* Familia.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D07ABB2458C9C3003C43DA /* Familia.swift */; };
+		49D07ABE2458C9CF003C43DA /* Atividade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D07ABD2458C9CF003C43DA /* Atividade.swift */; };
 		7B0B4EDE24575C1F00D5A87E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0B4EDD24575C1F00D5A87E /* AppDelegate.swift */; };
 		7B0B4EE024575C1F00D5A87E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0B4EDF24575C1F00D5A87E /* SceneDelegate.swift */; };
 		7B0B4EE224575C1F00D5A87E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0B4EE124575C1F00D5A87E /* ViewController.swift */; };
@@ -16,12 +19,13 @@
 		7B0B4EEA24575C2300D5A87E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7B0B4EE924575C2300D5A87E /* Assets.xcassets */; };
 		7B0B4EED24575C2300D5A87E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7B0B4EEB24575C2300D5A87E /* LaunchScreen.storyboard */; };
 		7B0B4EF724576BB800D5A87E /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B0B4EF624576BB800D5A87E /* CloudKit.framework */; };
-		7B0B4EF9245776BD00D5A87E /* Banco.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0B4EF8245776BD00D5A87E /* Banco.swift */; };
-		7B0B4F222458C3ED00D5A87E /* CRUDFerraz.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0B4F212458C3ED00D5A87E /* CRUDFerraz.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		49D07AB22458C3A6003C43DA /* CrudJonatas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrudJonatas.swift; sourceTree = "<group>"; };
+		49D07AB72458C988003C43DA /* TesteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TesteViewModel.swift; sourceTree = "<group>"; };
+		49D07AB92458C9B5003C43DA /* Usuario.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Usuario.swift; sourceTree = "<group>"; };
+		49D07ABB2458C9C3003C43DA /* Familia.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Familia.swift; sourceTree = "<group>"; };
+		49D07ABD2458C9CF003C43DA /* Atividade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Atividade.swift; sourceTree = "<group>"; };
 		7B0B4EDA24575C1F00D5A87E /* ProjetoCloudKitJojo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ProjetoCloudKitJojo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B0B4EDD24575C1F00D5A87E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7B0B4EDF24575C1F00D5A87E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -33,8 +37,6 @@
 		7B0B4EEE24575C2300D5A87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7B0B4EF424576B9000D5A87E /* ProjetoCloudKitJojo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ProjetoCloudKitJojo.entitlements; sourceTree = "<group>"; };
 		7B0B4EF624576BB800D5A87E /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
-		7B0B4EF8245776BD00D5A87E /* Banco.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Banco.swift; sourceTree = "<group>"; };
-		7B0B4F212458C3ED00D5A87E /* CRUDFerraz.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CRUDFerraz.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,6 +51,32 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		49D07AB42458C91C003C43DA /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				49D07AB92458C9B5003C43DA /* Usuario.swift */,
+				49D07ABB2458C9C3003C43DA /* Familia.swift */,
+				49D07ABD2458C9CF003C43DA /* Atividade.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		49D07AB52458C924003C43DA /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				49D07AB72458C988003C43DA /* TesteViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		49D07AB62458C92A003C43DA /* View */ = {
+			isa = PBXGroup;
+			children = (
+				7B0B4EE124575C1F00D5A87E /* ViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		7B0B4ED124575C1F00D5A87E = {
 			isa = PBXGroup;
 			children = (
@@ -69,18 +97,17 @@
 		7B0B4EDC24575C1F00D5A87E /* ProjetoCloudKitJojo */ = {
 			isa = PBXGroup;
 			children = (
+				49D07AB62458C92A003C43DA /* View */,
+				49D07AB52458C924003C43DA /* ViewModel */,
+				49D07AB42458C91C003C43DA /* Model */,
 				7B0B4EF424576B9000D5A87E /* ProjetoCloudKitJojo.entitlements */,
 				7B0B4EDD24575C1F00D5A87E /* AppDelegate.swift */,
 				7B0B4EDF24575C1F00D5A87E /* SceneDelegate.swift */,
-				7B0B4EE124575C1F00D5A87E /* ViewController.swift */,
-				49D07AB22458C3A6003C43DA /* CrudJonatas.swift */,
 				7B0B4EE324575C1F00D5A87E /* Main.storyboard */,
 				7B0B4EE924575C2300D5A87E /* Assets.xcassets */,
 				7B0B4EEB24575C2300D5A87E /* LaunchScreen.storyboard */,
 				7B0B4EEE24575C2300D5A87E /* Info.plist */,
 				7B0B4EE624575C1F00D5A87E /* ProjetoCloudKitJojo.xcdatamodeld */,
-				7B0B4EF8245776BD00D5A87E /* Banco.swift */,
-				7B0B4F212458C3ED00D5A87E /* CRUDFerraz.swift */,
 			);
 			path = ProjetoCloudKitJojo;
 			sourceTree = "<group>";
@@ -164,13 +191,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				49D07ABC2458C9C3003C43DA /* Familia.swift in Sources */,
 				7B0B4EE824575C1F00D5A87E /* ProjetoCloudKitJojo.xcdatamodeld in Sources */,
 				7B0B4EE224575C1F00D5A87E /* ViewController.swift in Sources */,
-				49D07AB32458C3A6003C43DA /* CrudJonatas.swift in Sources */,
+				49D07ABA2458C9B5003C43DA /* Usuario.swift in Sources */,
+				49D07AB82458C988003C43DA /* TesteViewModel.swift in Sources */,
+				49D07ABE2458C9CF003C43DA /* Atividade.swift in Sources */,
 				7B0B4EDE24575C1F00D5A87E /* AppDelegate.swift in Sources */,
-				7B0B4F222458C3ED00D5A87E /* CRUDFerraz.swift in Sources */,
 				7B0B4EE024575C1F00D5A87E /* SceneDelegate.swift in Sources */,
-				7B0B4EF9245776BD00D5A87E /* Banco.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
