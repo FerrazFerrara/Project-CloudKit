@@ -11,6 +11,7 @@
 		49D07ABA2458C9B5003C43DA /* Usuario.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D07AB92458C9B5003C43DA /* Usuario.swift */; };
 		49D07ABC2458C9C3003C43DA /* Familia.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D07ABB2458C9C3003C43DA /* Familia.swift */; };
 		49D07ABE2458C9CF003C43DA /* Atividade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D07ABD2458C9CF003C43DA /* Atividade.swift */; };
+		49D07AC02458CC4E003C43DA /* DataBaseICloud.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D07ABF2458CC4E003C43DA /* DataBaseICloud.swift */; };
 		7B0B4EDE24575C1F00D5A87E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0B4EDD24575C1F00D5A87E /* AppDelegate.swift */; };
 		7B0B4EE024575C1F00D5A87E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0B4EDF24575C1F00D5A87E /* SceneDelegate.swift */; };
 		7B0B4EE224575C1F00D5A87E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0B4EE124575C1F00D5A87E /* ViewController.swift */; };
@@ -26,6 +27,7 @@
 		49D07AB92458C9B5003C43DA /* Usuario.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Usuario.swift; sourceTree = "<group>"; };
 		49D07ABB2458C9C3003C43DA /* Familia.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Familia.swift; sourceTree = "<group>"; };
 		49D07ABD2458C9CF003C43DA /* Atividade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Atividade.swift; sourceTree = "<group>"; };
+		49D07ABF2458CC4E003C43DA /* DataBaseICloud.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBaseICloud.swift; sourceTree = "<group>"; };
 		7B0B4EDA24575C1F00D5A87E /* ProjetoCloudKitJojo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ProjetoCloudKitJojo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B0B4EDD24575C1F00D5A87E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7B0B4EDF24575C1F00D5A87E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -97,6 +99,7 @@
 		7B0B4EDC24575C1F00D5A87E /* ProjetoCloudKitJojo */ = {
 			isa = PBXGroup;
 			children = (
+				49D07ABF2458CC4E003C43DA /* DataBaseICloud.swift */,
 				49D07AB62458C92A003C43DA /* View */,
 				49D07AB52458C924003C43DA /* ViewModel */,
 				49D07AB42458C91C003C43DA /* Model */,
@@ -197,6 +200,7 @@
 				49D07ABA2458C9B5003C43DA /* Usuario.swift in Sources */,
 				49D07AB82458C988003C43DA /* TesteViewModel.swift in Sources */,
 				49D07ABE2458C9CF003C43DA /* Atividade.swift in Sources */,
+				49D07AC02458CC4E003C43DA /* DataBaseICloud.swift in Sources */,
 				7B0B4EDE24575C1F00D5A87E /* AppDelegate.swift in Sources */,
 				7B0B4EE024575C1F00D5A87E /* SceneDelegate.swift in Sources */,
 			);
