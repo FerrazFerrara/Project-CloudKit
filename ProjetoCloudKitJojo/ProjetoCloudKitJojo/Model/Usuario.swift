@@ -12,12 +12,12 @@ import CloudKit
 
 class Usuario{
     
-    var idFamilia: String!
-    var nome: String!
-    var foto: UIImage!
-    var conquista: Int!
-    var vitoria: Int!
-    var derrota: Int!
+    var idFamilia: String?
+    var nome: String?
+    var foto: UIImage?
+    var conquista: Int?
+    var vitoria: Int?
+    var derrota: Int?
     
     init(idFamilia: String, nome: String, foto: UIImage, conquista: Int, vitoria: Int, derrota: Int) {
         self.idFamilia = idFamilia
