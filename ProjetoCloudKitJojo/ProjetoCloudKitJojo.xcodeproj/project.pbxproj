@@ -14,6 +14,8 @@
 		7B0B4EE824575C1F00D5A87E /* ProjetoCloudKitJojo.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7B0B4EE624575C1F00D5A87E /* ProjetoCloudKitJojo.xcdatamodeld */; };
 		7B0B4EEA24575C2300D5A87E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7B0B4EE924575C2300D5A87E /* Assets.xcassets */; };
 		7B0B4EED24575C2300D5A87E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7B0B4EEB24575C2300D5A87E /* LaunchScreen.storyboard */; };
+		7B0B4EF724576BB800D5A87E /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B0B4EF624576BB800D5A87E /* CloudKit.framework */; };
+		7B0B4EF9245776BD00D5A87E /* Banco.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0B4EF8245776BD00D5A87E /* Banco.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +28,9 @@
 		7B0B4EE924575C2300D5A87E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7B0B4EEC24575C2300D5A87E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7B0B4EEE24575C2300D5A87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7B0B4EF424576B9000D5A87E /* ProjetoCloudKitJojo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ProjetoCloudKitJojo.entitlements; sourceTree = "<group>"; };
+		7B0B4EF624576BB800D5A87E /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		7B0B4EF8245776BD00D5A87E /* Banco.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Banco.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,6 +38,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7B0B4EF724576BB800D5A87E /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -44,6 +50,7 @@
 			children = (
 				7B0B4EDC24575C1F00D5A87E /* ProjetoCloudKitJojo */,
 				7B0B4EDB24575C1F00D5A87E /* Products */,
+				7B0B4EF524576BB800D5A87E /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -58,6 +65,7 @@
 		7B0B4EDC24575C1F00D5A87E /* ProjetoCloudKitJojo */ = {
 			isa = PBXGroup;
 			children = (
+				7B0B4EF424576B9000D5A87E /* ProjetoCloudKitJojo.entitlements */,
 				7B0B4EDD24575C1F00D5A87E /* AppDelegate.swift */,
 				7B0B4EDF24575C1F00D5A87E /* SceneDelegate.swift */,
 				7B0B4EE124575C1F00D5A87E /* ViewController.swift */,
@@ -66,8 +74,17 @@
 				7B0B4EEB24575C2300D5A87E /* LaunchScreen.storyboard */,
 				7B0B4EEE24575C2300D5A87E /* Info.plist */,
 				7B0B4EE624575C1F00D5A87E /* ProjetoCloudKitJojo.xcdatamodeld */,
+				7B0B4EF8245776BD00D5A87E /* Banco.swift */,
 			);
 			path = ProjetoCloudKitJojo;
+			sourceTree = "<group>";
+		};
+		7B0B4EF524576BB800D5A87E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7B0B4EF624576BB800D5A87E /* CloudKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -145,6 +162,7 @@
 				7B0B4EE224575C1F00D5A87E /* ViewController.swift in Sources */,
 				7B0B4EDE24575C1F00D5A87E /* AppDelegate.swift in Sources */,
 				7B0B4EE024575C1F00D5A87E /* SceneDelegate.swift in Sources */,
+				7B0B4EF9245776BD00D5A87E /* Banco.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -288,6 +306,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = ProjetoCloudKitJojo/ProjetoCloudKitJojo.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Q6B7N567Z6;
 				INFOPLIST_FILE = ProjetoCloudKitJojo/Info.plist;
@@ -306,6 +325,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = ProjetoCloudKitJojo/ProjetoCloudKitJojo.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Q6B7N567Z6;
 				INFOPLIST_FILE = ProjetoCloudKitJojo/Info.plist;
