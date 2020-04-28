@@ -7,10 +7,13 @@
 //
 
 import Foundation
+import CloudKit
 
 class DataBaseICloud{
     
     static let shared = DataBaseICloud()
+    
+    let container = CKContainer(identifier: "iCloud.mini4.com.jojo.seila")
     
     //Initializer access level change now
     private init(){}
@@ -56,8 +59,30 @@ class DataBaseICloud{
     
     // MARK: - CRUD ATIVIDADE
     
-    func createAtividade(){
+    func createAtividade(nome: String, pontuacao: Int, dia: Date, horario: Date, repete: Int, etiqueta: String){
+        let database = container.publicCloudDatabase
         
+        let record = CKRecord(recordType: "Atividade")
+        
+        record.setValue(nome, forKey: "nome")
+        record.setValue(pontuacao, forKey: "pontuacao")
+        record.setValue(dia, forKey: "dia")
+        record.setValue(horario, forKey: "horario")
+        record.setValue(repete, forKey: "repeticao")
+        record.setValue(etiqueta, forKey: "etiqueta")
+        record.setValue(false, forKey: "realizou")
+        
+//        record.setValue(, forKey: "dataFeito")
+//        record.setValue(, forKey: "usuario")
+        
+        database.save(record) { (recordSave, error) in
+            if error == nil{
+                print("Yaaay salvou uma atividade")
+            } else {
+                print("Atividade nao salvou amigao")
+                print(error as Any)
+            }
+        }
     }
     
     func updateAtividade(){
