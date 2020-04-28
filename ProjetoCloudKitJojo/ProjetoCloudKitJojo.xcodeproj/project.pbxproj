@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		49D07AB32458C3A6003C43DA /* CrudJonatas.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D07AB22458C3A6003C43DA /* CrudJonatas.swift */; };
 		7B0B4EDE24575C1F00D5A87E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0B4EDD24575C1F00D5A87E /* AppDelegate.swift */; };
 		7B0B4EE024575C1F00D5A87E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0B4EDF24575C1F00D5A87E /* SceneDelegate.swift */; };
 		7B0B4EE224575C1F00D5A87E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0B4EE124575C1F00D5A87E /* ViewController.swift */; };
@@ -19,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		49D07AB22458C3A6003C43DA /* CrudJonatas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrudJonatas.swift; sourceTree = "<group>"; };
 		7B0B4EDA24575C1F00D5A87E /* ProjetoCloudKitJojo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ProjetoCloudKitJojo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B0B4EDD24575C1F00D5A87E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7B0B4EDF24575C1F00D5A87E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -69,6 +71,7 @@
 				7B0B4EDD24575C1F00D5A87E /* AppDelegate.swift */,
 				7B0B4EDF24575C1F00D5A87E /* SceneDelegate.swift */,
 				7B0B4EE124575C1F00D5A87E /* ViewController.swift */,
+				49D07AB22458C3A6003C43DA /* CrudJonatas.swift */,
 				7B0B4EE324575C1F00D5A87E /* Main.storyboard */,
 				7B0B4EE924575C2300D5A87E /* Assets.xcassets */,
 				7B0B4EEB24575C2300D5A87E /* LaunchScreen.storyboard */,
@@ -160,6 +163,7 @@
 			files = (
 				7B0B4EE824575C1F00D5A87E /* ProjetoCloudKitJojo.xcdatamodeld in Sources */,
 				7B0B4EE224575C1F00D5A87E /* ViewController.swift in Sources */,
+				49D07AB32458C3A6003C43DA /* CrudJonatas.swift in Sources */,
 				7B0B4EDE24575C1F00D5A87E /* AppDelegate.swift in Sources */,
 				7B0B4EE024575C1F00D5A87E /* SceneDelegate.swift in Sources */,
 				7B0B4EF9245776BD00D5A87E /* Banco.swift in Sources */,
