@@ -15,19 +15,60 @@ class DataBaseICloud{
     //Initializer access level change now
     private init(){}
     
-    func create(){
+    
+    // MARK: - CRUD USUÁRIO
+    
+    func createUser(){
         
     }
     
-    func update(){
+    func updateUser(){
         
     }
     
-    func retrieve(){
+    func retrieveUser(){
         
     }
     
-    func delete(){
+    func deleteUser(){
+        
+    }
+    
+    
+    // MARK: - CRUD FAMÍLIA
+    
+    func createFamilia(){
+        
+    }
+    
+    func updateFamilia(){
+        
+    }
+    
+    func retrieveFamilia(){
+        
+    }
+    
+    func deleteFamilia(){
+        
+    }
+    
+    
+    // MARK: - CRUD ATIVIDADE
+    
+    func createAtividade(){
+        
+    }
+    
+    func updateAtividade(){
+        
+    }
+    
+    func retrieveAtividade(){
+        
+    }
+    
+    func deleteAtividade(){
         
     }
     
