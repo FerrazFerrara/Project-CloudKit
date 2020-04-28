@@ -10,9 +10,13 @@ import Foundation
 import CloudKit
 
 class Banco{
-    static let container = CKContainer(identifier: "iCloud.mini4.com.jojo.seila")
+    /// container of database dashboard
+    let container = CKContainer(identifier: "iCloud.mini4.com.jojo.seila")
     
-    static func read() -> [String]{
+    /**
+     retrieve database data and added to the array
+     */
+    func read(){
         let database = container.publicCloudDatabase
         
         let predicate = NSPredicate(value: true)
