@@ -17,6 +17,7 @@
 		7B0B4EED24575C2300D5A87E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7B0B4EEB24575C2300D5A87E /* LaunchScreen.storyboard */; };
 		7B0B4EF724576BB800D5A87E /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B0B4EF624576BB800D5A87E /* CloudKit.framework */; };
 		7B0B4EF9245776BD00D5A87E /* Banco.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0B4EF8245776BD00D5A87E /* Banco.swift */; };
+		7B0B4F222458C3ED00D5A87E /* CRUDFerraz.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0B4F212458C3ED00D5A87E /* CRUDFerraz.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +34,7 @@
 		7B0B4EF424576B9000D5A87E /* ProjetoCloudKitJojo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ProjetoCloudKitJojo.entitlements; sourceTree = "<group>"; };
 		7B0B4EF624576BB800D5A87E /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		7B0B4EF8245776BD00D5A87E /* Banco.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Banco.swift; sourceTree = "<group>"; };
+		7B0B4F212458C3ED00D5A87E /* CRUDFerraz.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CRUDFerraz.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +80,7 @@
 				7B0B4EEE24575C2300D5A87E /* Info.plist */,
 				7B0B4EE624575C1F00D5A87E /* ProjetoCloudKitJojo.xcdatamodeld */,
 				7B0B4EF8245776BD00D5A87E /* Banco.swift */,
+				7B0B4F212458C3ED00D5A87E /* CRUDFerraz.swift */,
 			);
 			path = ProjetoCloudKitJojo;
 			sourceTree = "<group>";
@@ -165,6 +168,7 @@
 				7B0B4EE224575C1F00D5A87E /* ViewController.swift in Sources */,
 				49D07AB32458C3A6003C43DA /* CrudJonatas.swift in Sources */,
 				7B0B4EDE24575C1F00D5A87E /* AppDelegate.swift in Sources */,
+				7B0B4F222458C3ED00D5A87E /* CRUDFerraz.swift in Sources */,
 				7B0B4EE024575C1F00D5A87E /* SceneDelegate.swift in Sources */,
 				7B0B4EF9245776BD00D5A87E /* Banco.swift in Sources */,
 			);
