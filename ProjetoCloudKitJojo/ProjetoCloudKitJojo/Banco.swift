@@ -10,7 +10,7 @@ import Foundation
 import CloudKit
 
 class Banco{
-    static let container = CKContainer(identifier: "")
+    static let container = CKContainer(identifier: "iCloud.mini4.com.jojo.seila")
     
     static func read() -> [String]{
         let database = container.publicCloudDatabase
