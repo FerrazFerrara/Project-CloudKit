@@ -29,12 +29,20 @@ class Usuario{
     }
     
     init(idFamilia: String, nome: String, foto: CKAsset, conquista: Int64, vitoria: Int64, derrota: Int64) {
-        self.idFamilia = idFamilia
-        self.nome = nome
+        setIdFamilia(idFamilia: idFamilia)
+        setNome(nome: nome)
         setFoto(foto: foto)
         setConquista(conquista: conquista)
         setDerrota(derrota: derrota)
         setVitoria(vitoria: vitoria)
+    }
+    
+    private func setIdFamilia(idFamilia: String){
+        self.idFamilia = String()
+    }
+    
+    private func setNome(nome: String){
+        self.nome = String()
     }
     
     private func setFoto(foto: CKAsset){
