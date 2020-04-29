@@ -26,7 +26,7 @@ class DataBaseICloud{
     
     // MARK: - CRUD USUÁRIO
     
-    func createUser(idFamilia: String, nome: String, pontuacao: Int, foto: UIImage, conquista: [Bool], vitoria: Int, derrota: Int){
+    func createUser(idFamilia: String, nome: String, pontuacao: Int, conquista: [Bool], vitoria: Int, derrota: Int){
         
         let database = container.publicCloudDatabase
         
@@ -35,7 +35,7 @@ class DataBaseICloud{
         record.setValue(idFamilia, forKey: "idFamilia")
         record.setValue(nome, forKey: "nome")
         record.setValue(pontuacao, forKey: "pontuacao")
-        record.setValue(foto, forKey: "foto")
+//        record.setValue(foto, forKey: "foto")
         record.setValue(conquista, forKey: "conquista")
         record.setValue(vitoria, forKey: "vitoria")
         record.setValue(derrota, forKey: "derrota")
@@ -82,12 +82,16 @@ class DataBaseICloud{
         
         let operation = CKQueryOperation(query: query)
         
+        usuarios.removeAll()
         operation.recordFetchedBlock = { record in
+            let user = Usuario(recordID: record.recordID, idFamilia: record["idFamilia"] as! String, nome: record["nome"] as! String, pontuacao: record["pontuacao"] as! Int, foto: <#T##UIImage#>, conquista: record["conquista"] as! [Bool], vitoria: record["vitoria"] as! Int, derrota: record["derrota"] as! Int)
+            self.usuarios.append(user)
             
         }
         
         operation.queryCompletionBlock = { cursor, error in
             DispatchQueue.main.async {
+                print("=========================")
                 print(self.usuarios)
             }
         }
