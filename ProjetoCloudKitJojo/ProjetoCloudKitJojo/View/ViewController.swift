@@ -25,21 +25,21 @@ class ViewController: UIViewController {
     }
     @IBAction func salvarBtn(_ sender: Any) {
         guard let idFam = idFamilia.text else{ return }
-        guard let nom = idFamilia.text else{ return }
-        guard let pontua = idFamilia.text else{ return }
-        guard let conqui = idFamilia.text else{ return }
-        guard let vitor = idFamilia.text else{ return }
-        guard let derro = idFamilia.text else{ return }
+        guard let nom = nome.text else{ return }
+        guard let pontua = pontuacao.text else{ return }
+        guard let conqui = conquista.text else{ return }
+        guard let vitor = vitoria.text else{ return }
+        guard let derro = derrota.text else{ return }
         
         let pontuaInt = Int(pontua)
         let vitorInt = Int(vitor)
         let derroInt = Int(derro)
-        var conquiBool = [true]
+        var conquiBool = [true, false, true, true]
         if conqui == "false"{
-            conquiBool = [false]
+            conquiBool = [false, true, false, false]
         }
         
-        banco.createUser(idFamilia: idFam, nome: nom, pontuacao: pontuaInt!, conquista: conquiBool, vitoria: vitorInt!, derrota: derroInt!)
+        banco.createUser(idFamilia: idFam, nome: nom, pontuacao: pontuaInt!, conquista: conquiBool, vitoria: vitorInt!, derrota: derroInt!, foto: UIImage(named: "1")!)
     }
     
     @IBAction func buscarBtn(_ sender: Any) {

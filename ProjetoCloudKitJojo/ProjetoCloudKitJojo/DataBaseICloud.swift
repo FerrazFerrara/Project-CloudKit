@@ -25,25 +25,26 @@ class DataBaseICloud{
     
     // MARK: - CRUD USUÁRIO
     
-    func createUser(idFamilia: String, nome: String, pontuacao: Int, conquista: [Bool], vitoria: Int, derrota: Int){
+    func createUser(idFamilia: String, nome: String, pontuacao: Int, conquista: [Bool], vitoria: Int, derrota: Int, foto: UIImage){
         
         let database = container.publicCloudDatabase
         
-//        let data = foto.pngData();
-//        let url = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(NSUUID().uuidString+".dat")
-//        do {
-//            try data!.write(to: url!)
-//        } catch let e as NSError {
-//            print("Error! \(e)");
-//            return
-//        }
-        
         let record = CKRecord(recordType: "Usuario")
+        
+        let data = foto.pngData();
+        let url = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(NSUUID().uuidString+".dat")
+        do {
+            try data!.write(to: url!)
+            let asset = CKAsset(fileURL: url!)
+            record.setValue(asset, forKey: "foto")
+        } catch let e as NSError {
+            print("Error! \(e)");
+            return
+        }
         
         record.setValue(idFamilia, forKey: "idFamilia")
         record.setValue(nome, forKey: "nome")
         record.setValue(pontuacao, forKey: "pontuacao")
-//        record.setValue(foto, forKey: "foto")
         record.setValue(conquista, forKey: "conquista")
         record.setValue(vitoria, forKey: "vitoria")
         record.setValue(derrota, forKey: "derrota")
@@ -92,7 +93,7 @@ class DataBaseICloud{
         
         usuarios.removeAll()
         operation.recordFetchedBlock = { record in
-            let user = Usuario(recordID: record.recordID, idFamilia: record["idFamilia"] as! String, nome: record["nome"] as! String, pontuacao: record["pontuacao"] as! Int, foto: <#T##UIImage#>, conquista: record["conquista"] as! [Bool], vitoria: record["vitoria"] as! Int, derrota: record["derrota"] as! Int)
+            let user = Usuario(recordID: record.recordID, idFamilia: record["idFamilia"] as! NSString, nome: record["nome"] as! NSString, pontuacao: record["pontuacao"] as! NSNumber, foto: record["foto"] as! CKAsset, conquista: record["conquista"] as! [NSNumber], vitoria: record["vitoria"] as! NSNumber, derrota: record["derrota"] as! NSNumber)
             self.usuarios.append(user)
             
         }
@@ -101,6 +102,9 @@ class DataBaseICloud{
             DispatchQueue.main.async {
                 print("=========================")
                 print(self.usuarios)
+                if error != nil{
+                    print(error as Any)
+                }
             }
         }
         
