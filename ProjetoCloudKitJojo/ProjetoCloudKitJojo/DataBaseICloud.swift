@@ -23,19 +23,27 @@ class DataBaseICloud{
     //Initializer access level change now
     private init(){}
     
-    
     // MARK: - CRUD USUÁRIO
     
     func createUser(idFamilia: String, nome: String, pontuacao: Int, foto: UIImage, conquista: [Bool], vitoria: Int, derrota: Int){
         
         let database = container.publicCloudDatabase
         
+//        let data = foto.pngData();
+//        let url = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(NSUUID().uuidString+".dat")
+//        do {
+//            try data!.write(to: url!)
+//        } catch let e as NSError {
+//            print("Error! \(e)");
+//            return
+//        }
+        
         let record = CKRecord(recordType: "Usuario")
         
         record.setValue(idFamilia, forKey: "idFamilia")
         record.setValue(nome, forKey: "nome")
         record.setValue(pontuacao, forKey: "pontuacao")
-        record.setValue(foto, forKey: "foto")
+//        record.setValue(foto, forKey: "foto")
         record.setValue(conquista, forKey: "conquista")
         record.setValue(vitoria, forKey: "vitoria")
         record.setValue(derrota, forKey: "derrota")
