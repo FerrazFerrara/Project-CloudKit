@@ -50,8 +50,26 @@ class DataBaseICloud{
         }
     }
     
-    func updateUser(){
+    func updateUser(novoNome: String){
+        let database = self.container.publicCloudDatabase
         
+        let recordUserIDFirst = self.usuarios.first!.recordID
+        
+        database.fetch(withRecordID: recordUserIDFirst) { (record, error) in
+            if error == nil{
+                record?.setValue(novoNome, forKey: "nome")
+                
+                database.save(record!) { (newRecord, error) in
+                    if error == nil{
+                        print("Deu update tranquilo aq")
+                    } else {
+                        print("Deu ruim no update aq bro")
+                    }
+                }
+            } else {
+                print("nao rolou de buscar os dados")
+            }
+        }
     }
     
     func retrieveUser(){
@@ -74,28 +92,7 @@ class DataBaseICloud{
             }
         }
         
-//        guard let codigoGrupo = salaTextField.text else { return }
-//
-//        let privateDatabase = container.publicCloudDatabase
-//        let predicate = NSPredicate(value: true)
-//        let query = CKQuery(recordType: "Names", predicate: predicate)
-//        query.sortDescriptors = [NSSortDescriptor(key: "modificationDate", ascending: false)]
-//        let operation = CKQueryOperation(query: query)
-//        titles.removeAll()
-//        recordIDs.removeAll()
-//        operation.recordFetchedBlock = { record in
-//            if codigoGrupo == record["groupID"]!{
-//                titles.append(record["Names"]!)
-//                recordIDs.append(record.recordID)
-//            }
-//        }
-//        operation.queryCompletionBlock = { cursor, error in
-//            DispatchQueue.main.async {
-//                print("Titles: \(titles)")
-//                print("RecordIDs: \(recordIDs)")
-//            }
-//        }
-//        privateDatabase.add(operation)
+        database.add(operation)
     }
     
     func deleteUser(usuario: Usuario){
