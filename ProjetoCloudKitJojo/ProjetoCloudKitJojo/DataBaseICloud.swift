@@ -16,6 +16,10 @@ class DataBaseICloud{
     
     let container = CKContainer(identifier: "iCloud.mini4.com.jojo.seila")
     
+    var usuarios = [Usuario]()
+    var atividades = [CKRecord]()
+    var familia: Familia?
+    
     //Initializer access level change now
     private init(){}
     
@@ -124,7 +128,51 @@ class DataBaseICloud{
     }
     
     func retrieveAtividade(){
+//        let database = self.container.publicCloudDatabase
+//
+//        let predicate = NSPredicate(value: true)
+//        let query = CKQuery(recordType: "Atividade", predicate: predicate)
+//
+//        query.sortDescriptors = [NSSortDescriptor(key: "pontuacao", ascending: false)]
+//
+//        let operation = CKQueryOperation(query: query)
+//
+//        var asdasd = CKRecord(recordType: "Atividade", recordID: <#T##CKRecord.ID#>)
+//
+//        self.atividades.removeAll()
+//
+//        operation.recordFetchedBlock = { record in
+//            self.atividades.append(record)
+//            CKRecord.Reference(record: record, action: CKRecord_Reference_Action.none)
+//        }
         
+//        let atividade = CKRecord(recordType: "")
+//
+//        self.container.publicCloudDatabase.fetch(withRecordID: ,completionHandler: <#T##(CKRecord?, Error?) -> Void#>)
+        
+        
+//        guard let codigoGrupo = salaTextField.text else { return }
+//
+//        let privateDatabase = container.publicCloudDatabase
+//        let predicate = NSPredicate(value: true)
+//        let query = CKQuery(recordType: "Names", predicate: predicate)
+//        query.sortDescriptors = [NSSortDescriptor(key: "modificationDate", ascending: false)]
+//        let operation = CKQueryOperation(query: query)
+//        titles.removeAll()
+//        recordIDs.removeAll()
+//        operation.recordFetchedBlock = { record in
+//            if codigoGrupo == record["groupID"]!{
+//                titles.append(record["Names"]!)
+//                recordIDs.append(record.recordID)
+//            }
+//        }
+//        operation.queryCompletionBlock = { cursor, error in
+//            DispatchQueue.main.async {
+//                print("Titles: \(titles)")
+//                print("RecordIDs: \(recordIDs)")
+//            }
+//        }
+//        privateDatabase.add(operation)
     }
     
     func deleteAtividade(){
