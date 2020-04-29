@@ -10,6 +10,8 @@ import Foundation
 import CloudKit
 
 class Atividade{
+
+    var recordID: CKRecord.ID
     var dia: NSDate
     var etiqueta: String
     var horario: NSDate
@@ -17,13 +19,12 @@ class Atividade{
     var pontuacao: Int?
     var repeticao: Int?
     var realizou: Bool?
-    
+
     var usuario: Usuario?
     var dataFeito: NSDate?
-    
-    var recordID: CKRecord.ID
-    
-    init(dia: NSDate, etiqueta: String, horario: NSDate, nome: String, pontuacao: Int, repeticao: Int, user: Usuario, dataFeito: NSDate, realizou: Bool, recordID: CKRecord.ID) {
+
+    init(recordID: CKRecord.ID, dia: NSDate, etiqueta: String, horario: NSDate, nome: String, pontuacao: Int, repeticao: Int, user: Usuario, dataFeito: NSDate, realizou: Bool) {
+        self.recordID = recordID
         self.dia = dia
         self.etiqueta = etiqueta
         self.horario = horario
@@ -35,8 +36,9 @@ class Atividade{
         self.usuario = user
         self.recordID = recordID
     }
-    
-    init(dia: NSDate, etiqueta: String, horario: NSDate, nome: String, pontuacao: Int64, repeticao: Int64, user: Usuario, dataFeito: NSDate, realizou: Int64, recordID: CKRecord.ID) {
+
+    init(recordID: CKRecord.ID, dia: NSDate, etiqueta: String, horario: NSDate, nome: String, pontuacao: Int64, repeticao: Int64, user: Usuario, dataFeito: NSDate, realizou: Int64) {
+        self.recordID = recordID
         self.dia = dia
         self.etiqueta = etiqueta
         self.horario = horario
@@ -45,22 +47,22 @@ class Atividade{
         self.dataFeito = dataFeito
         self.usuario = user
         self.recordID = recordID
-        
+
         self.setRealizou(realizou: realizou)
         self.setPontuacao(pontuacao: pontuacao)
         self.setRepeticao(repeticao: repeticao)
     }
-    
+
     private func setPontuacao(pontuacao: Int64){
         let pont = Int(pontuacao)
         self.pontuacao = pont
     }
-    
+
     private func setRealizou(realizou: Int64){
         let realiz = realizou.convert64toBool()
         self.realizou = realiz
     }
-    
+
     private func setRepeticao(repeticao: Int64){
         let repet = Int(repeticao)
         self.repeticao = repet
