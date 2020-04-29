@@ -21,7 +21,9 @@ class Atividade{
     var usuario: Usuario?
     var dataFeito: NSDate?
     
-    init(dia: NSDate, etiqueta: String, horario: NSDate, nome: String, pontuacao: Int, repeticao: Int, user: Usuario, dataFeito: NSDate, realizou: Bool) {
+    var recordID: CKRecord.ID
+    
+    init(dia: NSDate, etiqueta: String, horario: NSDate, nome: String, pontuacao: Int, repeticao: Int, user: Usuario, dataFeito: NSDate, realizou: Bool, recordID: CKRecord.ID) {
         self.dia = dia
         self.etiqueta = etiqueta
         self.horario = horario
@@ -31,9 +33,10 @@ class Atividade{
         self.realizou = realizou
         self.dataFeito = dataFeito
         self.usuario = user
+        self.recordID = recordID
     }
     
-    init(dia: NSDate, etiqueta: String, horario: NSDate, nome: String, pontuacao: Int64, repeticao: Int64, user: Usuario, dataFeito: NSDate, realizou: Int64) {
+    init(dia: NSDate, etiqueta: String, horario: NSDate, nome: String, pontuacao: Int64, repeticao: Int64, user: Usuario, dataFeito: NSDate, realizou: Int64, recordID: CKRecord.ID) {
         self.dia = dia
         self.etiqueta = etiqueta
         self.horario = horario
@@ -41,6 +44,7 @@ class Atividade{
         self.realizou = true
         self.dataFeito = dataFeito
         self.usuario = user
+        self.recordID = recordID
         
         self.setRealizou(realizou: realizou)
         self.setPontuacao(pontuacao: pontuacao)
