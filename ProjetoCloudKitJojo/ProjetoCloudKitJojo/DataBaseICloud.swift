@@ -55,7 +55,47 @@ class DataBaseICloud{
     }
     
     func retrieveUser(){
+        let database = self.container.publicCloudDatabase
         
+        let predicate = NSPredicate(value: true)
+        let query = CKQuery(recordType: "Usuario", predicate: predicate)
+        
+        query.sortDescriptors = [NSSortDescriptor(key: "nome", ascending: true)]
+        
+        let operation = CKQueryOperation(query: query)
+        
+        operation.recordFetchedBlock = { record in
+            
+        }
+        
+        operation.queryCompletionBlock = { cursor, error in
+            DispatchQueue.main.async {
+                print(self.usuarios)
+            }
+        }
+        
+//        guard let codigoGrupo = salaTextField.text else { return }
+//
+//        let privateDatabase = container.publicCloudDatabase
+//        let predicate = NSPredicate(value: true)
+//        let query = CKQuery(recordType: "Names", predicate: predicate)
+//        query.sortDescriptors = [NSSortDescriptor(key: "modificationDate", ascending: false)]
+//        let operation = CKQueryOperation(query: query)
+//        titles.removeAll()
+//        recordIDs.removeAll()
+//        operation.recordFetchedBlock = { record in
+//            if codigoGrupo == record["groupID"]!{
+//                titles.append(record["Names"]!)
+//                recordIDs.append(record.recordID)
+//            }
+//        }
+//        operation.queryCompletionBlock = { cursor, error in
+//            DispatchQueue.main.async {
+//                print("Titles: \(titles)")
+//                print("RecordIDs: \(recordIDs)")
+//            }
+//        }
+//        privateDatabase.add(operation)
     }
     
     func deleteUser(usuario: Usuario){
