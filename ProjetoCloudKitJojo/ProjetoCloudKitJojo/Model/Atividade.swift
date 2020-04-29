@@ -10,6 +10,8 @@ import Foundation
 import CloudKit
 
 class Atividade{
+    
+    var recordID: CKRecord.ID
     var dia: NSDate
     var etiqueta: String
     var horario: NSDate
@@ -21,7 +23,8 @@ class Atividade{
     var usuario: Usuario?
     var dataFeito: NSDate?
     
-    init(dia: NSDate, etiqueta: String, horario: NSDate, nome: String, pontuacao: Int, repeticao: Int, user: Usuario, dataFeito: NSDate, realizou: Bool) {
+    init(recordID: CKRecord.ID, dia: NSDate, etiqueta: String, horario: NSDate, nome: String, pontuacao: Int, repeticao: Int, user: Usuario, dataFeito: NSDate, realizou: Bool) {
+        self.recordID = recordID
         self.dia = dia
         self.etiqueta = etiqueta
         self.horario = horario
@@ -33,7 +36,8 @@ class Atividade{
         self.usuario = user
     }
     
-    init(dia: NSDate, etiqueta: String, horario: NSDate, nome: String, pontuacao: Int64, repeticao: Int64, user: Usuario, dataFeito: NSDate, realizou: Int64) {
+    init(recordID: CKRecord.ID, dia: NSDate, etiqueta: String, horario: NSDate, nome: String, pontuacao: Int64, repeticao: Int64, user: Usuario, dataFeito: NSDate, realizou: Int64) {
+        self.recordID = recordID
         self.dia = dia
         self.etiqueta = etiqueta
         self.horario = horario

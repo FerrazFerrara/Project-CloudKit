@@ -7,9 +7,11 @@
 //
 
 import Foundation
+import CloudKit
 
 class Familia{
     
+    var recordID: CKRecord.ID
     var codigo: String?
     var nome: String?
     var usuarios: [Usuario]?
@@ -19,7 +21,8 @@ class Familia{
     var penalidadeFlag: Bool?
     var recompensaFlag: Bool?
     
-    init(codigo: String, nome: String, usuarios: [Usuario], atividades: [Atividade], penalidade: String, recompensa: String, penalidadeFlag: Bool, recompensaFlag: Bool) {
+    init(recordID: CKRecord.ID, codigo: String, nome: String, usuarios: [Usuario], atividades: [Atividade], penalidade: String, recompensa: String, penalidadeFlag: Bool, recompensaFlag: Bool) {
+        self.recordID = recordID
         self.codigo = codigo
         self.nome = nome
         self.usuarios = usuarios
@@ -30,7 +33,8 @@ class Familia{
         self.recompensaFlag = recompensaFlag
     }
     
-    init(codigo: String, nome: String, usuarios: [Usuario], atividades: [Atividade], penalidade: String, recompensa: String, penalidadeFlag: Int64, recompensaFlag: Int64) {
+    init(recordID: CKRecord.ID, codigo: String, nome: String, usuarios: [Usuario], atividades: [Atividade], penalidade: String, recompensa: String, penalidadeFlag: Int64, recompensaFlag: Int64) {
+        self.recordID = recordID
         setCodigo(codigo: codigo)
         setNome(nome: nome)
         setUsuarios(usuarios: usuarios)
