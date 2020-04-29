@@ -8,6 +8,7 @@
 
 import Foundation
 import CloudKit
+import UIKit
 
 class DataBaseICloud{
     
@@ -25,8 +26,28 @@ class DataBaseICloud{
     
     // MARK: - CRUD USUÁRIO
     
-    func createUser(){
+    func createUser(idFamilia: String, nome: String, pontuacao: Int, foto: UIImage, conquista: [Bool], vitoria: Int, derrota: Int){
         
+        let database = container.publicCloudDatabase
+        
+        let record = CKRecord(recordType: "Usuario")
+        
+        record.setValue(idFamilia, forKey: "idFamilia")
+        record.setValue(nome, forKey: "nome")
+        record.setValue(pontuacao, forKey: "pontuacao")
+        record.setValue(foto, forKey: "foto")
+        record.setValue(conquista, forKey: "conquista")
+        record.setValue(vitoria, forKey: "vitoria")
+        record.setValue(derrota, forKey: "derrota")
+        
+        database.save(record) { (recordSave, error) in
+            if error == nil{
+                print("Yaaay salvou um usuario")
+            } else {
+                print("usuario nao salvou amigao")
+                print(error as Any)
+            }
+        }
     }
     
     func updateUser(){
@@ -37,8 +58,21 @@ class DataBaseICloud{
         
     }
     
-    func deleteUser(){
+    func deleteUser(usuario: Usuario){
         
+        let database = container.publicCloudDatabase
+        let recordID = usuario.recordID
+        
+        database.delete(withRecordID: recordID) { (deletedRecordID, error) in
+            
+            if error == nil {
+                print("Deletado")
+                
+            } else {
+                print("Nao deletou...")
+                print(error as Any)
+            }
+        }
     }
     
     
