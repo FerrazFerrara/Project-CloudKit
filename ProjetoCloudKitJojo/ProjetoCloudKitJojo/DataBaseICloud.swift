@@ -49,9 +49,12 @@ class DataBaseICloud{
         record.setValue(vitoria, forKey: "vitoria")
         record.setValue(derrota, forKey: "derrota")
         
+        let user = Usuario(recordID: record.recordID, idFamilia: idFamilia, nome: nome, pontuacao: pontuacao, foto: foto, conquista: conquista, vitoria: vitoria, derrota: derrota)
+        
         database.save(record) { (recordSave, error) in
             if error == nil{
                 print("Yaaay salvou um usuario")
+                self.usuarios.append(user)
             } else {
                 print("usuario nao salvou amigao")
                 print(error as Any)
@@ -150,10 +153,12 @@ class DataBaseICloud{
     
     // MARK: - CRUD ATIVIDADE
     
-    func createAtividade(nome: String, pontuacao: Int, dia: Date, horario: Date, repete: Int, etiqueta: String){
+    func createAtividade(nome: String, pontuacao: Int, dia: Date, horario: Date, repete: Int, etiqueta: String, user: Usuario){
         let database = container.publicCloudDatabase
         
         let record = CKRecord(recordType: "Atividade")
+        
+        let referencia = CKRecord.Reference(recordID: user.recordID, action: CKRecord_Reference_Action.none)
         
         record.setValue(nome, forKey: "nome")
         record.setValue(pontuacao, forKey: "pontuacao")
@@ -164,7 +169,7 @@ class DataBaseICloud{
         record.setValue(false, forKey: "realizou")
         
 //        record.setValue(, forKey: "dataFeito")
-//        record.setValue(, forKey: "usuario")
+        record.setValue(referencia, forKey: "usuario")
         
         database.save(record) { (recordSave, error) in
             if error == nil{

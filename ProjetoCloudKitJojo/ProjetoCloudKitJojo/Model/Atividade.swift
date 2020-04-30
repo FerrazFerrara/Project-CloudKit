@@ -37,21 +37,25 @@ class Atividade{
         self.recordID = recordID
     }
 
-    init(recordID: CKRecord.ID, dia: NSDate, etiqueta: String, horario: NSDate, nome: String, pontuacao: Int64, repeticao: Int64, user: Usuario, dataFeito: NSDate, realizou: Int64) {
+    init(recordID: CKRecord.ID, dia: NSDate, etiqueta: NSString, horario: NSDate, nome: NSString, pontuacao: NSNumber, repeticao: NSNumber, user: Usuario, dataFeito: NSDate, realizou: NSNumber) {
         self.recordID = recordID
         self.dia = dia
-        self.etiqueta = etiqueta
+        self.etiqueta = String(etiqueta)
         self.horario = horario
-        self.nome = nome
-        self.realizou = true
+        self.nome = String(nome)
+        self.realizou = realizou.boolValue
         self.dataFeito = dataFeito
-        self.usuario = user
         self.recordID = recordID
+        self.usuario = user
 
-        self.setRealizou(realizou: realizou)
-        self.setPontuacao(pontuacao: pontuacao)
-        self.setRepeticao(repeticao: repeticao)
+//        self.setRealizou(realizou: realizou)
+//        self.setPontuacao(pontuacao: pontuacao)
+//        self.setRepeticao(repeticao: repeticao)
     }
+    
+//    private func setUsuario(user: CKRecord.Reference){
+//
+//    }
 
     private func setPontuacao(pontuacao: Int64){
         let pont = Int(pontuacao)
