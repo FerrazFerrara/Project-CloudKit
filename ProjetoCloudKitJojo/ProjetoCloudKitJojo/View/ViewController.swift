@@ -53,7 +53,6 @@ class ViewController: UIViewController {
     }
     
     @IBAction func deletarBtn(_ sender: Any) {
-        
         let firstUser = banco.usuarios.first!
         banco.deleteUser(usuario: firstUser)
     }
