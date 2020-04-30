@@ -96,7 +96,7 @@ class DataBaseICloud{
         
         usuarios.removeAll()
         operation.recordFetchedBlock = { record in
-            let user = Usuario(recordID: record.recordID, idFamilia: record["idFamilia"] as! NSString, nome: record["nome"] as! NSString, pontuacao: record["pontuacao"] as! NSNumber, foto: record["foto"] as! CKAsset, conquista: record["conquista"] as! [NSNumber], vitoria: record["vitoria"] as! NSNumber, derrota: record["derrota"] as! NSNumber)
+            let user = Usuario(recordID: record.recordID, idFamilia: record["idFamilia"] as! NSString, nome: record["nome"] as! NSString, pontuacao: record["pontuacao"] as! NSNumber, foto: record["foto"] as? CKAsset, conquista: record["conquista"] as! [NSNumber], vitoria: record["vitoria"] as! NSNumber, derrota: record["derrota"] as! NSNumber)
             self.usuarios.append(user)
             
         }
@@ -216,7 +216,7 @@ class DataBaseICloud{
         atividades.removeAll()
         
         operation.recordFetchedBlock = { record in
-            let activity = Atividade(recordID: record.recordID, dia: record["dia"] as! NSDate, etiqueta: record["etiqueta"] as! NSString, horario: record["horario"] as! NSDate, nome: record["nome"] as! NSString, pontuacao: record["pontuacao"] as! NSNumber, repeticao: record["repeticao"] as! NSNumber, usuario: nil, dataFeito: record["dataFeito"] as! NSDate, realizou: record["realizou"] as! NSNumber)
+            let activity = Atividade(recordID: record.recordID, dia: record["dia"] as! NSDate, etiqueta: record["etiqueta"] as! NSString, horario: record["horario"] as! NSDate, nome: record["nome"] as! NSString, pontuacao: record["pontuacao"] as! NSNumber, repeticao: record["repeticao"] as! NSNumber, usuario: nil, dataFeito: record["dataFeito"] as? NSDate, realizou: record["realizou"] as! NSNumber)
             
             self.atividades.append(activity)
         }

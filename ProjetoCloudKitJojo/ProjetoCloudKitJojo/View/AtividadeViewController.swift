@@ -51,12 +51,12 @@ class AtividadeViewController: UIViewController{
     }
     
     @IBAction func modificarBtn(_ sender: Any) {
-//        guard let nomeCK = nome.text else { return }
-//        banco.updateAtividade()
+        guard let nomeCK = nome.text else { return }
+        banco.updateAtividade(novoNome: nomeCK)
     }
     
     @IBAction func deletarBtn(_ sender: Any) {
-//        let firstAtividade = banco.atividades.first!
-//        banco.deleteUser(atividade: firstAtividade)
+        let firstAtividade = banco.atividades.first!
+        banco.deleteAtividade(atividade: firstAtividade)
     }
 }

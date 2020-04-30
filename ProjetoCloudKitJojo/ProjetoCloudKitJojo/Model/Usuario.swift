@@ -21,7 +21,7 @@ class Usuario{
     var vitoria: Int?
     var derrota: Int?
     
-    init(recordID: CKRecord.ID, idFamilia: String, nome: String, pontuacao: Int, foto: UIImage, conquista: [Bool], vitoria: Int, derrota: Int) {
+    init(recordID: CKRecord.ID, idFamilia: String, nome: String, pontuacao: Int, foto: UIImage?, conquista: [Bool], vitoria: Int, derrota: Int) {
         
         self.recordID = recordID
         self.idFamilia = idFamilia
@@ -33,7 +33,7 @@ class Usuario{
         self.derrota = derrota
     }
     
-    init(recordID: CKRecord.ID, idFamilia: NSString, nome: NSString, pontuacao: NSNumber, foto: CKAsset, conquista: [NSNumber], vitoria: NSNumber, derrota: NSNumber) {
+    init(recordID: CKRecord.ID, idFamilia: NSString, nome: NSString, pontuacao: NSNumber, foto: CKAsset?, conquista: [NSNumber], vitoria: NSNumber, derrota: NSNumber) {
         self.recordID = recordID
         setIdFamilia(idFamilia: idFamilia)
         setNome(nome: nome)
@@ -56,13 +56,14 @@ class Usuario{
         self.pontuacao = pontuacao.intValue
     }
     
-    private func setFoto(foto: CKAsset){
-        
-        if let data = NSData(contentsOf: foto.fileURL!) {
-            self.foto = UIImage(data: data as Data)
-        }else{
-            //Foto padrao
-             self.foto = UIImage()
+    private func setFoto(foto: CKAsset?){
+        if foto != nil{
+            if let data = NSData(contentsOf: (foto?.fileURL!)!) {
+                self.foto = UIImage(data: data as Data)
+            }else{
+                //Foto padrao
+                 self.foto = UIImage()
+            }
         }
     }
     
