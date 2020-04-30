@@ -12,18 +12,18 @@ import CloudKit
 class Atividade{
 
     var recordID: CKRecord.ID
-    var dia: NSDate
-    var etiqueta: String
-    var horario: NSDate
-    var nome: String
+    var dia: Date?
+    var etiqueta: String?
+    var horario: Date?
+    var nome: String?
     var pontuacao: Int?
     var repeticao: Int?
     var realizou: Bool?
-
+    var dataFeito: Date?
     var usuario: Usuario?
-    var dataFeito: NSDate?
 
-    init(recordID: CKRecord.ID, dia: NSDate, etiqueta: String, horario: NSDate, nome: String, pontuacao: Int, repeticao: Int, user: Usuario, dataFeito: NSDate, realizou: Bool) {
+    
+    init(recordID: CKRecord.ID, dia: Date, etiqueta: String, horario: Date, nome: String, pontuacao: Int, repeticao: Int, user: Usuario?, dataFeito: Date, realizou: Bool) {
         self.recordID = recordID
         self.dia = dia
         self.etiqueta = etiqueta
@@ -34,51 +34,50 @@ class Atividade{
         self.realizou = realizou
         self.dataFeito = dataFeito
         self.usuario = user
-        self.recordID = recordID
     }
 
-    init(recordID: CKRecord.ID, dia: NSDate, etiqueta: NSString, horario: NSDate, nome: NSString, pontuacao: NSNumber, repeticao: NSNumber, user: Usuario, dataFeito: NSDate, realizou: NSNumber) {
+    init(recordID: CKRecord.ID, dia: NSDate, etiqueta: NSString, horario: NSDate, nome: NSString, pontuacao: NSNumber, repeticao: NSNumber, usuario: Usuario?, dataFeito: NSDate, realizou: NSNumber) {
         self.recordID = recordID
-        self.dia = dia
-        self.etiqueta = String(etiqueta)
-        self.horario = horario
-        self.nome = String(nome)
-        self.realizou = realizou.boolValue
-        self.dataFeito = dataFeito
-        self.recordID = recordID
-        self.usuario = user
+        setDia(dia: dia)
+        setEtiqueta(etiqueta: etiqueta)
+        setHorario(horario: horario)
+        setNome(nome: nome)
+        setPontuacao(pontuacao: pontuacao)
+        setRepeticao(repeticao: repeticao)
+        setRealizou(realizou: realizou)
+        setDataFeito(dataFeito: dataFeito)
+        self.usuario = usuario
+    }
 
-//        self.setRealizou(realizou: realizou)
-//        self.setPontuacao(pontuacao: pontuacao)
-//        self.setRepeticao(repeticao: repeticao)
+    private func setDia(dia: NSDate){
+        self.dia = dia as Date
     }
     
-//    private func setUsuario(user: CKRecord.Reference){
-//
-//    }
-
-    private func setPontuacao(pontuacao: Int64){
-        let pont = Int(pontuacao)
-        self.pontuacao = pont
+    private func setEtiqueta(etiqueta: NSString){
+        self.etiqueta = etiqueta as String
+    }
+    
+    private func setHorario(horario: NSDate){
+        self.horario = horario as Date
+    }
+    
+    private func setNome(nome: NSString){
+        self.nome = nome as String
+    }
+    
+    private func setRealizou(realizou: NSNumber){
+        self.realizou = realizou.boolValue
+    }
+    
+    private func setDataFeito(dataFeito: NSDate){
+        self.dataFeito = dataFeito as Date
+    }
+    
+    private func setPontuacao(pontuacao: NSNumber){
+        self.pontuacao = pontuacao.intValue
     }
 
-    private func setRealizou(realizou: Int64){
-        let realiz = realizou.convert64toBool()
-        self.realizou = realiz
-    }
-
-    private func setRepeticao(repeticao: Int64){
-        let repet = Int(repeticao)
-        self.repeticao = repet
-    }
-}
-
-extension Int64{
-    public func convert64toBool() -> Bool{
-        if self == 0{
-            return false
-        } else {
-            return true
-        }
+    private func setRepeticao(repeticao: NSNumber){
+        self.repeticao = repeticao.intValue
     }
 }
