@@ -44,10 +44,6 @@ class Usuario{
         setVitoria(vitoria: vitoria)
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     private func setIdFamilia(idFamilia: NSString){
         self.idFamilia = idFamilia as String
     }

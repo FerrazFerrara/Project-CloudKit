@@ -17,7 +17,7 @@ class DataBaseICloud{
     let container = CKContainer(identifier: "iCloud.mini4.com.jojo.seila")
     
     var usuarios = [Usuario]()
-    var atividades = [CKRecord]()
+    var atividades = [Atividade]()
     var familia: Familia?
     
     //Initializer access level change now
@@ -158,7 +158,7 @@ class DataBaseICloud{
         
         let record = CKRecord(recordType: "Atividade")
         
-        let referencia = CKRecord.Reference(recordID: user.recordID, action: CKRecord_Reference_Action.none)
+        let reference = CKRecord.Reference(recordID: user.recordID, action: CKRecord_Reference_Action.none)
         
         record.setValue(nome, forKey: "nome")
         record.setValue(pontuacao, forKey: "pontuacao")
@@ -169,7 +169,7 @@ class DataBaseICloud{
         record.setValue(false, forKey: "realizou")
         
 //        record.setValue(, forKey: "dataFeito")
-        record.setValue(referencia, forKey: "usuario")
+        record.setValue(reference, forKey: "usuario")
         
         database.save(record) { (recordSave, error) in
             if error == nil{
@@ -181,61 +181,75 @@ class DataBaseICloud{
         }
     }
     
-    func updateAtividade(){
+    func updateAtividade(novoNome: String){
+        let database = self.container.publicCloudDatabase
         
+        let recordActivityIDFirst = self.atividades.first!.recordID
+        
+        database.fetch(withRecordID: recordActivityIDFirst) { (record, error) in
+            if error == nil{
+                record?.setValue(novoNome, forKey: "nome")
+                
+                database.save(record!) { (newRecord, error) in
+                    if error == nil{
+                        print("Deu update tranquilo aq")
+                    } else {
+                        print("Deu ruim no update aq bro")
+                    }
+                }
+            } else {
+                print("nao rolou de buscar os dados")
+            }
+        }
     }
     
     func retrieveAtividade(){
-//        let database = self.container.publicCloudDatabase
-//
-//        let predicate = NSPredicate(value: true)
-//        let query = CKQuery(recordType: "Atividade", predicate: predicate)
-//
-//        query.sortDescriptors = [NSSortDescriptor(key: "pontuacao", ascending: false)]
-//
-//        let operation = CKQueryOperation(query: query)
-//
-//        var asdasd = CKRecord(recordType: "Atividade", recordID: <#T##CKRecord.ID#>)
-//
-//        self.atividades.removeAll()
-//
-//        operation.recordFetchedBlock = { record in
-//            self.atividades.append(record)
-//            CKRecord.Reference(record: record, action: CKRecord_Reference_Action.none)
-//        }
+        let database = self.container.publicCloudDatabase
         
-//        let atividade = CKRecord(recordType: "")
-//
-//        self.container.publicCloudDatabase.fetch(withRecordID: ,completionHandler: <#T##(CKRecord?, Error?) -> Void#>)
+        let predicate = NSPredicate(value: true)
+        let query = CKQuery(recordType: "Atividade", predicate: predicate)
         
+        query.sortDescriptors = [NSSortDescriptor(key: "pontuacao", ascending: true)]
         
-//        guard let codigoGrupo = salaTextField.text else { return }
-//
-//        let privateDatabase = container.publicCloudDatabase
-//        let predicate = NSPredicate(value: true)
-//        let query = CKQuery(recordType: "Names", predicate: predicate)
-//        query.sortDescriptors = [NSSortDescriptor(key: "modificationDate", ascending: false)]
-//        let operation = CKQueryOperation(query: query)
-//        titles.removeAll()
-//        recordIDs.removeAll()
-//        operation.recordFetchedBlock = { record in
-//            if codigoGrupo == record["groupID"]!{
-//                titles.append(record["Names"]!)
-//                recordIDs.append(record.recordID)
-//            }
-//        }
-//        operation.queryCompletionBlock = { cursor, error in
-//            DispatchQueue.main.async {
-//                print("Titles: \(titles)")
-//                print("RecordIDs: \(recordIDs)")
-//            }
-//        }
-//        privateDatabase.add(operation)
+        let operation = CKQueryOperation(query: query)
+        
+        atividades.removeAll()
+        
+        operation.recordFetchedBlock = { record in
+            let activity = Atividade(recordID: record.recordID, dia: record["dia"] as! NSDate, etiqueta: record["etiqueta"] as! NSString, horario: record["horario"] as! NSDate, nome: record["nome"] as! NSString, pontuacao: record["pontuacao"] as! NSNumber, repeticao: record["repeticao"] as! NSNumber, usuario: nil, dataFeito: record["dataFeito"] as! NSDate, realizou: record["realizou"] as! NSNumber)
+            
+            self.atividades.append(activity)
+        }
+        
+        operation.queryCompletionBlock = { cursor, error in
+            DispatchQueue.main.async {
+                if error == nil {
+                    print("Atividade recuperada")
+                    
+                } else {
+                    print("Erro na recuperacao da atividade !")
+                    print(error as Any)
+                }
+            }
+        }
+        
+        database.add(operation)
     }
     
-    func deleteAtividade(){
+    func deleteAtividade(atividade: Atividade){
         
+        let database = container.publicCloudDatabase
+        let recordID = atividade.recordID
+        
+        database.delete(withRecordID: recordID) { (deletedRecordID, error) in
+            
+            if error == nil {
+                print("Deletado")
+                
+            } else {
+                print("Nao deletou...")
+                print(error as Any)
+            }
+        }
     }
-    
-    
 }
