@@ -44,6 +44,10 @@ class Usuario{
         setVitoria(vitoria: vitoria)
     }
     
+    init(){
+        self.recordID = CKRecord.ID(recordName: "08B8053A-C041-4CEF-B3B8-B6F07A184AD2")
+    }
+    
     private func setIdFamilia(idFamilia: NSString){
         self.idFamilia = idFamilia as String
     }

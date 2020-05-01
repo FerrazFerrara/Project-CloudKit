@@ -59,4 +59,10 @@ class AtividadeViewController: UIViewController{
         let firstAtividade = banco.atividades.first!
         banco.deleteAtividade(atividade: firstAtividade)
     }
+    
+    @IBAction func buscarUserTarefa(_ sender: Any) {
+        let atividade = banco.atividades.first!
+        
+        print(atividade.usuario?.nome)
+    }
 }

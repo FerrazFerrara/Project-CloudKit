@@ -184,21 +184,12 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tq3-DQ-ebC">
-                                <rect key="frame" x="101" y="723" width="65" height="30"/>
+                                <rect key="frame" x="101" y="706" width="65" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Modificar"/>
                                 <connections>
                                     <action selector="modificar:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Vny-Yp-sCB"/>
                                     <action selector="modificarBtn:" destination="YBJ-oU-Yj0" eventType="touchUpInside" id="8EL-m1-u1u"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VjQ-1V-JHc">
-                                <rect key="frame" x="263" y="723" width="50" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Deletar"/>
-                                <connections>
-                                    <action selector="deletarBtn:" destination="BYZ-38-t0r" eventType="touchUpInside" id="7JY-hn-DVQ"/>
-                                    <action selector="deletarBtn:" destination="YBJ-oU-Yj0" eventType="touchUpInside" id="dBa-WS-4Sc"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EZL-Bl-6AO">
@@ -320,6 +311,23 @@
                                 <rect key="frame" x="165" y="212" width="240" height="95"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             </datePicker>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xRN-zY-Htf">
+                                <rect key="frame" x="123" y="762" width="169" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Buscar Usuario da tarefa"/>
+                                <connections>
+                                    <action selector="buscarUserTarefa:" destination="YBJ-oU-Yj0" eventType="touchUpInside" id="BLh-Us-ijK"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VjQ-1V-JHc">
+                                <rect key="frame" x="263" y="706" width="50" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Deletar"/>
+                                <connections>
+                                    <action selector="deletarBtn:" destination="BYZ-38-t0r" eventType="touchUpInside" id="7JY-hn-DVQ"/>
+                                    <action selector="deletarBtn:" destination="YBJ-oU-Yj0" eventType="touchUpInside" id="dBa-WS-4Sc"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="zIU-hl-0Vc"/>

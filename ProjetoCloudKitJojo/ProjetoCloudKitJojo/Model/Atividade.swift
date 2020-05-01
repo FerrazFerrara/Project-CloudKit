@@ -46,6 +46,7 @@ class Atividade{
         setRepeticao(repeticao: repeticao)
         setRealizou(realizou: realizou)
         setDataFeito(dataFeito: dataFeito)
+//        setUsuario(user: usuario)
         self.usuario = usuario
     }
 
@@ -80,4 +81,39 @@ class Atividade{
     private func setRepeticao(repeticao: NSNumber){
         self.repeticao = repeticao.intValue
     }
+    
+//    private func setUsuario(user: CKRecord.Reference?){
+//        guard let usuario = user else { return }
+//
+//    }
+    
+//    func retrieveUser(){
+//        let database = self.container.publicCloudDatabase
+//
+//        let predicate = NSPredicate(value: true)
+//        let query = CKQuery(recordType: "Usuario", predicate: predicate)
+//
+//        query.sortDescriptors = [NSSortDescriptor(key: "nome", ascending: true)]
+//
+//        let operation = CKQueryOperation(query: query)
+//
+//        usuarios.removeAll()
+//        operation.recordFetchedBlock = { record in
+//            let user = Usuario(recordID: record.recordID, idFamilia: record["idFamilia"] as! NSString, nome: record["nome"] as! NSString, pontuacao: record["pontuacao"] as! NSNumber, foto: record["foto"] as? CKAsset, conquista: record["conquista"] as! [NSNumber], vitoria: record["vitoria"] as! NSNumber, derrota: record["derrota"] as! NSNumber)
+//            self.usuarios.append(user)
+//
+//        }
+//
+//        operation.queryCompletionBlock = { cursor, error in
+//            DispatchQueue.main.async {
+//                print("=========================")
+//                print(self.usuarios)
+//                if error != nil{
+//                    print(error as Any)
+//                }
+//            }
+//        }
+//
+//        database.add(operation)
+//    }
 }
