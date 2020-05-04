@@ -186,12 +186,115 @@ class DataBaseICloud{
     
     // MARK: - CRUD FAMÍLIA
     
-    func createFamilia(){
+    func createFamilia(nome: String, usuario: Usuario){
         
+        /// acesso ao container public do banco
+        let database = container.publicCloudDatabase
+        /// record criado para ser usado na tabela Familia
+        let record = CKRecord(recordType: "Familia")
+        
+        // buscando o usuario que ira fazer parte ad familia
+        let recordUser = CKRecord(recordType: "Usuario", recordID: usuario.recordID)
+        // buscando o array de usuarios da familia
+        guard var usuariosFamilia = record["usuarios"] as? [CKRecord.Reference] else {
+            print("erro ao buscar usuarios da familia")
+            return
+        }
+        // criando uma referencia a partir do record do usuario
+        let reference = CKRecord.Reference(record: recordUser, action: CKRecord_Reference_Action.none)
+        // verifica se no array de usuarios da familia ja nao existe o usuario atual
+        if !usuariosFamilia.contains(reference){
+            // adiciona o usuario atual ao array de referencias da familia
+            usuariosFamilia.append(reference)
+        }
+        
+        // settando os valores da familia no record
+        record.setValue(nome, forKey: "nome")
+        record.setValue(false, forKey: "penalidadeFlag")
+        record.setValue(false, forKey: "recompensaFlag")
+        record.setValue(usuariosFamilia, forKey: "usuarios")
+        
+        // salva os dados do record na tabela de Familia
+        database.save(record) { (recordSave, error) in
+            if error == nil{
+                // deu certo salvar a familia
+                print("Salvou uma familia")
+//                self.familia =
+            } else {
+                // deu errado
+                print("Erro ao criar familia: \(error as Any)")
+            }
+        }
     }
     
-    func updateFamilia(){
+    func updateFamilia(newFamilia: Familia, newUser: Usuario?, newAtividade: Atividade?, newFeedInfo: String?){
+        /// acesso ao container publico do banco
+        let database = self.container.publicCloudDatabase
         
+        // id da familia
+        let idFamilia = self.familia?.recordID
+        
+        // busca da familia pelo record id
+        database.fetch(withRecordID: idFamilia!) { (record, error) in
+            if error == nil{
+                // encontrou a familia
+                // altera os valores da familia
+                record?.setValue(newFamilia.penalidade, forKey: "penalidade")
+                record?.setValue(newFamilia.penalidadeFlag, forKey: "penalidadeFlag")
+                record?.setValue(newFamilia.recompensaFlag, forKey: "recompensaFlag")
+                record?.setValue(newFamilia.recompensa, forKey: "recompensa")
+                
+                if let usuario = newUser{
+                    let recordUser = CKRecord(recordType: "Usuario", recordID: usuario.recordID)
+                    let arrayUser = self.addElementoArrayReferencia(elemento: recordUser, record: record!)
+                    record?.setValue(arrayUser, forKey: "usuarios")
+                }
+                
+                if let atividade = newAtividade{
+                    let recordAtividade = CKRecord(recordType: "Atividade", recordID: atividade.recordID)
+                    let arrayAtividades = self.addElementoArrayReferencia(elemento: recordAtividade, record: record!)
+                    record?.setValue(arrayAtividades, forKey: "atividades")
+                }
+                
+                if let feedInfo = newFeedInfo{
+                    guard var feedsInfo = record?["feed"] as? [String] else { return }
+                    
+                    feedsInfo.append(feedInfo)
+                    
+                    record?.setValue(feedsInfo, forKey: "feed")
+                }
+                
+                database.save(record!) { (recordSave, error) in
+                    if error == nil{
+                        // salvo
+                        print("Deu update tranquilo aq")
+                    } else {
+                        // nao salvo
+                        print("Deu ruim no update aq bro")
+                    }
+                }
+            } else {
+                // nao encontrou a familia
+                print("error ao buscar familia")
+                print(error as Any)
+            }
+        }
+    }
+    
+    private func addElementoArrayReferencia(elemento: CKRecord, record: CKRecord) -> [CKRecord.Reference]?{
+        
+        guard var elementosArray = record[elemento.recordType] as? [CKRecord.Reference] else {
+            print("erro ao buscar array")
+            return nil
+        }
+        
+        let reference = CKRecord.Reference(record: elemento, action: .none)
+        
+        if !elementosArray.contains(reference){
+            elementosArray.append(reference)
+        }
+        
+        return elementosArray
     }
     
     func retrieveFamilia(){
@@ -199,7 +302,22 @@ class DataBaseICloud{
     }
     
     func deleteFamilia(){
+        /// acesso ao container publico do banco
+        let database = container.publicCloudDatabase
+        // id da familia no banco
+        let idFamilia = self.familia?.recordID
         
+        // deletando familia
+        database.delete(withRecordID: idFamilia!) { (deletedRecordID, error) in
+            if error == nil{
+                // familia deletada
+                print("familia deletada :(")
+            } else {
+                // erro ao deletar
+                print("Nao conseuimos deletar meu mestre")
+                print(error as Any)
+            }
+        }
     }
     
     
