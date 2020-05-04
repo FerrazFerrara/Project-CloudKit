@@ -241,14 +241,21 @@ class DataBaseICloud{
                 record?.setValue(newFamilia.recompensaFlag, forKey: "recompensaFlag")
                 record?.setValue(newFamilia.recompensa, forKey: "recompensa")
                 
+                // caso tenha um usuario novo, adiciona ele ao array
                 if let usuario = newUser{
+                    // busca o usuario novo
                     let recordUser = CKRecord(recordType: "Usuario", recordID: usuario.recordID)
+                    // adiciona o usuario ao array de usuarios
                     let arrayUser = self.addElementoArrayReferencia(elemento: recordUser, record: record!)
+                    // adiciona a lista de usuarios como novo valor na familia
                     record?.setValue(arrayUser, forKey: "usuarios")
                 }
                 
+                // caso tenha uma atividade nova, adiciona ela ao array
                 if let atividade = newAtividade{
+                    // busca atividade nova
                     let recordAtividade = CKRecord(recordType: "Atividade", recordID: atividade.recordID)
+                    // 
                     let arrayAtividades = self.addElementoArrayReferencia(elemento: recordAtividade, record: record!)
                     record?.setValue(arrayAtividades, forKey: "atividades")
                 }
@@ -276,22 +283,6 @@ class DataBaseICloud{
                 print(error as Any)
             }
         }
-    }
-    
-    private func addElementoArrayReferencia(elemento: CKRecord, record: CKRecord) -> [CKRecord.Reference]?{
-        
-        guard var elementosArray = record[elemento.recordType] as? [CKRecord.Reference] else {
-            print("erro ao buscar array")
-            return nil
-        }
-        
-        let reference = CKRecord.Reference(record: elemento, action: .none)
-        
-        if !elementosArray.contains(reference){
-            elementosArray.append(reference)
-        }
-        
-        return elementosArray
     }
     
     func retrieveFamilia(id: CKRecord.ID){
@@ -581,5 +572,21 @@ class DataBaseICloud{
             print("Error! \(e)");
             return nil
         }
+    }
+    
+    private func addElementoArrayReferencia(elemento: CKRecord, record: CKRecord) -> [CKRecord.Reference]?{
+        
+        guard var elementosArray = record[elemento.recordType] as? [CKRecord.Reference] else {
+            print("erro ao buscar array")
+            return nil
+        }
+        
+        let reference = CKRecord.Reference(record: elemento, action: .none)
+        
+        if !elementosArray.contains(reference){
+            elementosArray.append(reference)
+        }
+        
+        return elementosArray
     }
 }
