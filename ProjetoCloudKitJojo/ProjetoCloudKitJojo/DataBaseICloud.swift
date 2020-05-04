@@ -113,6 +113,50 @@ class DataBaseICloud{
     /**
      Busca os dados da tabela de usuarios do banco
      */
+    
+    func retrieveUser2(id: CKRecord.ID, completion: @escaping ([Usuario]) -> Void){
+        
+        var usuarios: [Usuario] = []
+        
+        /// acesso ao container publico do banco
+        let database = self.container.publicCloudDatabase
+        
+        // fazendo a query do banco na tabela de usuario
+        let predicate = NSPredicate(format: "idFamilia = %@", id)
+        let query = CKQuery(recordType: "Usuario", predicate: predicate)
+        
+        // determina por qual atributo e qual forma sera organizado os dados buscados
+        // no caso, em ordem alfabetica e ascendente
+        query.sortDescriptors = [NSSortDescriptor(key: "nome", ascending: true)]
+        
+        // operacao para ser realizada na query criada
+        let operation = CKQueryOperation(query: query)
+        
+        // operacao de buscar os dados
+        operation.recordFetchedBlock = { record in
+            // instanciando um usuario a partir dos dados buscados do banco
+            let user = Usuario(recordID: record.recordID, idFamilia: record["idFamilia"] as! NSString, nome: record["nome"] as! NSString, pontuacao: record["pontuacao"] as! NSNumber, foto: record["foto"] as? CKAsset, conquista: record["conquista"] as! [NSNumber], vitoria: record["vitoria"] as! NSNumber, derrota: record["derrota"] as! NSNumber)
+            // adicionando os usuarios do banco no array
+            usuarios.append(user)
+        }
+        
+        // para realizar acoes após a busca de dados no banco
+        operation.queryCompletionBlock = { cursor, error in
+            DispatchQueue.main.async {
+                if error != nil{
+                    print(error as Any)
+                }else{
+                    print("deu bom")
+                }
+            }
+            
+            completion(usuarios)
+        }
+        
+        // realizar operacao
+        database.add(operation)
+        
+    }
     func retrieveUser(id: CKRecord.ID){
         
         /// acesso ao container publico do banco
@@ -303,12 +347,14 @@ class DataBaseICloud{
         // busca os dados da tabela de Atividades
         operation.recordFetchedBlock = { record in
             
+            
+            
             // busca os usuarios da familia e atribui ao array da classe
             self.retrieveUser(id: record.recordID)
             
             //array de referencias das atividades
             let activitiesReferences = record["atividades"] as! [CKRecord.Reference]
-
+            
             for record in activitiesReferences{
                 
                 // auxiliar para o usuario de cada atividade
@@ -321,7 +367,7 @@ class DataBaseICloud{
                     
                     //busca da referencia do usuario atrelado à atividade
                     database.fetch(withRecordID: CKRecord.ID(recordName: userReference.recordID.recordName)) { (recordUser, error) in
-                    
+                        
                         user = Usuario(recordID: recordUser!.recordID, idFamilia: recordUser!["idFamilia"] as! NSString, nome: recordUser!["nome"] as! NSString, pontuacao: recordUser!["pontuacao"] as! NSNumber, foto: recordUser!["foto"] as? CKAsset, conquista: recordUser!["conquista"] as! [NSNumber], vitoria: recordUser!["vitoria"] as! NSNumber, derrota: recordUser!["derrota"] as! NSNumber)
                     }
                     
@@ -343,7 +389,7 @@ class DataBaseICloud{
                 if error == nil {
                     // familia recuperada
                     print("Familia recuperada")
-
+                    
                 } else {
                     // familia nao recuperada
                     print("Erro na recuperacao da Familia!")
