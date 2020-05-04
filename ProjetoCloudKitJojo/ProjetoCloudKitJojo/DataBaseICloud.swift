@@ -36,13 +36,13 @@ class DataBaseICloud{
      Cria usuario e salva no iCloud
      
      - Parameters:
-        - idFamilia: identificador da familia no usuario
-        - nome: nome do usuario
-        - pontuacao: pontuacao inicial do usuario
-        - conquista: array indicando quais conquistas ja foram desbloquadas pelo usuario
-        - vitoria: quantidade de vitorias do jogador
-        - derrota: quantidade de derrotas do jogador
-        - foto: foto de perfil do usuario
+     - idFamilia: identificador da familia no usuario
+     - nome: nome do usuario
+     - pontuacao: pontuacao inicial do usuario
+     - conquista: array indicando quais conquistas ja foram desbloquadas pelo usuario
+     - vitoria: quantidade de vitorias do jogador
+     - derrota: quantidade de derrotas do jogador
+     - foto: foto de perfil do usuario
      */
     func createUser(idFamilia: String, nome: String, pontuacao: Int, conquista: [Bool], vitoria: Int, derrota: Int, foto: UIImage){
         /// acesso ao container publico do banco
@@ -62,15 +62,11 @@ class DataBaseICloud{
         record.setValue(derrota, forKey: "derrota")
         record.setValue(asset, forKey: "foto")
         
-        // criando o usuario
-        let user = Usuario(recordID: record.recordID, idFamilia: idFamilia, nome: nome, pontuacao: pontuacao, foto: foto, conquista: conquista, vitoria: vitoria, derrota: derrota)
-        
         // salvando o usuario no banco
         database.save(record) { (recordSave, error) in
             if error == nil{
                 // usuario salvo
                 print("Yaaay salvou um usuario")
-                self.usuarios.append(user)
             } else {
                 // usuario nao salvo
                 print("usuario nao salvou amigao")
@@ -80,11 +76,11 @@ class DataBaseICloud{
     }
     
     /**
-    Atualiza o primeiro usuario do array e salva no iCloud
-    
-    - Parameters:
-       - novoNome: nome que será sobrescrito no nome atual do usuario
-    */
+     Atualiza o primeiro usuario do array e salva no iCloud
+     
+     - Parameters:
+     - novoNome: nome que será sobrescrito no nome atual do usuario
+     */
     func updateUser(novoNome: String){
         /// acesso ao container publico do banco
         let database = self.container.publicCloudDatabase
@@ -115,14 +111,15 @@ class DataBaseICloud{
     }
     
     /**
-    Busca os dados da tabela de usuarios do banco
-    */
-    func retrieveUser(){
+     Busca os dados da tabela de usuarios do banco
+     */
+    func retrieveUser(id: CKRecord.ID){
+        
         /// acesso ao container publico do banco
         let database = self.container.publicCloudDatabase
         
         // fazendo a query do banco na tabela de usuario
-        let predicate = NSPredicate(value: true)
+        let predicate = NSPredicate(format: "idFamilia = %@", id)
         let query = CKQuery(recordType: "Usuario", predicate: predicate)
         
         // determina por qual atributo e qual forma sera organizado os dados buscados
@@ -159,11 +156,11 @@ class DataBaseICloud{
     }
     
     /**
-    exclui um usuario do banco
-    
-    - Parameters:
-       - usuario: Usuario a ser deletado
-    */
+     exclui um usuario do banco
+     
+     - Parameters:
+     - usuario: Usuario a ser deletado
+     */
     func deleteUser(usuario: Usuario){
         /// acesso ao container publico do banco
         let database = container.publicCloudDatabase
@@ -194,8 +191,75 @@ class DataBaseICloud{
         
     }
     
-    func retrieveFamilia(){
+    func retrieveFamilia(id: CKRecord.ID){
+        /// acesso ao container publico do banco
+        let database = self.container.publicCloudDatabase
         
+        // fazendo query da tabela de familia buscando somente a familia com ID do parametro
+        let predicate = NSPredicate(format: "recordID = %@", id)
+        let query = CKQuery(recordType: "Familia", predicate: predicate)
+        
+        // determina qual forma os dados serao organizados na busca
+        // no caso, sera organizado de forma ascendente e data de criacao da familia
+        query.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+        
+        // operacao da query criada
+        let operation = CKQueryOperation(query: query)
+        
+        // busca os dados da tabela de Atividades
+        operation.recordFetchedBlock = { record in
+            
+            // busca os usuarios da familia e atribui ao array da classe
+            self.retrieveUser(id: record.recordID)
+            
+            //array de referencias das atividades
+            let activitiesReferences = record["atividades"] as! [CKRecord.Reference]
+
+            for record in activitiesReferences{
+                
+                // auxiliar para o usuario de cada atividade
+                var user = Usuario()
+                
+                // busca da referencia das atividades
+                database.fetch(withRecordID: CKRecord.ID(recordName: record.recordID.recordName)) { (recordActivity, error) in
+                    
+                    let userReference = recordActivity!["usuario"] as! CKRecord.Reference
+                    
+                    //busca da referencia do usuario atrelado à atividade
+                    database.fetch(withRecordID: CKRecord.ID(recordName: userReference.recordID.recordName)) { (recordUser, error) in
+                    
+                        user = Usuario(recordID: recordUser!.recordID, idFamilia: recordUser!["idFamilia"] as! NSString, nome: recordUser!["nome"] as! NSString, pontuacao: recordUser!["pontuacao"] as! NSNumber, foto: recordUser!["foto"] as? CKAsset, conquista: recordUser!["conquista"] as! [NSNumber], vitoria: recordUser!["vitoria"] as! NSNumber, derrota: recordUser!["derrota"] as! NSNumber)
+                    }
+                    
+                    // instancia a atividade buscada
+                    let activity = Atividade(recordID: recordActivity!.recordID, dia: recordActivity!["dia"] as! NSDate, etiqueta: recordActivity!["etiqueta"] as! NSString, horario: recordActivity!["horario"] as! NSDate, nome: recordActivity!["nome"] as! NSString, pontuacao: recordActivity!["pontuacao"] as! NSNumber, repeticao: recordActivity!["repeticao"] as! NSNumber, usuario: user, dataFeito: recordActivity!["dataFeito"] as? NSDate, realizou: recordActivity!["realizou"] as! NSNumber)
+                    
+                    // adiciona a atividade ao array de atividades
+                    self.atividades.append(activity)
+                }
+            }
+            
+            // instancia a familia
+            self.familia = Familia(recordID: record.recordID, nome: record["nome"] as! NSString, usuarios: self.usuarios, atividades: self.atividades, penalidade: record["penalidade"] as! NSString, recompensa: record["recompensa"] as! NSString, penalidadeFlag: record["penalidadeFlag"] as! NSNumber, recompensaFlag: record["recompensaFlag"] as! NSNumber, feed: record["feed"] as! [NSString])
+        }
+        
+        // para realizar acoes apos a busca da familia no banco
+        operation.queryCompletionBlock = { cursor, error in
+            DispatchQueue.main.async {
+                if error == nil {
+                    // familia recuperada
+                    print("Familia recuperada")
+
+                } else {
+                    // familia nao recuperada
+                    print("Erro na recuperacao da Familia!")
+                    print(error as Any)
+                }
+            }
+        }
+        
+        // realiza operacao
+        database.add(operation)
     }
     
     func deleteFamilia(){
@@ -206,17 +270,17 @@ class DataBaseICloud{
     // MARK: - CRUD ATIVIDADE
     
     /**
-    Cria atividade e salva no iCloud
-    
-    - Parameters:
-       - nome: nome da atividade
-       - pontuacao: pontuacao por realizar a atividade
-       - dia: dia da semana que repete a atividade
-       - horario: horario da atividade
-       - repete: index de quantas vezes a atividade repete
-       - etiqueta: etiqueta que identifica de onde a atividade é
-       - user: usuario que realizou a atividade
-    */
+     Cria atividade e salva no iCloud
+     
+     - Parameters:
+     - nome: nome da atividade
+     - pontuacao: pontuacao por realizar a atividade
+     - dia: dia da semana que repete a atividade
+     - horario: horario da atividade
+     - repete: index de quantas vezes a atividade repete
+     - etiqueta: etiqueta que identifica de onde a atividade é
+     - user: usuario que realizou a atividade
+     */
     func createAtividade(nome: String, pontuacao: Int, dia: Date, horario: Date, repete: Int, etiqueta: String, user: Usuario){
         /// acesso ao container publico do banco
         let database = container.publicCloudDatabase
@@ -235,7 +299,7 @@ class DataBaseICloud{
         record.setValue(repete, forKey: "repeticao")
         record.setValue(etiqueta, forKey: "etiqueta")
         record.setValue(false, forKey: "realizou")
-//        record.setValue(, forKey: "dataFeito")
+        //        record.setValue(, forKey: "dataFeito")
         record.setValue(reference, forKey: "usuario")
         
         // salva o record no banco
@@ -252,11 +316,11 @@ class DataBaseICloud{
     }
     
     /**
-    Altera o nome de uma atividade ja existente
-    
-    - Parameters:
-       - nome: novo nome para atividade
-    */
+     Altera o nome de uma atividade ja existente
+     
+     - Parameters:
+     - nome: novo nome para atividade
+     */
     func updateAtividade(novoNome: String){
         /// acesso ao container publico do banco
         let database = self.container.publicCloudDatabase
@@ -288,8 +352,8 @@ class DataBaseICloud{
     }
     
     /**
-    Busca as atividades do iCloud
-    */
+     Busca as atividades do iCloud
+     */
     func retrieveAtividade(){
         /// acesso ao container publico do banco
         let database = self.container.publicCloudDatabase
@@ -349,11 +413,11 @@ class DataBaseICloud{
     }
     
     /**
-    Deleta atividade no iCloud
-    
-    - Parameters:
-       - atividade: atividade que sera deletada do banco
-    */
+     Deleta atividade no iCloud
+     
+     - Parameters:
+     - atividade: atividade que sera deletada do banco
+     */
     func deleteAtividade(atividade: Atividade){
         /// acesso ao container publico do banco
         let database = container.publicCloudDatabase
@@ -376,13 +440,13 @@ class DataBaseICloud{
     // MARK: - Funções auxiliares para o banco
     
     /**
-    Transforma uma UIImage em CKAsset para adicionar ao banco
-    
-    - Parameters:
-       - foto: foto que sera adicionada ao iCloud
+     Transforma uma UIImage em CKAsset para adicionar ao banco
      
-    - Returns: retorna CKAsset em caso de sucesso ou nil em caso de fracasso no cast
-    */
+     - Parameters:
+     - foto: foto que sera adicionada ao iCloud
+     
+     - Returns: retorna CKAsset em caso de sucesso ou nil em caso de fracasso no cast
+     */
     private func transformImage(foto: UIImage) -> CKAsset?{
         // transforma a UIImage em PNG
         let data = foto.pngData();
