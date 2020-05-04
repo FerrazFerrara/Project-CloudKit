@@ -12,7 +12,6 @@ import CloudKit
 class Familia{
     
     var recordID: CKRecord.ID
-    var codigo: String?
     var nome: String?
     var usuarios: [Usuario]?
     var atividades: [Atividade]?
@@ -20,10 +19,10 @@ class Familia{
     var recompensa: String?
     var penalidadeFlag: Bool?
     var recompensaFlag: Bool?
+    var feed: [String]?
     
-    init(recordID: CKRecord.ID, codigo: String, nome: String, usuarios: [Usuario], atividades: [Atividade], penalidade: String, recompensa: String, penalidadeFlag: Bool, recompensaFlag: Bool) {
+    init(recordID: CKRecord.ID, nome: String, usuarios: [Usuario], atividades: [Atividade], penalidade: String, recompensa: String, penalidadeFlag: Bool, recompensaFlag: Bool, feed: [String]) {
         self.recordID = recordID
-        self.codigo = codigo
         self.nome = nome
         self.usuarios = usuarios
         self.atividades = atividades
@@ -31,49 +30,42 @@ class Familia{
         self.recompensa = recompensa
         self.penalidadeFlag = penalidadeFlag
         self.recompensaFlag = recompensaFlag
+        self.feed = feed
     }
     
-    init(recordID: CKRecord.ID, codigo: String, nome: String, usuarios: [Usuario], atividades: [Atividade], penalidade: String, recompensa: String, penalidadeFlag: Int64, recompensaFlag: Int64) {
+    init(recordID: CKRecord.ID, nome: NSString, usuarios: [Usuario], atividades: [Atividade], penalidade: NSString, recompensa: NSString, penalidadeFlag: NSNumber, recompensaFlag: NSNumber, feed: [NSString]) {
         self.recordID = recordID
-        setCodigo(codigo: codigo)
         setNome(nome: nome)
-        setUsuarios(usuarios: usuarios)
-        setAtividades(atividades: atividades)
         setpenalidade(penalidade: penalidade)
         setRecompensa(recompensa: recompensa)
         setPenalidadeFlag(penalidadeFlag: penalidadeFlag)
         setRecompensaFlag(recompensaFlag: recompensaFlag)
+        setFeed(feed: feed)
+        self.usuarios = usuarios
+        self.atividades = atividades
     }
     
-    private func setCodigo(codigo: String){
-        self.codigo = String()
+    private func setNome(nome: NSString){
+        self.nome = nome as String
     }
     
-    private func setNome(nome: String){
-        self.nome = String()
+    private func setpenalidade(penalidade: NSString){
+        self.penalidade = penalidade as String
     }
     
-    private func setUsuarios(usuarios: [Usuario]){
-        self.usuarios = [Usuario]()
+    private func setRecompensa(recompensa: NSString){
+        self.recompensa = recompensa as String
     }
     
-    private func setAtividades(atividades: [Atividade]){
-        self.atividades = [Atividade]()
+    private func setPenalidadeFlag(penalidadeFlag: NSNumber){
+        self.penalidadeFlag = penalidadeFlag.boolValue
     }
     
-    private func setpenalidade(penalidade: String){
-        self.penalidade = String()
+    private func setRecompensaFlag(recompensaFlag: NSNumber){
+        self.recompensaFlag = recompensaFlag.boolValue
     }
     
-    private func setRecompensa(recompensa: String){
-        self.recompensa = String()
-    }
-    
-    private func setPenalidadeFlag(penalidadeFlag: Int64){
-        self.penalidadeFlag = Bool()
-    }
-    
-    private func setRecompensaFlag(recompensaFlag: Int64){
-        self.recompensaFlag = Bool()
+    private func setFeed(feed: [NSString]){
+        self.feed = feed as [String]
     }
 }

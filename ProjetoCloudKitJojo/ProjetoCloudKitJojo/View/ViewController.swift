@@ -43,7 +43,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func buscarBtn(_ sender: Any) {
-        banco.retrieveUser()
+//        banco.retrieveUser(id: )
     }
     
     @IBAction func modificar(_ sender: Any) {
