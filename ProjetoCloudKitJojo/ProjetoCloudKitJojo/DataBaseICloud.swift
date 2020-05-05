@@ -408,6 +408,7 @@ class DataBaseICloud{
                         print("nenhuma familia encontrada")
                     } else {
                         print("Familia recuperada")
+                        completion(self.familia!)
                     }
                 } else {
                     // familia nao recuperada
@@ -652,7 +653,6 @@ class DataBaseICloud{
             elementosArray.append(reference)
             print("deu bom")
         }
-        
         return elementosArray
     }
     
