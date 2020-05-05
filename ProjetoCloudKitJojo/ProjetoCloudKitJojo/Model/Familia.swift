@@ -33,7 +33,7 @@ class Familia{
         self.feed = feed
     }
     
-    init(recordID: CKRecord.ID, nome: NSString, usuarios: [Usuario], atividades: [Atividade], penalidade: NSString, recompensa: NSString, penalidadeFlag: NSNumber, recompensaFlag: NSNumber, feed: [NSString]) {
+    init(recordID: CKRecord.ID, nome: NSString, usuarios: [Usuario]?, atividades: [Atividade]?, penalidade: NSString?, recompensa: NSString?, penalidadeFlag: NSNumber, recompensaFlag: NSNumber, feed: [NSString]) {
         self.recordID = recordID
         setNome(nome: nome)
         setpenalidade(penalidade: penalidade)
@@ -49,12 +49,12 @@ class Familia{
         self.nome = nome as String
     }
     
-    private func setpenalidade(penalidade: NSString){
-        self.penalidade = penalidade as String
+    private func setpenalidade(penalidade: NSString?){
+        self.penalidade = penalidade as String?
     }
     
-    private func setRecompensa(recompensa: NSString){
-        self.recompensa = recompensa as String
+    private func setRecompensa(recompensa: NSString?){
+        self.recompensa = recompensa as String?
     }
     
     private func setPenalidadeFlag(penalidadeFlag: NSNumber){

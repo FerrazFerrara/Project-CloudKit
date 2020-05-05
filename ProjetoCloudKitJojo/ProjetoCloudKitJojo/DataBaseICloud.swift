@@ -159,6 +159,7 @@ class DataBaseICloud{
         database.add(operation)
         
     }
+    
     func retrieveUser(id: CKRecord.ID){
         
         /// acesso ao container publico do banco
@@ -237,19 +238,19 @@ class DataBaseICloud{
         let record = CKRecord(recordType: "Familia")
         
         // buscando o usuario que ira fazer parte ad familia
-//        let recordUser = CKRecord(recordType: "Usuario", recordID: usuario.recordID)
+        //        let recordUser = CKRecord(recordType: "Usuario", recordID: usuario.recordID)
         // buscando o array de usuarios da familia
-//        guard var usuariosFamilia = record["usuarios"] as? [CKRecord.Reference] else {
-//            print("erro ao buscar usuarios da familia")
-//            return
-//        }
+        //        guard var usuariosFamilia = record["usuarios"] as? [CKRecord.Reference] else {
+        //            print("erro ao buscar usuarios da familia")
+        //            return
+        //        }
         // criando uma referencia a partir do record do usuario
-//        let reference = CKRecord.Reference(record: recordUser, action: CKRecord_Reference_Action.none)
-//        // verifica se no array de usuarios da familia ja nao existe o usuario atual
-//        if !usuariosFamilia.contains(reference){
-//            // adiciona o usuario atual ao array de referencias da familia
-//            usuariosFamilia.append(reference)
-//        }
+        //        let reference = CKRecord.Reference(record: recordUser, action: CKRecord_Reference_Action.none)
+        //        // verifica se no array de usuarios da familia ja nao existe o usuario atual
+        //        if !usuariosFamilia.contains(reference){
+        //            // adiciona o usuario atual ao array de referencias da familia
+        //            usuariosFamilia.append(reference)
+        //        }
         
         // settando os valores da familia no record
         record.setValue(nome, forKey: "nome")
@@ -355,8 +356,6 @@ class DataBaseICloud{
         
         // busca os dados da tabela de Atividades
         operation.recordFetchedBlock = { record in
-            
-            
             
             // busca os usuarios da familia e atribui ao array da classe
             self.retrieveUser(id: record.recordID)
@@ -693,5 +692,59 @@ class DataBaseICloud{
     
     public func retrievePrivateUsuario(){
         
+        let databasePrivate = self.container.privateCloudDatabase
+        let databasePublic = self.container.publicCloudDatabase
+        
+        let predicatePrivate = NSPredicate(value: true)
+        let queryPrivate = CKQuery(recordType: "UsuarioPrivado", predicate: predicatePrivate)
+        
+        var idFamilia = String()
+        var idUsuario = String()
+        
+        queryPrivate.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
+        
+        let operationPrivate = CKQueryOperation(query: queryPrivate)
+        
+        operationPrivate.recordFetchedBlock = { record in
+            
+            idFamilia = record["recordNameFamilia"] as! String
+            idUsuario = record["recordNameUsuario"] as! String
+        }
+        
+        let predicatePublic = NSPredicate(format: "recordName = %@", idFamilia)
+        let queryPublic = CKQuery(recordType: "Familia", predicate: predicatePublic)
+        
+        queryPublic.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
+        
+        let operationPublic = CKQueryOperation(query: queryPublic)
+        
+        operationPublic.recordFetchedBlock = { record in
+            
+            self.retrieveFamilia(id: record["recordID"] as! CKRecord.ID)
+        }
+        
+        // para realizar acoes após a busca de dados no banco
+        operationPrivate.queryCompletionBlock = { cursor, error in
+            DispatchQueue.main.async {
+                if error != nil{
+                    print(error as Any)
+                }else{
+                    print("deu bom")
+                    databasePublic.add(operationPublic)
+                }
+            }
+        }
+        
+        operationPrivate.queryCompletionBlock = { cursor, error in
+            DispatchQueue.main.async {
+                if error != nil{
+                    print(error as Any)
+                }else{
+                    print("deu bom")
+                }
+            }
+        }
+        
+        databasePrivate.add(operationPrivate)
     }
 }
