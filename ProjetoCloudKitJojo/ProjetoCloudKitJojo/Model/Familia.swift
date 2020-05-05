@@ -21,7 +21,7 @@ class Familia{
     var recompensaFlag: Bool?
     var feed: [String]?
     
-    init(recordID: CKRecord.ID, nome: String, usuarios: [Usuario], atividades: [Atividade], penalidade: String, recompensa: String, penalidadeFlag: Bool, recompensaFlag: Bool, feed: [String]) {
+    init(recordID: CKRecord.ID, nome: String, usuarios: [Usuario], atividades: [Atividade], penalidade: String?, recompensa: String?, penalidadeFlag: Bool, recompensaFlag: Bool, feed: [String]) {
         self.recordID = recordID
         self.nome = nome
         self.usuarios = usuarios

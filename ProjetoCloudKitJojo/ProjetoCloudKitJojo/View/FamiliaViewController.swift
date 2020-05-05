@@ -11,8 +11,12 @@ import UIKit
 
 class FamiliaViewController: UIViewController{
     
+    let banco = DataBaseICloud.shared
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
     }
     
     
