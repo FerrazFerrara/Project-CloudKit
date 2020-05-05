@@ -18,7 +18,7 @@ class DataBaseICloud{
     static let shared = DataBaseICloud()
     
     /// container no iCloud Dashboard
-    let container = CKContainer(identifier: "iCloud.mini4.com.jojo.seila")
+    private let container = CKContainer(identifier: "iCloud.mini4.com.jojo.seila")
     
     /// array de usuarios buscados pelo banco
     var usuarios = [Usuario]()
