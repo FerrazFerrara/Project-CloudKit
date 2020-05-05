@@ -639,4 +639,12 @@ class DataBaseICloud{
         
         return elementosArray
     }
+    
+    public func createPrivateUsuario(){
+        
+    }
+    
+    public func retrievePrivateUsuario(){
+        
+    }
 }
