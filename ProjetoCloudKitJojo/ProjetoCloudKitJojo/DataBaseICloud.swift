@@ -67,7 +67,7 @@ class DataBaseICloud{
             if error == nil{
                 // usuario salvo
                 print("Yaaay salvou um usuario")
-                let user = Usuario(idFamilia: idFamilia, nome: nome, pontuacao: pontuacao, foto: foto, conquista: conquista, vitoria: vitoria, derrota: derrota)
+                let user = Usuario(idFamilia: idFamilia.recordName, nome: nome, pontuacao: pontuacao, foto: foto, conquista: conquista, vitoria: vitoria, derrota: derrota)
                 self.usuarios.append(user)
             } else {
                 // usuario nao salvo
@@ -137,7 +137,7 @@ class DataBaseICloud{
         // operacao de buscar os dados
         operation.recordFetchedBlock = { record in
             // instanciando um usuario a partir dos dados buscados do banco
-            let user = Usuario(recordID: record.recordID, idFamilia: self.familia!.recordID, nome: record["nome"] as! NSString, pontuacao: record["pontuacao"] as! NSNumber, foto: record["foto"] as? CKAsset, conquista: record["conquista"] as! [NSNumber], vitoria: record["vitoria"] as! NSNumber, derrota: record["derrota"] as! NSNumber)
+            let user = Usuario(recordID: record.recordID, idFamilia: self.familia!.recordID.recordName, nome: record["nome"] as! NSString, pontuacao: record["pontuacao"] as! NSNumber, foto: record["foto"] as? CKAsset, conquista: record["conquista"] as! [NSNumber], vitoria: record["vitoria"] as! NSNumber, derrota: record["derrota"] as! NSNumber)
             // adicionando os usuarios do banco no array
             usuarios.append(user)
         }
@@ -182,7 +182,7 @@ class DataBaseICloud{
         // operacao de buscar os dados
         operation.recordFetchedBlock = { record in
             // instanciando um usuario a partir dos dados buscados do banco
-            let user = Usuario(recordID: record.recordID, idFamilia: self.familia!.recordID, nome: record["nome"] as! NSString, pontuacao: record["pontuacao"] as! NSNumber, foto: record["foto"] as? CKAsset, conquista: record["conquista"] as! [NSNumber], vitoria: record["vitoria"] as! NSNumber, derrota: record["derrota"] as! NSNumber)
+            let user = Usuario(recordID: record.recordID, idFamilia: self.familia!.recordID.recordName, nome: record["nome"] as! NSString, pontuacao: record["pontuacao"] as! NSNumber, foto: record["foto"] as? CKAsset, conquista: record["conquista"] as! [NSNumber], vitoria: record["vitoria"] as! NSNumber, derrota: record["derrota"] as! NSNumber)
             // adicionando os usuarios do banco no array
             self.usuarios.append(user)
         }
@@ -720,7 +720,9 @@ class DataBaseICloud{
         
         operationPublic.recordFetchedBlock = { record in
             
-            self.retrieveFamilia(id: record["recordID"] as! CKRecord.ID)
+            self.retrieveFamilia(id: record["recordID"] as! CKRecord.ID, completion: { _ in
+                
+            })
         }
         
         // para realizar acoes após a busca de dados no banco
