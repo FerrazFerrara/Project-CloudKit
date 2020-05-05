@@ -44,7 +44,7 @@ class DataBaseICloud{
      - derrota: quantidade de derrotas do jogador
      - foto: foto de perfil do usuario
      */
-    func createUser(idFamilia: CKRecord.ID, nome: String, pontuacao: Int, conquista: [Bool], vitoria: Int, derrota: Int, foto: UIImage){
+    func createUser(idFamilia: String, nome: String, pontuacao: Int, conquista: [Bool], vitoria: Int, derrota: Int, foto: UIImage){
         /// acesso ao container publico do banco
         let database = container.publicCloudDatabase
         /// record criado para ser usado no tabela Usuario
@@ -54,7 +54,7 @@ class DataBaseICloud{
         guard let asset = transformImage(foto: foto) else { return }
         
         // settando os valores do usuario no record
-        record.setValue(idFamilia.recordName, forKey: "idFamilia")
+        record.setValue(idFamilia, forKey: "idFamilia")
         record.setValue(nome, forKey: "nome")
         record.setValue(pontuacao, forKey: "pontuacao")
         record.setValue(conquista, forKey: "conquista")
@@ -137,7 +137,7 @@ class DataBaseICloud{
         // operacao de buscar os dados
         operation.recordFetchedBlock = { record in
             // instanciando um usuario a partir dos dados buscados do banco
-            let user = Usuario(recordID: record.recordID, idFamilia: self.familia!.recordID, nome: record["nome"] as! NSString, pontuacao: record["pontuacao"] as! NSNumber, foto: record["foto"] as? CKAsset, conquista: record["conquista"] as! [NSNumber], vitoria: record["vitoria"] as! NSNumber, derrota: record["derrota"] as! NSNumber)
+            let user = Usuario(recordID: record.recordID, idFamilia: self.familia!.recordID.recordName as NSString, nome: record["nome"] as! NSString, pontuacao: record["pontuacao"] as! NSNumber, foto: record["foto"] as? CKAsset, conquista: record["conquista"] as! [NSNumber], vitoria: record["vitoria"] as! NSNumber, derrota: record["derrota"] as! NSNumber)
             // adicionando os usuarios do banco no array
             usuarios.append(user)
         }
@@ -182,7 +182,7 @@ class DataBaseICloud{
         // operacao de buscar os dados
         operation.recordFetchedBlock = { record in
             // instanciando um usuario a partir dos dados buscados do banco
-            let user = Usuario(recordID: record.recordID, idFamilia: self.familia!.recordID, nome: record["nome"] as! NSString, pontuacao: record["pontuacao"] as! NSNumber, foto: record["foto"] as? CKAsset, conquista: record["conquista"] as! [NSNumber], vitoria: record["vitoria"] as! NSNumber, derrota: record["derrota"] as! NSNumber)
+            let user = Usuario(recordID: record.recordID, idFamilia: self.familia!.recordID.recordName as NSString, nome: record["nome"] as! NSString, pontuacao: record["pontuacao"] as! NSNumber, foto: record["foto"] as? CKAsset, conquista: record["conquista"] as! [NSNumber], vitoria: record["vitoria"] as! NSNumber, derrota: record["derrota"] as! NSNumber)
             // adicionando os usuarios do banco no array
             self.usuarios.append(user)
         }
@@ -371,7 +371,7 @@ class DataBaseICloud{
                     //busca da referencia do usuario atrelado à atividade
                     database.fetch(withRecordID: CKRecord.ID(recordName: userReference.recordID.recordName)) { (recordUser, error) in
                         
-                        user = Usuario(recordID: recordUser!.recordID, idFamilia: self.familia!.recordID, nome: recordUser!["nome"] as! NSString, pontuacao: recordUser!["pontuacao"] as! NSNumber, foto: recordUser!["foto"] as? CKAsset, conquista: recordUser!["conquista"] as! [NSNumber], vitoria: recordUser!["vitoria"] as! NSNumber, derrota: recordUser!["derrota"] as! NSNumber)
+                        user = Usuario(recordID: recordUser!.recordID, idFamilia: self.familia!.recordID.recordName as NSString, nome: recordUser!["nome"] as! NSString, pontuacao: recordUser!["pontuacao"] as! NSNumber, foto: recordUser!["foto"] as? CKAsset, conquista: recordUser!["conquista"] as! [NSNumber], vitoria: recordUser!["vitoria"] as! NSNumber, derrota: recordUser!["derrota"] as! NSNumber)
                     }
                     
                     // instancia a atividade buscada
@@ -383,7 +383,7 @@ class DataBaseICloud{
             }
             
             // instancia a familia
-            self.familia = Familia(recordID: record.recordID, nome: record["nome"] as! NSString, usuarios: self.usuarios, atividades: self.atividades, penalidade: record["penalidade"] as! NSString, recompensa: record["recompensa"] as! NSString, penalidadeFlag: record["penalidadeFlag"] as! NSNumber, recompensaFlag: record["recompensaFlag"] as! NSNumber, feed: record["feed"] as! [NSString])
+            self.familia = Familia(recordID: record.recordID, nome: record["nome"] as! NSString, usuarios: self.usuarios, atividades: self.atividades, penalidade: record["penalidade"] as? NSString, recompensa: record["recompensa"] as? NSString, penalidadeFlag: record["penalidadeFlag"] as! NSNumber, recompensaFlag: record["recompensaFlag"] as! NSNumber, feed: record["feed"] as! [NSString])
         }
         
         // para realizar acoes apos a busca da familia no banco
@@ -542,7 +542,7 @@ class DataBaseICloud{
             // busca pela referencia do usuario na tabela de usuario
             database.fetch(withRecordID: CKRecord.ID(recordName: userReference.recordID.recordName)) { (recordUser, error) in
                 // instancia o usuario a partir dos valores do usuario da tabela de atividades
-                user = Usuario(recordID: recordUser!.recordID, idFamilia: self.familia!.recordID, nome: recordUser!["nome"] as! NSString, pontuacao: recordUser!["pontuacao"] as! NSNumber, foto: recordUser!["foto"] as? CKAsset, conquista: recordUser!["conquista"] as! [NSNumber], vitoria: recordUser!["vitoria"] as! NSNumber, derrota: recordUser!["derrota"] as! NSNumber)
+                user = Usuario(recordID: recordUser!.recordID, idFamilia: self.familia!.recordID.recordName as NSString, nome: recordUser!["nome"] as! NSString, pontuacao: recordUser!["pontuacao"] as! NSNumber, foto: recordUser!["foto"] as? CKAsset, conquista: recordUser!["conquista"] as! [NSNumber], vitoria: recordUser!["vitoria"] as! NSNumber, derrota: recordUser!["derrota"] as! NSNumber)
                 
                 // instancia a atividade buscada
                 let activity = Atividade(recordID: record.recordID, dia: record["dia"] as! NSDate, etiqueta: record["etiqueta"] as! NSString, horario: record["horario"] as! NSDate, nome: record["nome"] as! NSString, pontuacao: record["pontuacao"] as! NSNumber, repeticao: record["repeticao"] as! NSNumber, usuario: user, dataFeito: record["dataFeito"] as? NSDate, realizou: record["realizou"] as! NSNumber)
