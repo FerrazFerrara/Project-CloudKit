@@ -54,7 +54,7 @@ class DataBaseICloud{
         guard let asset = transformImage(foto: foto) else { return }
         
         // settando os valores do usuario no record
-        record.setValue(idFamilia, forKey: "idFamilia")
+        record.setValue(idFamilia.recordName, forKey: "idFamilia")
         record.setValue(nome, forKey: "nome")
         record.setValue(pontuacao, forKey: "pontuacao")
         record.setValue(conquista, forKey: "conquista")
