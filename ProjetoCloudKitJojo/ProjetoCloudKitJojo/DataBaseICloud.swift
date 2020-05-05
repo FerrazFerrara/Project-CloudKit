@@ -255,6 +255,11 @@ class DataBaseICloud{
         record.setValue(nome, forKey: "nome")
         record.setValue(false, forKey: "penalidadeFlag")
         record.setValue(false, forKey: "recompensaFlag")
+        record.setValue([], forKey: "feed")
+        record.setValue([], forKey: "atividades")
+        record.setValue([], forKey: "usuarios")
+        record.setValue("", forKey: "recompensa")
+        record.setValue("", forKey: "penalidade")
 //        record.setValue(usuariosFamilia, forKey: "usuarios")
         
         
@@ -333,7 +338,7 @@ class DataBaseICloud{
         }
     }
     
-    func retrieveFamilia(id: CKRecord.ID){
+    func retrieveFamilia(id: CKRecord.ID, completion: @escaping (Familia) -> Void){
         /// acesso ao container publico do banco
         let database = self.container.publicCloudDatabase
         
@@ -640,8 +645,50 @@ class DataBaseICloud{
         return elementosArray
     }
     
-    public func createPrivateUsuario(){
+    public func createPrivateUsuario(idFamilia: String, idUser: String){
         
+        /// acesso ao container privado do banco
+        let database = container.privateCloudDatabase
+        /// record criado para ser usado na tabela de UsuarioPrivado
+        let record = CKRecord(recordType: "UsuarioPrivado")
+        
+        // settando valor no record
+        record.setValue(idFamilia, forKey: "recordNameFamilia")
+        record.setValue(idUser, forKey: "recordNameUsuario")
+        
+        // salvando os dados no banco
+        database.save(record) { (recordSave, error) in
+            if error == nil{
+                // usuario salvo
+                print("dados do usuario salvo")
+            } else {
+                // usuario nao salvo
+                print("dados do usuario nao foram salvos")
+                print(error as Any)
+            }
+        }
+    }
+    
+    /**
+     Deleta os dados da tabela UsuarioPrivado
+     */
+    public func deletePrivateUsuario(){
+        /// acesso ao container privado do banco
+        let database = container.privateCloudDatabase
+        // id do usuario no banco
+        let recordID = CKRecord.ID(recordName: "???????????????")
+        
+        // deleta os dados do usuario do banco
+        database.delete(withRecordID: recordID) { (recordID, error) in
+            if error == nil {
+                // usuario deletado
+                print("adeus usuario")
+            } else {
+                // erro ao deletar usuario
+                print("nao deletou o usuario")
+                print(error as Any)
+            }
+        }
     }
     
     public func retrievePrivateUsuario(){

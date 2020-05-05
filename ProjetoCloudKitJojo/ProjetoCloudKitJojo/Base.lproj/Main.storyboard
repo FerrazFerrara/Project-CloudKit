@@ -97,10 +97,10 @@
             </objects>
             <point key="canvasLocation" x="1708.6956521739132" y="-656.25"/>
         </scene>
-        <!--View Controller-->
+        <!--Familia View Controller-->
         <scene sceneID="pTe-4w-9wQ">
             <objects>
-                <viewController id="FS8-lA-Ed7" sceneMemberID="viewController">
+                <viewController id="FS8-lA-Ed7" customClass="FamiliaViewController" customModule="ProjetoCloudKitJojo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="jms-Ng-t8l">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -111,8 +111,8 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Nome Familia" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D1G-E2-cdY">
-                                <rect key="frame" x="45" y="282" width="103" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="ID Familia" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D1G-E2-cdY">
+                                <rect key="frame" x="45" y="282" width="74" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
@@ -137,6 +137,7 @@
                                 <state key="normal" title="Entrar na Familia"/>
                                 <connections>
                                     <action selector="criarFamilia:" destination="U2g-bD-ZRb" eventType="touchUpInside" id="ICd-kB-pjB"/>
+                                    <action selector="entrarFamilia:" destination="FS8-lA-Ed7" eventType="touchUpInside" id="Vhi-4f-9h7"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -144,6 +145,10 @@
                         <viewLayoutGuide key="safeArea" id="myf-0i-BGT"/>
                     </view>
                     <navigationItem key="navigationItem" id="KWU-yn-Frs"/>
+                    <connections>
+                        <outlet property="nomeFamilia" destination="2NO-Tw-Dhn" id="F2H-MF-LU9"/>
+                        <outlet property="nomeUsuario" destination="TLh-eF-KC9" id="mcS-6x-KL5"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LSA-W2-EXj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
