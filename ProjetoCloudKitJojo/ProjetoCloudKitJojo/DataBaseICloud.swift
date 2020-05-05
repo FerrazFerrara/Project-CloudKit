@@ -44,7 +44,7 @@ class DataBaseICloud{
      - derrota: quantidade de derrotas do jogador
      - foto: foto de perfil do usuario
      */
-    func createUser(idFamilia: String, nome: String, pontuacao: Int, conquista: [Bool], vitoria: Int, derrota: Int, foto: UIImage){
+    func createUser(idFamilia: String, nome: String, pontuacao: Int, conquista: [Bool], vitoria: Int, derrota: Int, foto: UIImage, completion: @escaping (Usuario) -> Void){
         /// acesso ao container publico do banco
         let database = container.publicCloudDatabase
         /// record criado para ser usado no tabela Usuario
@@ -67,8 +67,10 @@ class DataBaseICloud{
             if error == nil{
                 // usuario salvo
                 print("Yaaay salvou um usuario")
-                let user = Usuario(idFamilia: idFamilia.recordName, nome: nome, pontuacao: pontuacao, foto: foto, conquista: conquista, vitoria: vitoria, derrota: derrota)
+//                let user = Usuario(idFamilia: idFamilia, nome: nome, pontuacao: pontuacao, foto: foto, conquista: conquista, vitoria: vitoria, derrota: derrota)
+                let user = Usuario(recordID: record.recordID, idFamilia: idFamilia, nome: nome, pontuacao: pontuacao, foto: foto, conquista: conquista, vitoria: vitoria, derrota: derrota)
                 self.usuarios.append(user)
+                completion(user)
             } else {
                 // usuario nao salvo
                 print("usuario nao salvou amigao")
@@ -88,7 +90,7 @@ class DataBaseICloud{
         let database = self.container.publicCloudDatabase
         
         /// identificador do primeiro usuario do array de usuarios
-        let recordUserIDFirst = self.usuarios.first!.recordID
+        let recordUserIDFirst = self.usuarios.first!.recordID!
         
         // busca o dado compativel com o id
         database.fetch(withRecordID: recordUserIDFirst) { (record, error) in
@@ -166,7 +168,8 @@ class DataBaseICloud{
         let database = self.container.publicCloudDatabase
         
         // fazendo a query do banco na tabela de usuario
-        let predicate = NSPredicate(format: "idFamilia = %@", id)
+        let predicate = NSPredicate(format: "idFamilia = %@", id.recordName)
+//        let predicate = NSPredicate(value: true)
         let query = CKQuery(recordType: "Usuario", predicate: predicate)
         
         // determina por qual atributo e qual forma sera organizado os dados buscados
@@ -191,7 +194,10 @@ class DataBaseICloud{
         operation.queryCompletionBlock = { cursor, error in
             DispatchQueue.main.async {
                 print("=========================")
-                print(self.usuarios)
+                for user in self.usuarios{
+                    print(user.nome as Any)
+                }
+//                print(self.usuarios)
                 if error != nil{
                     print(error as Any)
                 }
@@ -212,7 +218,7 @@ class DataBaseICloud{
         /// acesso ao container publico do banco
         let database = container.publicCloudDatabase
         // pega o id do usuario
-        let recordID = usuario.recordID
+        let recordID = usuario.recordID!
         
         // deleta o usuario do banco a partir do id dele
         database.delete(withRecordID: recordID) { (deletedRecordID, error) in
@@ -298,9 +304,9 @@ class DataBaseICloud{
                 // caso tenha um usuario novo, adiciona ele ao array
                 if let usuario = newUser{
                     // busca o usuario novo
-                    let recordUser = CKRecord(recordType: "Usuario", recordID: usuario.recordID)
+                    let recordUser = CKRecord(recordType: "Usuario", recordID: usuario.recordID!)
                     // adiciona o usuario ao array de usuarios
-                    let arrayUser = self.addElementoArrayReferencia(elemento: recordUser, record: record!)
+                    let arrayUser = self.addElementoArrayReferencia(elemento: recordUser, record: record!, recordType: "usuarios")
                     // adiciona a lista de usuarios como novo valor na familia
                     record?.setValue(arrayUser, forKey: "usuarios")
                 }
@@ -308,9 +314,9 @@ class DataBaseICloud{
                 // caso tenha uma atividade nova, adiciona ela ao array
                 if let atividade = newAtividade{
                     // busca atividade nova
-                    let recordAtividade = CKRecord(recordType: "Atividade", recordID: atividade.recordID)
+                    let recordAtividade = CKRecord(recordType: "Atividade", recordID: atividade.recordID!)
                     // 
-                    let arrayAtividades = self.addElementoArrayReferencia(elemento: recordAtividade, record: record!)
+                    let arrayAtividades = self.addElementoArrayReferencia(elemento: recordAtividade, record: record!, recordType: "atividades")
                     record?.setValue(arrayAtividades, forKey: "atividades")
                 }
                 
@@ -340,6 +346,8 @@ class DataBaseICloud{
     }
     
     func retrieveFamilia(id: CKRecord.ID, completion: @escaping (Familia) -> Void){
+        self.familia = nil
+        
         /// acesso ao container publico do banco
         let database = self.container.publicCloudDatabase
         
@@ -376,7 +384,7 @@ class DataBaseICloud{
                     //busca da referencia do usuario atrelado à atividade
                     database.fetch(withRecordID: CKRecord.ID(recordName: userReference.recordID.recordName)) { (recordUser, error) in
                         
-                        user = Usuario(recordID: recordUser!.recordID, idFamilia: self.familia!.recordID.recordName as NSString, nome: recordUser!["nome"] as! NSString, pontuacao: recordUser!["pontuacao"] as! NSNumber, foto: recordUser!["foto"] as? CKAsset, conquista: recordUser!["conquista"] as! [NSNumber], vitoria: recordUser!["vitoria"] as! NSNumber, derrota: recordUser!["derrota"] as! NSNumber)
+                        user = Usuario(recordID: recordUser!.recordID, idFamilia: id.recordName as NSString, nome: recordUser!["nome"] as! NSString, pontuacao: recordUser!["pontuacao"] as! NSNumber, foto: recordUser!["foto"] as? CKAsset, conquista: recordUser!["conquista"] as! [NSNumber], vitoria: recordUser!["vitoria"] as! NSNumber, derrota: recordUser!["derrota"] as! NSNumber)
                     }
                     
                     // instancia a atividade buscada
@@ -388,7 +396,7 @@ class DataBaseICloud{
             }
             
             // instancia a familia
-            self.familia = Familia(recordID: record.recordID, nome: record["nome"] as! NSString, usuarios: self.usuarios, atividades: self.atividades, penalidade: record["penalidade"] as? NSString, recompensa: record["recompensa"] as? NSString, penalidadeFlag: record["penalidadeFlag"] as! NSNumber, recompensaFlag: record["recompensaFlag"] as! NSNumber, feed: record["feed"] as! [NSString])
+            self.familia = Familia(recordID: record.recordID, nome: record["nome"] as! NSString, usuarios: self.usuarios, atividades: self.atividades, penalidade: (record["penalidade"] as? NSString)!, recompensa: (record["recompensa"] as? NSString)!, penalidadeFlag: record["penalidadeFlag"] as! NSNumber, recompensaFlag: record["recompensaFlag"] as! NSNumber, feed: record["feed"] as! [NSString])
         }
         
         // para realizar acoes apos a busca da familia no banco
@@ -396,8 +404,11 @@ class DataBaseICloud{
             DispatchQueue.main.async {
                 if error == nil {
                     // familia recuperada
-                    print("Familia recuperada")
-                    
+                    if self.familia == nil{
+                        print("nenhuma familia encontrada")
+                    } else {
+                        print("Familia recuperada")
+                    }
                 } else {
                     // familia nao recuperada
                     print("Erro na recuperacao da Familia!")
@@ -452,7 +463,7 @@ class DataBaseICloud{
         let record = CKRecord(recordType: "Atividade")
         
         // setta o usuario como uma referencia a tabela de usuarios na tabela de atividades
-        let reference = CKRecord.Reference(recordID: user.recordID, action: CKRecord_Reference_Action.none)
+        let reference = CKRecord.Reference(recordID: user.recordID!, action: CKRecord_Reference_Action.none)
         
         // settando os valores da atividade no record
         record.setValue(nome, forKey: "nome")
@@ -492,7 +503,7 @@ class DataBaseICloud{
         let recordActivityIDFirst = self.atividades.first!.recordID
         
         // busca pela atividade pelo id
-        database.fetch(withRecordID: recordActivityIDFirst) { (record, error) in
+        database.fetch(withRecordID: recordActivityIDFirst!) { (record, error) in
             if error == nil{
                 // altera o valor do nome da atividade pelo nome novo
                 record?.setValue(novoNome, forKey: "nome")
@@ -588,7 +599,7 @@ class DataBaseICloud{
         let recordID = atividade.recordID
         
         // deleta a atividade no banco a partir do ID dela
-        database.delete(withRecordID: recordID) { (deletedRecordID, error) in
+        database.delete(withRecordID: recordID!) { (deletedRecordID, error) in
             if error == nil {
                 // deletado
                 print("Deletado")
@@ -628,9 +639,9 @@ class DataBaseICloud{
         }
     }
     
-    private func addElementoArrayReferencia(elemento: CKRecord, record: CKRecord) -> [CKRecord.Reference]?{
+    private func addElementoArrayReferencia(elemento: CKRecord, record: CKRecord, recordType: String) -> [CKRecord.Reference]?{
         
-        guard var elementosArray = record[elemento.recordType] as? [CKRecord.Reference] else {
+        guard var elementosArray = record[recordType] as? [CKRecord.Reference] else {
             print("erro ao buscar array")
             return nil
         }
@@ -639,6 +650,7 @@ class DataBaseICloud{
         
         if !elementosArray.contains(reference){
             elementosArray.append(reference)
+            print("deu bom")
         }
         
         return elementosArray

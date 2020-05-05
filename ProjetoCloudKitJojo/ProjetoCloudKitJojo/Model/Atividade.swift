@@ -11,7 +11,7 @@ import CloudKit
 
 class Atividade{
 
-    var recordID: CKRecord.ID
+    var recordID: CKRecord.ID?
     var dia: Date?
     var etiqueta: String?
     var horario: Date?
@@ -50,7 +50,7 @@ class Atividade{
     }
     
     init(){
-        self.recordID = CKRecord.ID(recordName: "16DF130E-66AB-42B9-A48F-B5D1A24F05E4")
+//        self.recordID = CKRecord.ID(recordName: "16DF130E-66AB-42B9-A48F-B5D1A24F05E4")
     }
 
     private func setDia(dia: NSDate){

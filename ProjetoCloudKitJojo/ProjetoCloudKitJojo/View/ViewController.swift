@@ -42,7 +42,9 @@ class ViewController: UIViewController {
         
         banco.createFamilia(nome: familiaNome, completion: { familia in
             let familiaID = familia.recordID.recordName
-            self.banco.createUser(idFamilia: familiaID, nome: seuNome, pontuacao: 0, conquista: [false,false], vitoria: 0, derrota: 0, foto: UIImage(named: "1")!)
+            self.banco.createUser(idFamilia: familiaID, nome: seuNome, pontuacao: 0, conquista: [false,false], vitoria: 0, derrota: 0, foto: UIImage(named: "1")!, completion: { user in
+                self.banco.updateFamilia(newFamilia: self.banco.familia!, newUser: user, newAtividade: nil, newFeedInfo: nil)
+            })
         })
         
 //        let userID = banco.usuarios[0].recordID
