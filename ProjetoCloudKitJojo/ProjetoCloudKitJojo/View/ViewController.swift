@@ -41,7 +41,7 @@ class ViewController: UIViewController {
         guard let familiaNome = nomeFamilia.text else { return }
         
         banco.createFamilia(nome: familiaNome, completion: { familia in
-            let familiaID = familia.recordID
+            let familiaID = familia.recordID.recordName
             self.banco.createUser(idFamilia: familiaID, nome: seuNome, pontuacao: 0, conquista: [false,false], vitoria: 0, derrota: 0, foto: UIImage(named: "1")!)
         })
         

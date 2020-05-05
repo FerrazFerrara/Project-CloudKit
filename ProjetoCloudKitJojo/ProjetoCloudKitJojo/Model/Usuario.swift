@@ -13,7 +13,7 @@ import CloudKit
 class Usuario{
     
     var recordID: CKRecord.ID
-    var idFamilia: CKRecord.ID
+    var idFamilia: String?
     var nome: String?
     var pontuacao: Int?
     var foto: UIImage?
@@ -21,7 +21,7 @@ class Usuario{
     var vitoria: Int?
     var derrota: Int?
     
-    init(idFamilia: CKRecord.ID, nome: String, pontuacao: Int, foto: UIImage?, conquista: [Bool], vitoria: Int, derrota: Int) {
+    init(idFamilia: String, nome: String, pontuacao: Int, foto: UIImage?, conquista: [Bool], vitoria: Int, derrota: Int) {
         self.recordID = CKRecord.ID(recordName: "08B8053A-C041-4CEF-B3B8-B6F07A184AD2")
         self.idFamilia = idFamilia
         self.pontuacao = pontuacao
@@ -32,9 +32,9 @@ class Usuario{
         self.derrota = derrota
     }
     
-    init(recordID: CKRecord.ID, idFamilia: CKRecord.ID, nome: NSString, pontuacao: NSNumber, foto: CKAsset?, conquista: [NSNumber], vitoria: NSNumber, derrota: NSNumber) {
+    init(recordID: CKRecord.ID, idFamilia: NSString, nome: NSString, pontuacao: NSNumber, foto: CKAsset?, conquista: [NSNumber], vitoria: NSNumber, derrota: NSNumber) {
         self.recordID = recordID
-        self.idFamilia = idFamilia
+        self.idFamilia = idFamilia as String
         setNome(nome: nome)
         setPontuacao(pontuacao: pontuacao)
         setFoto(foto: foto)
@@ -45,7 +45,6 @@ class Usuario{
     
     init(){
         self.recordID = CKRecord.ID(recordName: "08B8053A-C041-4CEF-B3B8-B6F07A184AD2")
-        self.idFamilia = CKRecord.ID(recordName: "08B8053A-C041-4CEF-B3B8-B6F07A184AD2")
     }
 
     
