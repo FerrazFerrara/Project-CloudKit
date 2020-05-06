@@ -702,11 +702,10 @@ class DataBaseICloud{
         }
     }
     
-    public func retrieveDadosPrivateUsuario(familiaUsuario completion: @escaping (String, String) -> Void){
+    public func retrieveFirstPrivateUsuario(familiaUsuario completion: @escaping (String?, String?) -> Void){
         
-        // User Default
-        var idFamilia = String()
-        var idUsuario = String()
+        var idFamilia: String? = nil
+        var idUsuario: String? = nil
         
         let databasePrivate = self.container.privateCloudDatabase
         
@@ -718,9 +717,8 @@ class DataBaseICloud{
         let operationPrivate = CKQueryOperation(query: queryPrivate)
         
         operationPrivate.recordFetchedBlock = { record in
-            
-            idFamilia = record["recordNameFamilia"] as! String
-            idUsuario = record["recordNameUsuario"] as! String
+            idFamilia = record["recordNameFamilia"] as String?
+            idUsuario = record["recordNameUsuario"] as String?
         }
         
         // para realizar acoes após a busca de dados no banco
@@ -729,7 +727,6 @@ class DataBaseICloud{
                 if error != nil{
                     print(error as Any)
                 }else{
-                    print("deu bom")
                     completion(idFamilia, idUsuario)
                 }
             }
@@ -741,8 +738,9 @@ class DataBaseICloud{
     public func retrievePrivateUsuario(){
         
         // User Default
-        var idFamilia = String()
-        var idUsuario = String()
+        let defaults = UserDefaults.standard
+        
+        let idFamilia = defaults.string(forKey: "idFamilia")!
         
         let databasePublic = self.container.publicCloudDatabase
         
@@ -761,6 +759,5 @@ class DataBaseICloud{
         }
         
         databasePublic.add(operationPublic)
-        
     }
 }
