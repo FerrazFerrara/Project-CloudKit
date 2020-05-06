@@ -12,7 +12,7 @@ import CloudKit
 class Atividade{
 
     var recordID: CKRecord.ID?
-    var dia: Date?
+    var dia: String?
     var etiqueta: String?
     var horario: Date?
     var nome: String?
@@ -23,7 +23,7 @@ class Atividade{
     var usuario: Usuario?
 
     
-    init(recordID: CKRecord.ID, dia: Date, etiqueta: String, horario: Date, nome: String, pontuacao: Int, repeticao: Int, user: Usuario?, dataFeito: Date?, realizou: Bool) {
+    init(recordID: CKRecord.ID, dia: String?, etiqueta: String, horario: Date, nome: String, pontuacao: Int, repeticao: Int, user: Usuario?, dataFeito: Date?, realizou: Bool) {
         self.recordID = recordID
         self.dia = dia
         self.etiqueta = etiqueta
@@ -36,7 +36,7 @@ class Atividade{
         self.usuario = user
     }
 
-    init(recordID: CKRecord.ID, dia: NSDate, etiqueta: NSString, horario: NSDate, nome: NSString, pontuacao: NSNumber, repeticao: NSNumber, usuario: Usuario?, dataFeito: NSDate?, realizou: NSNumber) {
+    init(recordID: CKRecord.ID, dia: NSString, etiqueta: NSString, horario: NSDate, nome: NSString, pontuacao: NSNumber, repeticao: NSNumber, usuario: Usuario?, dataFeito: NSDate?, realizou: NSNumber) {
         self.recordID = recordID
         setDia(dia: dia)
         setEtiqueta(etiqueta: etiqueta)
@@ -53,8 +53,8 @@ class Atividade{
 //        self.recordID = CKRecord.ID(recordName: "16DF130E-66AB-42B9-A48F-B5D1A24F05E4")
     }
 
-    private func setDia(dia: NSDate){
-        self.dia = dia as Date
+    private func setDia(dia: NSString){
+        self.dia = dia as String
     }
     
     private func setEtiqueta(etiqueta: NSString){

@@ -388,7 +388,7 @@ class DataBaseICloud{
                     }
                     
                     // instancia a atividade buscada
-                    let activity = Atividade(recordID: recordActivity!.recordID, dia: recordActivity!["dia"] as! NSDate, etiqueta: recordActivity!["etiqueta"] as! NSString, horario: recordActivity!["horario"] as! NSDate, nome: recordActivity!["nome"] as! NSString, pontuacao: recordActivity!["pontuacao"] as! NSNumber, repeticao: recordActivity!["repeticao"] as! NSNumber, usuario: user, dataFeito: recordActivity!["dataFeito"] as? NSDate, realizou: recordActivity!["realizou"] as! NSNumber)
+                    let activity = Atividade(recordID: recordActivity!.recordID, dia: recordActivity!["dia"] as! NSString, etiqueta: recordActivity!["etiqueta"] as! NSString, horario: recordActivity!["horario"] as! NSDate, nome: recordActivity!["nome"] as! NSString, pontuacao: recordActivity!["pontuacao"] as! NSNumber, repeticao: recordActivity!["repeticao"] as! NSNumber, usuario: user, dataFeito: recordActivity!["dataFeito"] as? NSDate, realizou: recordActivity!["realizou"] as! NSNumber)
                     
                     // adiciona a atividade ao array de atividades
                     self.atividades.append(activity)
@@ -456,7 +456,7 @@ class DataBaseICloud{
      - etiqueta: etiqueta que identifica de onde a atividade é
      - user: usuario que realizou a atividade
      */
-    func createAtividade(nome: String, pontuacao: Int, dia: Date, horario: Date, repete: Int, etiqueta: String, user: Usuario){
+    func createAtividade(nome: String, pontuacao: Int, dia: String?, horario: Date, repete: Int, etiqueta: String, completion: @escaping (Atividade) -> Void){
         /// acesso ao container publico do banco
         let database = container.publicCloudDatabase
         
@@ -464,24 +464,28 @@ class DataBaseICloud{
         let record = CKRecord(recordType: "Atividade")
         
         // setta o usuario como uma referencia a tabela de usuarios na tabela de atividades
-        let reference = CKRecord.Reference(recordID: user.recordID!, action: CKRecord_Reference_Action.none)
+//        let reference = CKRecord.Reference(recordID: user.recordID!, action: CKRecord_Reference_Action.none)
         
         // settando os valores da atividade no record
         record.setValue(nome, forKey: "nome")
         record.setValue(pontuacao, forKey: "pontuacao")
-        record.setValue(dia, forKey: "dia")
+        if let diaA = dia{
+           record.setValue(diaA, forKey: "dia")
+        }
         record.setValue(horario, forKey: "horario")
         record.setValue(repete, forKey: "repeticao")
         record.setValue(etiqueta, forKey: "etiqueta")
         record.setValue(false, forKey: "realizou")
         //        record.setValue(, forKey: "dataFeito")
-        record.setValue(reference, forKey: "usuario")
+//        record.setValue(reference, forKey: "usuario")
         
         // salva o record no banco
         database.save(record) { (recordSave, error) in
             if error == nil{
                 // salvos com sucesso
                 print("Yaaay salvou uma atividade")
+                let atividade = Atividade(recordID: recordSave!.recordID, dia: dia, etiqueta: etiqueta, horario: horario, nome: nome, pontuacao: pontuacao, repeticao: repete, user: nil, dataFeito: nil, realizou: false)
+                completion(atividade)
             } else {
                 // nao salvos
                 print("Atividade nao salvou amigao")
@@ -562,7 +566,7 @@ class DataBaseICloud{
                 user = Usuario(recordID: recordUser!.recordID, idFamilia: self.familia!.recordID.recordName as NSString, nome: recordUser!["nome"] as! NSString, pontuacao: recordUser!["pontuacao"] as! NSNumber, foto: recordUser!["foto"] as? CKAsset, conquista: recordUser!["conquista"] as! [NSNumber], vitoria: recordUser!["vitoria"] as! NSNumber, derrota: recordUser!["derrota"] as! NSNumber)
                 
                 // instancia a atividade buscada
-                let activity = Atividade(recordID: record.recordID, dia: record["dia"] as! NSDate, etiqueta: record["etiqueta"] as! NSString, horario: record["horario"] as! NSDate, nome: record["nome"] as! NSString, pontuacao: record["pontuacao"] as! NSNumber, repeticao: record["repeticao"] as! NSNumber, usuario: user, dataFeito: record["dataFeito"] as? NSDate, realizou: record["realizou"] as! NSNumber)
+                let activity = Atividade(recordID: record.recordID, dia: record["dia"] as! NSString, etiqueta: record["etiqueta"] as! NSString, horario: record["horario"] as! NSDate, nome: record["nome"] as! NSString, pontuacao: record["pontuacao"] as! NSNumber, repeticao: record["repeticao"] as! NSNumber, usuario: user, dataFeito: record["dataFeito"] as? NSDate, realizou: record["realizou"] as! NSNumber)
                 
                 // adiciona a atividade ao array de atividadess
                 self.atividades.append(activity)
