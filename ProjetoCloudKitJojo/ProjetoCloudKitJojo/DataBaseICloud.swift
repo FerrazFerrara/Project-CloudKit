@@ -812,7 +812,7 @@ class DataBaseICloud{
         databasePrivate.add(operationPrivate)
     }
     
-    public func retrievePrivateUsuario(){
+    public func retrievePrivateUsuario(completion: @escaping () -> Void){
         
         // User Default
         let defaults = UserDefaults.standard
@@ -833,6 +833,16 @@ class DataBaseICloud{
             self.retrieveFamilia(id: record["recordID"] as! CKRecord.ID, completion: { familia in
                 self.familia = familia
             })
+        }
+        
+        operationPublic.queryCompletionBlock = { cursor, error in
+            DispatchQueue.main.async {
+                if error != nil{
+                    print(error as Any)
+                }else{
+                    completion()
+                }
+            }
         }
         
         databasePublic.add(operationPublic)
