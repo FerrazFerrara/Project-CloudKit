@@ -17,8 +17,34 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
+        var createdUser: Bool = false
+        
+        if(UserDefaults.standard.string(forKey: "idFamilia") != nil){
+               
+            createdUser = true
+            
+        }else{
+            
+             banco.retrieveFirstPrivateUsuario(familiaUsuario:{ idFamilia, idUsuario in
+                if(idFamilia != nil){
+                    createdUser = true
+                    UserDefaults.standard.set(idFamilia, forKey: "idFamila")
+                    UserDefaults.standard.set(idUsuario, forKey: "idUsuario")
+                }
+            })
+        }
+        
+        if(createdUser){
+            self.banco.retrievePrivateUsuario(completion: {
+                
+                // Chama tela de familia
+            })
+        }else{
+                // Chama tela de cadastro
+        }
     }
+    
     @IBAction func salvarBtn(_ sender: Any) {
         
         
@@ -45,6 +71,9 @@ class ViewController: UIViewController {
             self.banco.createUser(idFamilia: familiaID, nome: seuNome, pontuacao: 0, conquista: [false,false], vitoria: 0, derrota: 0, foto: UIImage(named: "1")!, completion: { user in
                 self.banco.updateFamilia(newFamilia: self.banco.familia!, newUser: user, newAtividade: nil, newFeedInfo: nil)
                 self.banco.createPrivateUsuario(idFamilia: familia.recordID.recordName, idUser: user.recordID!.recordName)
+                
+                UserDefaults.standard.set(familia.recordID.recordName, forKey: "idFamilia")
+                UserDefaults.standard.set(user.recordID?.recordName, forKey: "idUsuario")
             })
         })
         
