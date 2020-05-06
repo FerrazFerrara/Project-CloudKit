@@ -706,16 +706,16 @@ class DataBaseICloud{
         }
     }
     
-    public func retrievePrivateUsuario(){
+    public func retrieveDadosPrivateUsuario(familiaUsuario completion: @escaping (String, String) -> Void){
+        
+        // User Default
+        var idFamilia = String()
+        var idUsuario = String()
         
         let databasePrivate = self.container.privateCloudDatabase
-        let databasePublic = self.container.publicCloudDatabase
         
         let predicatePrivate = NSPredicate(value: true)
         let queryPrivate = CKQuery(recordType: "UsuarioPrivado", predicate: predicatePrivate)
-        
-        var idFamilia = String()
-        var idUsuario = String()
         
         queryPrivate.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
         
@@ -727,6 +727,29 @@ class DataBaseICloud{
             idUsuario = record["recordNameUsuario"] as! String
         }
         
+        // para realizar acoes após a busca de dados no banco
+        operationPrivate.queryCompletionBlock = { cursor, error in
+            DispatchQueue.main.async {
+                if error != nil{
+                    print(error as Any)
+                }else{
+                    print("deu bom")
+                    completion(idFamilia, idUsuario)
+                }
+            }
+        }
+        
+        databasePrivate.add(operationPrivate)
+    }
+    
+    public func retrievePrivateUsuario(){
+        
+        // User Default
+        var idFamilia = String()
+        var idUsuario = String()
+        
+        let databasePublic = self.container.publicCloudDatabase
+        
         let predicatePublic = NSPredicate(format: "recordName = %@", idFamilia)
         let queryPublic = CKQuery(recordType: "Familia", predicate: predicatePublic)
         
@@ -736,33 +759,12 @@ class DataBaseICloud{
         
         operationPublic.recordFetchedBlock = { record in
             
-            self.retrieveFamilia(id: record["recordID"] as! CKRecord.ID, completion: { _ in
-                
+            self.retrieveFamilia(id: record["recordID"] as! CKRecord.ID, completion: { familia in
+                self.familia = familia
             })
         }
         
-        // para realizar acoes após a busca de dados no banco
-        operationPrivate.queryCompletionBlock = { cursor, error in
-            DispatchQueue.main.async {
-                if error != nil{
-                    print(error as Any)
-                }else{
-                    print("deu bom")
-                    databasePublic.add(operationPublic)
-                }
-            }
-        }
+        databasePublic.add(operationPublic)
         
-        operationPrivate.queryCompletionBlock = { cursor, error in
-            DispatchQueue.main.async {
-                if error != nil{
-                    print(error as Any)
-                }else{
-                    print("deu bom")
-                }
-            }
-        }
-        
-        databasePrivate.add(operationPrivate)
     }
 }
