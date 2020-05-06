@@ -85,15 +85,15 @@ class DataBaseICloud{
      - Parameters:
      - novoNome: nome que será sobrescrito no nome atual do usuario
      */
-    func updateUser(novoNome: String){
+    func updateUser(user: Usuario){
         /// acesso ao container publico do banco
         let database = self.container.publicCloudDatabase
         
         /// identificador do primeiro usuario do array de usuarios
-        let recordUserIDFirst = self.usuarios.first!.recordID!
+        guard let userRecord = user.recordID else { return }
         
         // busca o dado compativel com o id
-        database.fetch(withRecordID: recordUserIDFirst) { (record, error) in
+        database.fetch(withRecordID: userRecord) { (record, error) in
             if error == nil{
                 // id encontrado
                 // armazena o novo valor
@@ -113,6 +113,36 @@ class DataBaseICloud{
             }
         }
     }
+    
+    func addPontosUser(user: Usuario){
+        /// acesso ao container publico do banco
+        let database = self.container.publicCloudDatabase
+        
+        /// identificador do primeiro usuario do array de usuarios
+        guard let userID = user.recordID else { return }
+        
+        // busca o dado compativel com o id
+        database.fetch(withRecordID: userID) { (record, error) in
+            if error == nil{
+                // id encontrado
+                // armazena o novo valor
+                record?.setValue(user.pontuacao, forKey: "pontuacao")
+                
+                // salva o dado novamente
+                database.save(record!) { (newRecord, error) in
+                    if error == nil{
+                        print("Adicionou pontos pro usuario")
+                    } else {
+                        print("Deu ruim pra add ponto aq")
+                    }
+                }
+            } else {
+                // id nao encontrado
+                print("nao rolou de buscar os dados")
+            }
+        }
+    }
+    
     
     /**
      Busca os dados da tabela de usuarios do banco
@@ -530,6 +560,49 @@ class DataBaseICloud{
         }
     }
     
+    func atividadeRealizada(atividade: Atividade){
+        /// acesso ao container publico do banco
+        let database = self.container.publicCloudDatabase
+        
+        // pega o recordID da primeira atividade do array de atividades
+        guard let atividadeID = atividade.recordID else { return }
+        guard let user = self.actualUser() else { return }
+        guard let userID = user.recordID else { return }
+        
+        // setta o usuario como uma referencia a tabela de usuarios na tabela de atividades
+        let reference = CKRecord.Reference(recordID: userID, action: CKRecord_Reference_Action.none)
+        
+        let currentDateTime = Date()
+        
+        // busca pela atividade pelo id
+        database.fetch(withRecordID: atividadeID) { (record, error) in
+            if error == nil{
+                // altera o valor do nome da atividade pelo nome novo
+                record?.setValue(currentDateTime, forKey: "dataFeito")
+                record?.setValue(true, forKey: "realizada")
+                record?.setValue(reference, forKey: "usuario")
+                
+                // salva o record com a alteracao feita
+                database.save(record!) { (newRecord, error) in
+                    if error == nil{
+                        // salvo
+                        print("Deu update tranquilo aq")
+                    } else {
+                        // nao salvo
+                        print("Deu ruim no update aq bro")
+                    }
+                }
+            } else {
+                // nao encontrou a atividade
+                print("nao rolou de buscar os dados")
+            }
+        }
+        
+        user.pontuacao! += atividade.pontuacao!
+        
+        self.addPontosUser(user: user)
+    }
+    
     /**
      Busca as atividades do iCloud
      */
@@ -763,5 +836,17 @@ class DataBaseICloud{
         }
         
         databasePublic.add(operationPublic)
+    }
+    
+    private func actualUser() -> Usuario?{
+        let recordName = UserDefaults.standard.string(forKey: "recordNameUsuario")
+        
+        for user in self.usuarios{
+            if user.recordID?.recordName == recordName{
+                return user
+            }
+        }
+        
+        return nil
     }
 }
