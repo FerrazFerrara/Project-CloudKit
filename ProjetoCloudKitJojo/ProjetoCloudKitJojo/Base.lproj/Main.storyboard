@@ -81,17 +81,22 @@
                                 <state key="normal" title="Criar Familia"/>
                                 <connections>
                                     <action selector="criarFamilia:" destination="U2g-bD-ZRb" eventType="touchUpInside" id="Gvr-hh-yJR"/>
-                                    <segue destination="7VA-1i-5qM" kind="show" id="fUJ-vc-YaN"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="7Bd-4E-beF">
+                                <rect key="frame" x="178" y="515" width="59" height="59"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="Q2b-KS-4Yg"/>
                     </view>
                     <navigationItem key="navigationItem" id="Pi0-nI-63B"/>
                     <connections>
+                        <outlet property="activityIndicator" destination="7Bd-4E-beF" id="VdM-LM-EDp"/>
                         <outlet property="nome" destination="m9d-Gy-em9" id="lfj-nW-Mfp"/>
                         <outlet property="nomeFamilia" destination="HJn-yg-d8j" id="kFg-xX-EDx"/>
+                        <segue destination="7VA-1i-5qM" kind="show" identifier="goToAtividades" id="JlV-eW-gYW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Tk4-x0-rMa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -159,7 +164,7 @@
         <!--Atividade View Controller-->
         <scene sceneID="UqB-Ju-IjY">
             <objects>
-                <viewController id="7VA-1i-5qM" customClass="AtividadeViewController" customModule="ProjetoCloudKitJojo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="selecaoVC" id="7VA-1i-5qM" customClass="AtividadeViewController" customModule="ProjetoCloudKitJojo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="gkc-UL-Pwv">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -305,6 +310,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="uFj-0T-P8g"/>
+        <segue reference="JlV-eW-gYW"/>
     </inferredMetricsTieBreakers>
 </document>
