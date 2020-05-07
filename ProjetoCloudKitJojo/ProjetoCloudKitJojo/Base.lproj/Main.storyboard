@@ -10,7 +10,7 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="ProjetoCloudKitJojo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="InicioVC" id="BYZ-38-t0r" customClass="ViewController" customModule="ProjetoCloudKitJojo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -81,7 +81,7 @@
                                 <state key="normal" title="Criar Familia"/>
                                 <connections>
                                     <action selector="criarFamilia:" destination="U2g-bD-ZRb" eventType="touchUpInside" id="Gvr-hh-yJR"/>
-                                    <segue destination="7VA-1i-5qM" kind="show" id="FVV-Pq-pJ9"/>
+                                    <segue destination="7VA-1i-5qM" kind="show" id="fUJ-vc-YaN"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -139,7 +139,7 @@
                                 <connections>
                                     <action selector="criarFamilia:" destination="U2g-bD-ZRb" eventType="touchUpInside" id="ICd-kB-pjB"/>
                                     <action selector="entrarFamilia:" destination="FS8-lA-Ed7" eventType="touchUpInside" id="Vhi-4f-9h7"/>
-                                    <segue destination="7VA-1i-5qM" kind="show" id="hSe-sw-Ipb"/>
+                                    <segue destination="7VA-1i-5qM" kind="show" id="uFj-0T-P8g"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -305,6 +305,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="hSe-sw-Ipb"/>
+        <segue reference="uFj-0T-P8g"/>
     </inferredMetricsTieBreakers>
 </document>

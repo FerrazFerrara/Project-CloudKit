@@ -17,32 +17,6 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        var createdUser: Bool = false
-        
-        if(UserDefaults.standard.string(forKey: "idFamilia") != nil){
-               
-            createdUser = true
-            
-        }else{
-            
-             banco.retrieveFirstPrivateUsuario(familiaUsuario:{ idFamilia, idUsuario in
-                if(idFamilia != nil){
-                    createdUser = true
-                    UserDefaults.standard.set(idFamilia, forKey: "idFamila")
-                    UserDefaults.standard.set(idUsuario, forKey: "idUsuario")
-                }
-            })
-        }
-        
-        if(createdUser){
-            self.banco.retrievePrivateUsuario(completion: {
-                
-                // Chama tela de familia
-            })
-        }else{
-                // Chama tela de cadastro
-        }
     }
     
     @IBAction func salvarBtn(_ sender: Any) {

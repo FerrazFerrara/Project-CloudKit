@@ -11,12 +11,46 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-
+     let banco = DataBaseICloud.shared
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
+        
+        
+        var createdUser: Bool = false
+        var storyboard = UIStoryboard()
+        var vc = UIViewController()
+        
+        
+        if(UserDefaults.standard.string(forKey: "idFamilia") != nil){
+            createdUser = true
+            
+        }else{
+             banco.retrieveFirstPrivateUsuario(familiaUsuario:{ idFamilia, idUsuario in
+                if(idFamilia != nil){
+                    createdUser = true
+                    UserDefaults.standard.set(idFamilia, forKey: "idFamila")
+                    UserDefaults.standard.set(idUsuario, forKey: "idUsuario")
+                }
+            })
+        }
+        
+        if(createdUser){
+            self.banco.retrievePrivateUsuario(completion: {
+                storyboard = UIStoryboard(name: "apresentaUser", bundle: nil)
+                vc = storyboard.instantiateViewController(identifier: "UsuarioVC")
+            })
+            
+        }else{
+            storyboard = UIStoryboard(name: "Main", bundle: nil)
+            vc = storyboard.instantiateViewController(identifier: "InicioVC")
+                
+        }
+        
+        window?.rootViewController = vc
+        
         guard let _ = (scene as? UIWindowScene) else { return }
     }
 
