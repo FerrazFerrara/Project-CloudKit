@@ -18,8 +18,6 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-//        NotificationCenter.default.addObserver(self, selector: #selector(self.goToData), name: NSNotification.Name(rawValue: "didFinishUserDefaultObserver"), object: nil)
     }
     
     @IBAction func salvarBtn(_ sender: Any) {
@@ -44,15 +42,16 @@ class ViewController: UIViewController {
         guard let familiaNome = nomeFamilia.text else { return }
         
         activityIndicator.startAnimating()
-        
         banco.createFamilia(nome: familiaNome, completion: { familia in
             let familiaID = familia.recordID.recordName
             self.banco.createUser(idFamilia: familiaID, nome: seuNome, pontuacao: 0, conquista: [false,false], vitoria: 0, derrota: 0, foto: UIImage(named: "1")!, completion: { user in
                 self.banco.updateFamilia(newFamilia: self.banco.familia!, newUser: user, newAtividade: nil, newFeedInfo: nil)
                 self.banco.createPrivateUsuario(idFamilia: familia.recordID.recordName, idUser: user.recordID!.recordName)
+                
+                UserDefaults.standard.set(familia.recordID.recordName, forKey: "idFamilia")
+                UserDefaults.standard.set(user.recordID?.recordName, forKey: "idUsuario")
             })
         })
-        
         activityIndicator.stopAnimating()
         performSegue(withIdentifier: "goToAtividades", sender: self)
     }
