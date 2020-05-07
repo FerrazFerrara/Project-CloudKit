@@ -7,14 +7,31 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--apresentaUser-->
+        <scene sceneID="JDl-XZ-Qhu">
+            <objects>
+                <viewControllerPlaceholder storyboardName="apresentaUser" id="ZCU-ij-1sc" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="Din-9o-Yxo"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="O8k-ti-vlk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4086" y="-785"/>
+        </scene>
+        <!--Apresenta Atividade View Controller-->
         <scene sceneID="0hY-h7-gRL">
             <objects>
-                <viewController id="TqV-8h-Yqf" sceneMemberID="viewController">
+                <viewController id="TqV-8h-Yqf" customClass="ApresentaAtividadeViewController" customModule="ProjetoCloudKitJojo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="NB1-5f-WgB">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Atividades" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vtz-5u-GMT">
+                                <rect key="frame" x="167" y="44" width="80" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="c3e-ey-xlB">
                                 <rect key="frame" x="0.0" y="126" width="414" height="682"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -42,38 +59,39 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9aP-Y8-ddD">
-                                                    <rect key="frame" x="339" y="6" width="64" height="30"/>
+                                                    <rect key="frame" x="330" y="6" width="64" height="30"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <state key="normal" title="complete"/>
                                                     <connections>
+                                                        <action selector="complete:" destination="kZP-yV-7kF" eventType="touchUpInside" id="2GK-Lu-fd9"/>
                                                         <action selector="complete:" destination="hib-7l-tSM" eventType="touchUpInside" id="sXU-V6-Cdk"/>
-                                                    </connections>
-                                                </button>
-                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="op9-Od-hAO">
-                                                    <rect key="frame" x="277" y="6" width="30" height="30"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <state key="normal" title="edit"/>
-                                                    <connections>
-                                                        <action selector="edit:" destination="hib-7l-tSM" eventType="touchUpInside" id="4Gf-nX-HFJ"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="nome" destination="nkB-kL-QsS" id="hw1-Yf-fFx"/>
+                                            <outlet property="pontos" destination="IVr-zv-Yzk" id="ejT-fa-h8c"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Atividades" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vtz-5u-GMT">
-                                <rect key="frame" x="167" y="44" width="80" height="21"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yfG-jF-TWd">
+                                <rect key="frame" x="20" y="44" width="38" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                                <state key="normal" title="users"/>
+                                <connections>
+                                    <segue destination="ZCU-ij-1sc" kind="show" id="v6y-ng-GE9"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="XnP-ke-i1w"/>
                     </view>
                     <navigationItem key="navigationItem" id="GSj-Uo-4k2"/>
+                    <connections>
+                        <outlet property="tableViewA" destination="c3e-ey-xlB" id="Zzb-8K-ZaZ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="y1b-r4-I16" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="hib-7l-tSM" userLabel="Exit" sceneMemberID="exit"/>

@@ -25,6 +25,8 @@
 		7B0B4F2824647C3600D5A87E /* CustomCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0B4F2724647C3600D5A87E /* CustomCells.swift */; };
 		7B0B4F2A2464823400D5A87E /* apresentaAtividade.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7B0B4F292464823400D5A87E /* apresentaAtividade.storyboard */; };
 		7B0B4F2C2464825F00D5A87E /* apresentaUser.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7B0B4F2B2464825F00D5A87E /* apresentaUser.storyboard */; };
+		7B0B4F302464855A00D5A87E /* ApresentaUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0B4F2F2464855A00D5A87E /* ApresentaUserViewController.swift */; };
+		7B0B4F322464856A00D5A87E /* ApresentaAtividadeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0B4F312464856A00D5A87E /* ApresentaAtividadeViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,6 +51,8 @@
 		7B0B4F2724647C3600D5A87E /* CustomCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCells.swift; sourceTree = "<group>"; };
 		7B0B4F292464823400D5A87E /* apresentaAtividade.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = apresentaAtividade.storyboard; sourceTree = "<group>"; };
 		7B0B4F2B2464825F00D5A87E /* apresentaUser.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = apresentaUser.storyboard; sourceTree = "<group>"; };
+		7B0B4F2F2464855A00D5A87E /* ApresentaUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApresentaUserViewController.swift; sourceTree = "<group>"; };
+		7B0B4F312464856A00D5A87E /* ApresentaAtividadeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApresentaAtividadeViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +92,8 @@
 				7B0B4EE124575C1F00D5A87E /* ViewController.swift */,
 				7B0B4F23245B54C800D5A87E /* AtividadeViewController.swift */,
 				7B0B4F25245B600600D5A87E /* FamiliaViewController.swift */,
+				7B0B4F312464856A00D5A87E /* ApresentaAtividadeViewController.swift */,
+				7B0B4F2F2464855A00D5A87E /* ApresentaUserViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -216,12 +222,14 @@
 				7B0B4EE224575C1F00D5A87E /* ViewController.swift in Sources */,
 				49D07ABA2458C9B5003C43DA /* Usuario.swift in Sources */,
 				49D07AB82458C988003C43DA /* TesteViewModel.swift in Sources */,
+				7B0B4F302464855A00D5A87E /* ApresentaUserViewController.swift in Sources */,
 				49D07ABE2458C9CF003C43DA /* Atividade.swift in Sources */,
 				7B0B4F26245B600600D5A87E /* FamiliaViewController.swift in Sources */,
 				7B0B4F24245B54C800D5A87E /* AtividadeViewController.swift in Sources */,
 				49D07AC02458CC4E003C43DA /* DataBaseICloud.swift in Sources */,
 				7B0B4EDE24575C1F00D5A87E /* AppDelegate.swift in Sources */,
 				7B0B4F2824647C3600D5A87E /* CustomCells.swift in Sources */,
+				7B0B4F322464856A00D5A87E /* ApresentaAtividadeViewController.swift in Sources */,
 				7B0B4EE024575C1F00D5A87E /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
