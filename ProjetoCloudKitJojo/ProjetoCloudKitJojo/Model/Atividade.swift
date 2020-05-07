@@ -21,9 +21,10 @@ class Atividade{
     var realizou: Bool?
     var dataFeito: Date?
     var usuario: Usuario?
-
+    var idFamilia: String?
     
-    init(recordID: CKRecord.ID, dia: String?, etiqueta: String, horario: Date, nome: String, pontuacao: Int, repeticao: Int, user: Usuario?, dataFeito: Date?, realizou: Bool) {
+    init(recordID: CKRecord.ID, idFamilia: String?, dia: String?, etiqueta: String, horario: Date, nome: String, pontuacao: Int, repeticao: Int, user: Usuario?, dataFeito: Date?, realizou: Bool) {
+        self.idFamilia = idFamilia
         self.recordID = recordID
         self.dia = dia
         self.etiqueta = etiqueta
@@ -36,7 +37,8 @@ class Atividade{
         self.usuario = user
     }
 
-    init(recordID: CKRecord.ID, dia: NSString, etiqueta: NSString, horario: NSDate, nome: NSString, pontuacao: NSNumber, repeticao: NSNumber, usuario: Usuario?, dataFeito: NSDate?, realizou: NSNumber) {
+    init(recordID: CKRecord.ID, idFamilia: String?, dia: NSString, etiqueta: NSString, horario: NSDate, nome: NSString, pontuacao: NSNumber, repeticao: NSNumber, usuario: Usuario?, dataFeito: NSDate?, realizou: NSNumber) {
+        self.idFamilia = idFamilia
         self.recordID = recordID
         setDia(dia: dia)
         setEtiqueta(etiqueta: etiqueta)
