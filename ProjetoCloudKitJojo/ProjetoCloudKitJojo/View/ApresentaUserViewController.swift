@@ -16,22 +16,28 @@ class ApresentaUserViewController: UIViewController{
     var usuarios = [Usuario]()
     
     override func viewDidLoad() {
-//        tabelViewU.delegate = self
-//        tabelViewU.dataSource = self
+        tabelViewU.delegate = self
+        tabelViewU.dataSource = self
+    }
+    @IBAction func reloadBtn(_ sender: Any) {
+        tabelViewU.reloadData()
     }
 }
 
-//extension ApresentaUserViewController: UITableViewDelegate, UITableViewDataSource{
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        let banco = DataBaseICloud.shared
-//        var userCount = 0
-//        banco.retrieveUser2(id: banco.familia!.recordID) { (users) in
-//            
-//        }
-//        return userCount
-//    }
-//    
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        
-//    }
-//}
+extension ApresentaUserViewController: UITableViewDelegate, UITableViewDataSource{
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        let banco = DataBaseICloud.shared
+        banco.retrieveUser2(id: banco.familia!.recordID) { (users) in
+            self.usuarios = users
+        }
+        return self.usuarios.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cellU", for: indexPath) as! CustomCellUser
+        cell.nome.text = usuarios[indexPath.row].nome
+        cell.pontos.text = "\(usuarios[indexPath.row].pontuacao!)"
+        
+        return cell
+    }
+}
