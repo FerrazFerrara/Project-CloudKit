@@ -43,6 +43,7 @@ extension ApresentaAtividadeViewController: UITableViewDelegate, UITableViewData
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellA", for: indexPath) as! CustomCellAtividade
         cell.nome.text = atividades[indexPath.row].nome
         cell.pontos.text = "\(atividades[indexPath.row].pontuacao!)"
+        cell.atividade = atividades[indexPath.row]
         
         return cell
     }
