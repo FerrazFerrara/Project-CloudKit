@@ -660,7 +660,7 @@ class DataBaseICloud{
                 activity = Atividade(recordID: record.recordID, dia: record["dia"] as! NSString, etiqueta: record["etiqueta"] as! NSString, horario: record["horario"] as! NSDate, nome: record["nome"] as! NSString, pontuacao: record["pontuacao"] as! NSNumber, repeticao: record["repeticao"] as! NSNumber, usuario: nil, dataFeito: nil, realizou: false)
             }
             // adiciona a atividade ao array de atividadess
-//            self.atividades.append(activity)
+            self.atividades.append(activity)
             atividadesFamilia.append(activity)
         }
         

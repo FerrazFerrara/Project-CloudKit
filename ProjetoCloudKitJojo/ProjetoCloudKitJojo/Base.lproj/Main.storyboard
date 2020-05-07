@@ -246,6 +246,15 @@
                                 <state key="normal" title="buscar atividades da familia"/>
                                 <connections>
                                     <action selector="buscarBtn:" destination="7VA-1i-5qM" eventType="touchUpInside" id="Ztb-Jh-a1e"/>
+                                    <segue destination="Bbv-5m-yVS" kind="show" id="dyX-8g-GS3"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Yu-Cd-fGU">
+                                <rect key="frame" x="118" y="706" width="179" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="buscar usuarios da familia"/>
+                                <connections>
+                                    <segue destination="NlV-7T-Beq" kind="show" id="6A3-IN-nyg"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HN9-yC-Mo6">
@@ -273,6 +282,26 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TaP-pg-389" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3250.7246376811595" y="-305.35714285714283"/>
+        </scene>
+        <!--apresentaAtividade-->
+        <scene sceneID="Fwv-rE-V8v">
+            <objects>
+                <viewControllerPlaceholder storyboardName="apresentaAtividade" id="Bbv-5m-yVS" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="dRF-Gw-DnH"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lgw-yv-c28" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4307" y="-365"/>
+        </scene>
+        <!--apresentaUser-->
+        <scene sceneID="lB2-GO-Z6Q">
+            <objects>
+                <viewControllerPlaceholder storyboardName="apresentaUser" id="NlV-7T-Beq" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="ueU-1B-PDg"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="E6C-CQ-wez" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4282" y="-271"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
