@@ -20,7 +20,7 @@
         <!--Apresenta User View Controller-->
         <scene sceneID="d6b-ff-6IR">
             <objects>
-                <viewController id="KNm-bD-8ih" customClass="ApresentaUserViewController" customModule="ProjetoCloudKitJojo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="UsuarioVC" id="KNm-bD-8ih" customClass="ApresentaUserViewController" customModule="ProjetoCloudKitJojo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Bw4-l8-wPb">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

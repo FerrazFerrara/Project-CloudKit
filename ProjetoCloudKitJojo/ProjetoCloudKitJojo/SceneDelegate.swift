@@ -39,13 +39,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         if(createdUser){
             self.banco.retrievePrivateUsuario(completion: {
-                storyboard = UIStoryboard(name: "Main", bundle: nil)
-                vc = storyboard.instantiateViewController(identifier: "InitialVC")
+                storyboard = UIStoryboard(name: "apresentaUser", bundle: nil)
+                vc = storyboard.instantiateViewController(identifier: "UsuarioVC")
             })
             
         }else{
-                storyboard = UIStoryboard(name: "", bundle: nil)
-                vc = storyboard.instantiateViewController(identifier: "")
+            storyboard = UIStoryboard(name: "Main", bundle: nil)
+            vc = storyboard.instantiateViewController(identifier: "InicioVC")
+                
         }
         
         window?.rootViewController = vc

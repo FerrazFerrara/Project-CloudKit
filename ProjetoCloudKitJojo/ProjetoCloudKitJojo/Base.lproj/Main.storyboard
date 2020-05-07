@@ -10,7 +10,7 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController storyboardIdentifier="InitialVC" id="BYZ-38-t0r" customClass="ViewController" customModule="ProjetoCloudKitJojo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="InicioVC" id="BYZ-38-t0r" customClass="ViewController" customModule="ProjetoCloudKitJojo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -81,7 +81,7 @@
                                 <state key="normal" title="Criar Familia"/>
                                 <connections>
                                     <action selector="criarFamilia:" destination="U2g-bD-ZRb" eventType="touchUpInside" id="Gvr-hh-yJR"/>
-                                    <segue destination="69c-j3-m26" kind="show" id="mTb-Hz-vUp"/>
+                                    <segue destination="7VA-1i-5qM" kind="show" id="fUJ-vc-YaN"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -97,16 +97,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Tk4-x0-rMa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1708.6956521739132" y="-656.25"/>
-        </scene>
-        <!--Storyboard Reference-->
-        <scene sceneID="iPl-WD-ZOW">
-            <objects>
-                <viewControllerPlaceholder storyboardIdentifier="Atividade" id="69c-j3-m26" sceneMemberID="viewController">
-                    <navigationItem key="navigationItem" id="Edh-hG-h6J"/>
-                </viewControllerPlaceholder>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Cwo-z2-1Yg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2701" y="-320"/>
         </scene>
         <!--Familia View Controller-->
         <scene sceneID="pTe-4w-9wQ">
@@ -149,7 +139,7 @@
                                 <connections>
                                     <action selector="criarFamilia:" destination="U2g-bD-ZRb" eventType="touchUpInside" id="ICd-kB-pjB"/>
                                     <action selector="entrarFamilia:" destination="FS8-lA-Ed7" eventType="touchUpInside" id="Vhi-4f-9h7"/>
-                                    <segue destination="69c-j3-m26" kind="show" id="E3f-rN-68T"/>
+                                    <segue destination="7VA-1i-5qM" kind="show" id="uFj-0T-P8g"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -315,6 +305,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="E3f-rN-68T"/>
+        <segue reference="uFj-0T-P8g"/>
     </inferredMetricsTieBreakers>
 </document>
