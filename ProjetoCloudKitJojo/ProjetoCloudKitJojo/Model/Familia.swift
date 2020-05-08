@@ -19,9 +19,8 @@ class Familia{
     var recompensa: String?
     var penalidadeFlag: Bool?
     var recompensaFlag: Bool?
-    var feed: [String]?
     
-    init(recordID: CKRecord.ID, nome: String, usuarios: [Usuario], atividades: [Atividade], penalidade: String?, recompensa: String?, penalidadeFlag: Bool, recompensaFlag: Bool, feed: [String]) {
+    init(recordID: CKRecord.ID, nome: String, usuarios: [Usuario], atividades: [Atividade], penalidade: String?, recompensa: String?, penalidadeFlag: Bool, recompensaFlag: Bool) {
         self.recordID = recordID
         self.nome = nome
         self.usuarios = usuarios
@@ -30,17 +29,15 @@ class Familia{
         self.recompensa = recompensa
         self.penalidadeFlag = penalidadeFlag
         self.recompensaFlag = recompensaFlag
-        self.feed = feed
     }
     
-    init(recordID: CKRecord.ID, nome: NSString, usuarios: [Usuario]?, atividades: [Atividade]?, penalidade: NSString?, recompensa: NSString?, penalidadeFlag: NSNumber, recompensaFlag: NSNumber, feed: [NSString]) {
+    init(recordID: CKRecord.ID, nome: NSString, usuarios: [Usuario]?, atividades: [Atividade]?, penalidade: NSString?, recompensa: NSString?, penalidadeFlag: NSNumber, recompensaFlag: NSNumber) {
         self.recordID = recordID
         setNome(nome: nome)
         setpenalidade(penalidade: penalidade)
         setRecompensa(recompensa: recompensa)
         setPenalidadeFlag(penalidadeFlag: penalidadeFlag)
         setRecompensaFlag(recompensaFlag: recompensaFlag)
-        setFeed(feed: feed)
         self.usuarios = usuarios
         self.atividades = atividades
     }
@@ -63,9 +60,5 @@ class Familia{
     
     private func setRecompensaFlag(recompensaFlag: NSNumber){
         self.recompensaFlag = recompensaFlag.boolValue
-    }
-    
-    private func setFeed(feed: [NSString]){
-        self.feed = feed as [String]
     }
 }

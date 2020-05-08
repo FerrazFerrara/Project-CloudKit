@@ -17,20 +17,25 @@ class ApresentaUserViewController: UIViewController{
     
     override func viewDidLoad() {
         print("chegou aq")
+        buscarUsers()
         tabelViewU.delegate = self
         tabelViewU.dataSource = self
     }
     @IBAction func reloadBtn(_ sender: Any) {
         tabelViewU.reloadData()
     }
+    
+    func buscarUsers(){
+        let banco = DataBaseICloud.shared
+        banco.retrieveUser2(id: banco.familia!.recordID) { (users) in
+            self.usuarios = users
+            self.tabelViewU.reloadData()
+        }
+    }
 }
 
 extension ApresentaUserViewController: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let banco = DataBaseICloud.shared
-        banco.retrieveUser2(id: banco.familia!.recordID) { (users) in
-            self.usuarios = users
-        }
         return self.usuarios.count
     }
     

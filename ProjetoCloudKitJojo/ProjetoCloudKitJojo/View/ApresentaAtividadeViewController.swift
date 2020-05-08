@@ -29,6 +29,7 @@ class ApresentaAtividadeViewController: UIViewController{
         let banco = DataBaseICloud.shared
         banco.retrieveAtividade(idFamilia: banco.familia!.recordID) { (atividad) in
             self.atividades = atividad
+            self.tableViewA.reloadData()
         }
     }
     
