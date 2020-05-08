@@ -376,13 +376,13 @@ class DataBaseICloud{
     }
     
     func retrieveFamilia(id: CKRecord.ID, completion: @escaping (Familia) -> Void){
-        self.familia = nil
+        var familia = Familia(recordID: id)
         
         /// acesso ao container publico do banco
         let database = self.container.publicCloudDatabase
         
         // fazendo query da tabela de familia buscando somente a familia com ID do parametro
-        let predicate = NSPredicate(format: "recordID = %@", id)
+        let predicate = NSPredicate(format: "nome = %@", "122")
         let query = CKQuery(recordType: "Familia", predicate: predicate)
         
         // determina qual forma os dados serao organizados na busca
@@ -395,32 +395,26 @@ class DataBaseICloud{
         // busca os dados da tabela de Atividades
         operation.recordFetchedBlock = { record in
             
-            // busca os usuarios da familia e atribui ao array da classe
-            
-            self.retrieveUser2(id: record.recordID, completion:  { users in
-                self.retrieveAtividade(idFamilia: record.recordID, completion: { activities in
+            self.retrieveUser2(id: record.recordID, completion: {_ in
+                self.retrieveAtividade(idFamilia: record.recordID, completion: {_ in
                     
                     // instancia a familia
-                    self.familia = Familia(recordID: record.recordID, nome: record["nome"] as! NSString, usuarios: self.usuarios, atividades: self.atividades, penalidade: (record["penalidade"] as? NSString)!, recompensa: (record["recompensa"] as? NSString)!, penalidadeFlag: record["penalidadeFlag"] as! NSNumber, recompensaFlag: record["recompensaFlag"] as! NSNumber)
+                    familia = Familia(recordID: record.recordID, nome: record["nome"] as! NSString, usuarios: self.usuarios, atividades: self.atividades, penalidade: (record["penalidade"] as? NSString)!, recompensa: (record["recompensa"] as? NSString)!, penalidadeFlag: record["penalidadeFlag"] as! NSNumber, recompensaFlag: record["recompensaFlag"] as! NSNumber)
                 })
             })
         }
         
         // para realizar acoes apos a busca da familia no banco
         operation.queryCompletionBlock = { cursor, error in
-            DispatchQueue.main.async {
-                if error == nil {
-                    // familia recuperada
-                    if self.familia == nil{
-                        print("nenhuma familia encontrada")
-                    } else {
-                        print("Familia recuperada")
-                        completion(self.familia!)
-                    }
-                } else {
+            DispatchQueue.main.sync {
+                if error != nil {
                     // familia nao recuperada
                     print("Erro na recuperacao da Familia!")
                     print(error as Any)
+                }else{
+                    print("entrou")
+                    self.familia = familia
+                    completion(familia)
                 }
             }
         }
