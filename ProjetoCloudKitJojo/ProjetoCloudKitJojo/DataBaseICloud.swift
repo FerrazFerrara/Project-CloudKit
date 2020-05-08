@@ -301,7 +301,6 @@ class DataBaseICloud{
         record.setValue(nome, forKey: "nome")
         record.setValue(false, forKey: "penalidadeFlag")
         record.setValue(false, forKey: "recompensaFlag")
-        record.setValue([], forKey: "feed")
         record.setValue([], forKey: "atividades")
         record.setValue([], forKey: "usuarios")
         record.setValue("", forKey: "recompensa")
@@ -323,7 +322,7 @@ class DataBaseICloud{
         }
     }
     
-    func updateFamilia(newFamilia: Familia, newUser: Usuario?, newAtividade: Atividade?, newFeedInfo: String?){
+    func updateFamilia(newFamilia: Familia, newUser: Usuario?, newAtividade: Atividade?){
         /// acesso ao container publico do banco
         let database = self.container.publicCloudDatabase
         
@@ -357,14 +356,6 @@ class DataBaseICloud{
                     // 
                     let arrayAtividades = self.addElementoArrayReferencia(elemento: recordAtividade, record: record!, recordType: "atividades")
                     record?.setValue(arrayAtividades, forKey: "atividades")
-                }
-                
-                if let feedInfo = newFeedInfo{
-                    guard var feedsInfo = record?["feed"] as? [String] else { return }
-                    
-                    feedsInfo.append(feedInfo)
-                    
-                    record?.setValue(feedsInfo, forKey: "feed")
                 }
                 
                 database.save(record!) { (recordSave, error) in
