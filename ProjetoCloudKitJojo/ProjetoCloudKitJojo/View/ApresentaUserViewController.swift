@@ -17,24 +17,30 @@ class ApresentaUserViewController: UIViewController{
 
     override func viewDidLoad() {
         print("chegou aq")
-        buscarUsers()
         tabelViewU.delegate = self
         tabelViewU.dataSource = self
-        if let scene = (self.view.window?.windowScene?.delegate) as? SceneDelegate{
+        
+        let scene = UIApplication.shared.connectedScenes.first
+        if let scene = (scene?.delegate as? SceneDelegate) {
             scene.delegate = self
         }
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+//        buscarUsers()
+    }
+    
     @IBAction func reloadBtn(_ sender: Any) {
         tabelViewU.reloadData()
     }
 
-    func buscarUsers(){
-        let banco = DataBaseICloud.shared
-        banco.retrieveUser2(id: banco.familia!.recordID) { (users) in
-            self.usuarios = users
-            self.tabelViewU.reloadData()
-        }
-    }
+//    func buscarUsers(){
+//        let banco = DataBaseICloud.shared
+//        banco.retrieveUser2(id: banco.familia!.recordID) { (users) in
+//            self.usuarios = users
+//            self.tabelViewU.reloadData()
+//        }
+//    }
 }
 
 extension ApresentaUserViewController: UITableViewDelegate, UITableViewDataSource{
@@ -54,11 +60,6 @@ extension ApresentaUserViewController: UITableViewDelegate, UITableViewDataSourc
 extension ApresentaUserViewController: UpdateDataDelegate{
 
     func updateTableView() {
-        let banco = DataBaseICloud.shared
-
-        banco.retrieveUser2(id: banco.familia!.recordID) { (users) in
-            self.usuarios = users
-            self.tabelViewU.reloadData()
-        }
+        self.tabelViewU.reloadData()
     }
 }
