@@ -9,9 +9,10 @@
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-
+    
     var window: UIWindow?
-     let banco = DataBaseICloud.shared
+    let banco = DataBaseICloud.shared
+    weak var delegate: UpdateDataDelegate?
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
@@ -36,18 +37,22 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 }
             })
         }
-        print("a")
         if(createdUser){
+            
+            storyboard = UIStoryboard(name: "apresentaUser", bundle: nil)
+            vc = storyboard.instantiateViewController(identifier: "UsuarioVC")
+            
             self.banco.retrievePrivateUsuario2(completion: {
-                
-                storyboard = UIStoryboard(name: "apresentaUser", bundle: nil)
-                vc = storyboard.instantiateViewController(identifier: "UsuarioVC")
+                self.banco.retrieveUser2(id: self.banco.familia!.recordID, completion: { usuarios in
+                    
+                    self.banco.usuarios = usuarios
+                    self.delegate?.updateTableView()
+                })
             })
-            print("b")
+            
         }else{
             storyboard = UIStoryboard(name: "Main", bundle: nil)
             vc = storyboard.instantiateViewController(identifier: "InicioVC")
-            print("c")
         }
         
         window?.rootViewController = vc

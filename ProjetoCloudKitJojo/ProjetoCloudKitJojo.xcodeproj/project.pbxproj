@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4969C1512465D70C00DD8113 /* Delegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4969C1502465D70C00DD8113 /* Delegates.swift */; };
 		49D07AB82458C988003C43DA /* TesteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D07AB72458C988003C43DA /* TesteViewModel.swift */; };
 		49D07ABA2458C9B5003C43DA /* Usuario.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D07AB92458C9B5003C43DA /* Usuario.swift */; };
 		49D07ABC2458C9C3003C43DA /* Familia.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D07ABB2458C9C3003C43DA /* Familia.swift */; };
@@ -30,6 +31,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4969C1502465D70C00DD8113 /* Delegates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Delegates.swift; sourceTree = "<group>"; };
 		49D07AB72458C988003C43DA /* TesteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TesteViewModel.swift; sourceTree = "<group>"; };
 		49D07AB92458C9B5003C43DA /* Usuario.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Usuario.swift; sourceTree = "<group>"; };
 		49D07ABB2458C9C3003C43DA /* Familia.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Familia.swift; sourceTree = "<group>"; };
@@ -74,6 +76,7 @@
 				49D07ABB2458C9C3003C43DA /* Familia.swift */,
 				49D07ABD2458C9CF003C43DA /* Atividade.swift */,
 				7B0B4F2724647C3600D5A87E /* CustomCells.swift */,
+				4969C1502465D70C00DD8113 /* Delegates.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -218,6 +221,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				49D07ABC2458C9C3003C43DA /* Familia.swift in Sources */,
+				4969C1512465D70C00DD8113 /* Delegates.swift in Sources */,
 				7B0B4EE824575C1F00D5A87E /* ProjetoCloudKitJojo.xcdatamodeld in Sources */,
 				7B0B4EE224575C1F00D5A87E /* ViewController.swift in Sources */,
 				49D07ABA2458C9B5003C43DA /* Usuario.swift in Sources */,

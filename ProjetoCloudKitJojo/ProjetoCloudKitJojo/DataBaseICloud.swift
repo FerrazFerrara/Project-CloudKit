@@ -177,7 +177,7 @@ class DataBaseICloud{
         // operacao de buscar os dados
         operation.recordFetchedBlock = { record in
             // instanciando um usuario a partir dos dados buscados do banco
-            let user = Usuario(recordID: record.recordID, idFamilia: self.familia!.recordID.recordName as NSString, nome: record["nome"] as! NSString, pontuacao: record["pontuacao"] as! NSNumber, foto: record["foto"] as? CKAsset, conquista: record["conquista"] as! [NSNumber], vitoria: record["vitoria"] as! NSNumber, derrota: record["derrota"] as! NSNumber)
+            let user = Usuario(recordID: record.recordID, idFamilia: id.recordName as NSString, nome: record["nome"] as! NSString, pontuacao: record["pontuacao"] as! NSNumber, foto: record["foto"] as? CKAsset, conquista: record["conquista"] as! [NSNumber], vitoria: record["vitoria"] as! NSNumber, derrota: record["derrota"] as! NSNumber)
             // adicionando os usuarios do banco no array
             usuarios.append(user)
         }
@@ -189,6 +189,7 @@ class DataBaseICloud{
                     print(error as Any)
                 }else{
                     print("deu bom")
+                    self.usuarios = usuarios
                 }
             }
             
@@ -404,41 +405,14 @@ class DataBaseICloud{
         operation.recordFetchedBlock = { record in
             
             // busca os usuarios da familia e atribui ao array da classe
-            self.retrieveUser(id: record.recordID)
             
-            //array de referencias das atividades
-            let activitiesReferences = record["atividades"] as! [CKRecord.Reference]
-            
-            for record in activitiesReferences{
-                
-                // auxiliar para o usuario de cada atividade
-                var user = Usuario()
-                
-                // busca da referencia das atividades
-                database.fetch(withRecordID: CKRecord.ID(recordName: record.recordID.recordName)) { (recordActivity, error) in
-                    var activity = Atividade()
+            self.retrieveUser2(id: record.recordID, completion:  { users in
+                self.retrieveAtividade(idFamilia: record.recordID, completion: { activities in
                     
-                    if let userReference = recordActivity!["usuario"] as? CKRecord.Reference{
-                        //busca da referencia do usuario atrelado à atividade
-                        database.fetch(withRecordID: CKRecord.ID(recordName: userReference.recordID.recordName)) { (recordUser, error) in
-                            
-                            user = Usuario(recordID: recordUser!.recordID, idFamilia: id.recordName as NSString, nome: recordUser!["nome"] as! NSString, pontuacao: recordUser!["pontuacao"] as! NSNumber, foto: recordUser!["foto"] as? CKAsset, conquista: recordUser!["conquista"] as! [NSNumber], vitoria: recordUser!["vitoria"] as! NSNumber, derrota: recordUser!["derrota"] as! NSNumber)
-                        }
-                        
-                        // instancia a atividade buscada
-                        activity = Atividade(recordID: recordActivity!.recordID, idFamilia: id.recordName,dia: recordActivity!["dia"] as! NSString, etiqueta: recordActivity!["etiqueta"] as! NSString, horario: recordActivity!["horario"] as! NSDate, nome: recordActivity!["nome"] as! NSString, pontuacao: recordActivity!["pontuacao"] as! NSNumber, repeticao: recordActivity!["repeticao"] as! NSNumber, usuario: user, dataFeito: recordActivity!["dataFeito"] as? NSDate, realizou: recordActivity!["realizou"] as! NSNumber)
-                    } else {
-                        // instancia a atividade buscada
-                        activity = Atividade(recordID: recordActivity!.recordID, idFamilia: id.recordName,dia: recordActivity!["dia"] as! NSString, etiqueta: recordActivity!["etiqueta"] as! NSString, horario: recordActivity!["horario"] as! NSDate, nome: recordActivity!["nome"] as! NSString, pontuacao: recordActivity!["pontuacao"] as! NSNumber, repeticao: recordActivity!["repeticao"] as! NSNumber, usuario: nil, dataFeito: nil, realizou: false)
-                    }
-                    
-                    // adiciona a atividade ao array de atividades
-                    self.atividades.append(activity)
-                }
-            }
-            
-            // instancia a familia
-            self.familia = Familia(recordID: record.recordID, nome: record["nome"] as! NSString, usuarios: self.usuarios, atividades: self.atividades, penalidade: (record["penalidade"] as? NSString)!, recompensa: (record["recompensa"] as? NSString)!, penalidadeFlag: record["penalidadeFlag"] as! NSNumber, recompensaFlag: record["recompensaFlag"] as! NSNumber)
+                    // instancia a familia
+                    self.familia = Familia(recordID: record.recordID, nome: record["nome"] as! NSString, usuarios: self.usuarios, atividades: self.atividades, penalidade: (record["penalidade"] as? NSString)!, recompensa: (record["recompensa"] as? NSString)!, penalidadeFlag: record["penalidadeFlag"] as! NSNumber, recompensaFlag: record["recompensaFlag"] as! NSNumber)
+                })
+            })
         }
         
         // para realizar acoes apos a busca da familia no banco
@@ -667,7 +641,6 @@ class DataBaseICloud{
                 activity = Atividade(recordID: record.recordID, idFamilia: record["idFamilia"], dia: record["dia"] as! NSString, etiqueta: record["etiqueta"] as! NSString, horario: record["horario"] as! NSDate, nome: record["nome"] as! NSString, pontuacao: record["pontuacao"] as! NSNumber, repeticao: record["repeticao"] as! NSNumber, usuario: nil, dataFeito: nil, realizou: false)
             }
             // adiciona a atividade ao array de atividadess
-            self.atividades.append(activity)
             atividadesFamilia.append(activity)
         }
         
@@ -678,6 +651,7 @@ class DataBaseICloud{
                     // atividades recuperadas
                     print("Atividade recuperada")
                     completion(atividadesFamilia)
+                    self.atividades = atividadesFamilia
                 } else {
                     // atividades nao recuperadas
                     print("Erro na recuperacao da atividade !")
