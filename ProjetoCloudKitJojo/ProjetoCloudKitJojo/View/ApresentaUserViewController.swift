@@ -16,6 +16,7 @@ class ApresentaUserViewController: UIViewController{
     var usuarios = [Usuario]()
     
     override func viewDidLoad() {
+        print("chegou aq")
         tabelViewU.delegate = self
         tabelViewU.dataSource = self
     }

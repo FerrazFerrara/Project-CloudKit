@@ -901,6 +901,30 @@ class DataBaseICloud{
         databasePublic.add(operationPublic)
     }
     
+    public func retrievePrivateUsuario2(completion: @escaping () -> Void){
+        
+        // User Default
+        let defaults = UserDefaults.standard
+        
+        let idFamilia = defaults.string(forKey: "idFamilia")!
+        
+        let databasePublic = self.container.publicCloudDatabase
+        
+        let recordID = CKRecord.ID(recordName: idFamilia)
+        
+        databasePublic.fetch(withRecordID: recordID) { (record, error) in
+            if error == nil{
+                print("deu certoooo")
+                self.retrieveFamilia(id: recordID, completion: { familia in
+                    self.familia = familia
+                    completion()
+                })
+            } else {
+                print("erro aaaaaaa")
+            }
+        }
+    }
+    
     private func actualUser() -> Usuario?{
         let recordName = UserDefaults.standard.string(forKey: "recordNameUsuario")
         
