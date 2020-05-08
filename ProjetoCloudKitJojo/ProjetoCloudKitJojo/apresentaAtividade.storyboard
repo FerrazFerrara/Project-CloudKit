@@ -56,7 +56,6 @@
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <state key="normal" title="complete"/>
                                                     <connections>
-                                                        <action selector="complete:" destination="kZP-yV-7kF" eventType="touchUpInside" id="2GK-Lu-fd9"/>
                                                         <action selector="complete:" destination="hib-7l-tSM" eventType="touchUpInside" id="sXU-V6-Cdk"/>
                                                     </connections>
                                                 </button>
@@ -70,6 +69,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="btnComplete" destination="9aP-Y8-ddD" id="Eof-Si-ZQN"/>
                                             <outlet property="nome" destination="nkB-kL-QsS" id="hw1-Yf-fFx"/>
                                             <outlet property="pontos" destination="IVr-zv-Yzk" id="ejT-fa-h8c"/>
                                         </connections>
