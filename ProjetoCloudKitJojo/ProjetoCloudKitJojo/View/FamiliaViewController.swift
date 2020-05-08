@@ -30,7 +30,7 @@ class FamiliaViewController: UIViewController{
         let recordFamilia = CKRecord.ID(recordName: idFamilia)
         banco.retrieveFamilia(id: recordFamilia, completion: { familia in
             self.banco.createUser(idFamilia: familia.recordID.recordName, nome: nomeUser, pontuacao: 0, conquista: [false, false], vitoria: 0, derrota: 0, foto: UIImage(named: "1")!, completion: { user in
-                self.banco.updateFamilia(newFamilia: familia, newUser: user, newAtividade: nil, newFeedInfo: nil)
+                self.banco.updateFamilia(newFamilia: familia, newUser: user, newAtividade: nil)
             })
         })
     }
