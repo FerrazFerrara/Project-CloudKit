@@ -14,6 +14,7 @@ class ApresentaUserViewController: UIViewController{
     @IBOutlet weak var tabelViewU: UITableView!
 
     var usuarios = [Usuario]()
+    var banco = DataBaseICloud.shared
 
     override func viewDidLoad() {
         print("chegou aq")
@@ -60,6 +61,9 @@ extension ApresentaUserViewController: UITableViewDelegate, UITableViewDataSourc
 extension ApresentaUserViewController: UpdateDataDelegate{
 
     func updateTableView() {
-        self.tabelViewU.reloadData()
+        DispatchQueue.main.sync{
+            self.usuarios = banco.usuarios
+            self.tabelViewU.reloadData()
+        }
     }
 }
