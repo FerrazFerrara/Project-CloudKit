@@ -313,7 +313,7 @@ class DataBaseICloud{
             if error == nil{
                 // deu certo salvar a familia
                 print("Salvou uma familia")
-                self.familia = Familia(recordID: recordSave!.recordID, nome: nome, usuarios: [], atividades: [], penalidade: "", recompensa: "", penalidadeFlag: false, recompensaFlag: false, feed: [])
+                self.familia = Familia(recordID: recordSave!.recordID, nome: nome, usuarios: [], atividades: [], penalidade: "", recompensa: "", penalidadeFlag: false, recompensaFlag: false)
                 completion(self.familia!)
             } else {
                 // deu errado
@@ -439,7 +439,7 @@ class DataBaseICloud{
             }
             
             // instancia a familia
-            self.familia = Familia(recordID: record.recordID, nome: record["nome"] as! NSString, usuarios: self.usuarios, atividades: self.atividades, penalidade: (record["penalidade"] as? NSString)!, recompensa: (record["recompensa"] as? NSString)!, penalidadeFlag: record["penalidadeFlag"] as! NSNumber, recompensaFlag: record["recompensaFlag"] as! NSNumber, feed: record["feed"] as! [NSString])
+            self.familia = Familia(recordID: record.recordID, nome: record["nome"] as! NSString, usuarios: self.usuarios, atividades: self.atividades, penalidade: (record["penalidade"] as? NSString)!, recompensa: (record["recompensa"] as? NSString)!, penalidadeFlag: record["penalidadeFlag"] as! NSNumber, recompensaFlag: record["recompensaFlag"] as! NSNumber)
         }
         
         // para realizar acoes apos a busca da familia no banco
