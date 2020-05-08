@@ -384,7 +384,6 @@ class DataBaseICloud{
         }
     }
     
-    // ta com bug !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     func retrieveFamilia(id: CKRecord.ID, completion: @escaping (Familia) -> Void){
         var familia = Familia(recordID: id)
         

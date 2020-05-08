@@ -33,6 +33,9 @@ class ApresentaAtividadeViewController: UIViewController{
         }
     }
     
+    @objc func completeAtividade(){
+        
+    }
 }
 
 extension ApresentaAtividadeViewController: UITableViewDelegate, UITableViewDataSource{
@@ -45,6 +48,7 @@ extension ApresentaAtividadeViewController: UITableViewDelegate, UITableViewData
         cell.nome.text = atividades[indexPath.row].nome
         cell.pontos.text = "\(atividades[indexPath.row].pontuacao!)"
         cell.atividade = atividades[indexPath.row]
+        cell.btnComplete.addTarget(self, action: #selector(completeAtividade), for: .touchUpInside)
         
         return cell
     }
