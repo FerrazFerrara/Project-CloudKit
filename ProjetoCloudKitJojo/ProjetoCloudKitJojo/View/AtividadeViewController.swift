@@ -42,11 +42,9 @@ class AtividadeViewController: UIViewController{
         
         guard let familiaID = banco.familia?.recordID else { return }
         
-        banco.retrieveFamilia(id: familiaID) { (familia) in
-            self.banco.createAtividade(nome: nomeA, pontuacao: pont, dia: diaA, horario: data, repete: repet, etiqueta: etiquetaA, completion: { atividade in
-                self.banco.updateFamilia(newFamilia: familia, newUser: nil, newAtividade: atividade)
-            })
-            
+        self.banco.retrieveFamilia(id: familiaID) { (familia) in
+            let atividade = Atividade(idFamilia: familiaID.recordName, nome: nomeA, dia: diaA, etiqueta: etiquetaA, pontuacao: pont, repeticao: repet, horario: data)
+            self.banco.createAtividade(atividade: atividade) { _ in }
         }
     }
 }

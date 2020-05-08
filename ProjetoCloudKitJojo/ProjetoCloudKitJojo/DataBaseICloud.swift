@@ -77,6 +77,8 @@ class DataBaseICloud{
                 print("Yaaay salvou um usuario")
                 let user = Usuario(recordID: record.recordID, idFamilia: usuario.idFamilia!, nome: usuario.nome!, pontuacao: 0, foto: foto, conquista: [false], vitoria: 0, derrota: 0)
                 self.usuarios.append(user)
+                let idFamilia = CKRecord.ID(recordName: usuario.idFamilia!)
+                self.updateFamiliaAddUsuario(idFamilia: idFamilia, newUser: user)
                 completion(user)
             } else {
                 // usuario nao salvo
@@ -287,14 +289,13 @@ class DataBaseICloud{
      - Parameters:
      - usuario: Usuario a ser deletado
      */
+    
+    // TESTAR SE APAGA DA FAMILIA TBM
     func deleteUser(){
         /// acesso ao container publico do banco
         let database = container.publicCloudDatabase
         
         guard let usuario = actualUser() else { return }
-        
-        UserDefaults.standard.set(nil, forKey: "idFamilia")
-        UserDefaults.standard.set(nil, forKey: "idUsuario")
         
         // pega o id do usuario
         let recordID = usuario.recordID!
@@ -304,6 +305,9 @@ class DataBaseICloud{
             if error == nil {
                 // deletado com sucesso
                 print("Deletado")
+                let user = self.actualUser()!
+                self.usuarios.removeAll(where: { $0.recordID?.recordName == user.recordID?.recordName })
+                self.deletePrivateUsuario()
             } else {
                 // nao conseguiu deletar
                 print("Nao deletou...")
@@ -322,21 +326,6 @@ class DataBaseICloud{
         /// record criado para ser usado na tabela Familia
         let record = CKRecord(recordType: "Familia")
         
-        // buscando o usuario que ira fazer parte ad familia
-        //        let recordUser = CKRecord(recordType: "Usuario", recordID: usuario.recordID)
-        // buscando o array de usuarios da familia
-        //        guard var usuariosFamilia = record["usuarios"] as? [CKRecord.Reference] else {
-        //            print("erro ao buscar usuarios da familia")
-        //            return
-        //        }
-        // criando uma referencia a partir do record do usuario
-        //        let reference = CKRecord.Reference(record: recordUser, action: CKRecord_Reference_Action.none)
-        //        // verifica se no array de usuarios da familia ja nao existe o usuario atual
-        //        if !usuariosFamilia.contains(reference){
-        //            // adiciona o usuario atual ao array de referencias da familia
-        //            usuariosFamilia.append(reference)
-        //        }
-        
         // settando os valores da familia no record
         record.setValue(nome, forKey: "nome")
         record.setValue(false, forKey: "penalidadeFlag")
@@ -345,8 +334,6 @@ class DataBaseICloud{
         record.setValue([], forKey: "usuarios")
         record.setValue("", forKey: "recompensa")
         record.setValue("", forKey: "penalidade")
-//        record.setValue(usuariosFamilia, forKey: "usuarios")
-        
         
         // salva os dados do record na tabela de Familia
         database.save(record) { (recordSave, error) in
@@ -362,7 +349,7 @@ class DataBaseICloud{
         }
     }
     
-    func updateFamilia(newFamilia: Familia, newUser: Usuario?, newAtividade: Atividade?){
+    func updateFamiliaConquistaPenalidade(familia: Familia){
         /// acesso ao container publico do banco
         let database = self.container.publicCloudDatabase
         
@@ -374,29 +361,81 @@ class DataBaseICloud{
             if error == nil{
                 // encontrou a familia
                 // altera os valores da familia
-                record?.setValue(newFamilia.penalidade, forKey: "penalidade")
-                record?.setValue(newFamilia.penalidadeFlag, forKey: "penalidadeFlag")
-                record?.setValue(newFamilia.recompensaFlag, forKey: "recompensaFlag")
-                record?.setValue(newFamilia.recompensa, forKey: "recompensa")
+                record?.setValue(familia.penalidade, forKey: "penalidade")
+                record?.setValue(familia.penalidadeFlag, forKey: "penalidadeFlag")
+                record?.setValue(familia.recompensaFlag, forKey: "recompensaFlag")
+                record?.setValue(familia.recompensa, forKey: "recompensa")
                 
+                database.save(record!) { (recordSave, error) in
+                    if error == nil{
+                        // salvo
+                        print("Deu update tranquilo aq")
+                    } else {
+                        // nao salvo
+                        print("Deu ruim no update aq bro")
+                    }
+                }
+            } else {
+                // nao encontrou a familia
+                print("error ao buscar familia")
+                print(error as Any)
+            }
+        }
+    }
+    
+    func updateFamiliaAddUsuario(idFamilia: CKRecord.ID, newUser: Usuario){
+        /// acesso ao container publico do banco
+        let database = self.container.publicCloudDatabase
+        
+        // id da familia
+        let idFamilia = self.familia?.recordID
+        
+        // busca da familia pelo record id
+        database.fetch(withRecordID: idFamilia!) { (record, error) in
+            if error == nil{
+                // encontrou a familia
                 // caso tenha um usuario novo, adiciona ele ao array
-                if let usuario = newUser{
-                    // busca o usuario novo
-                    let recordUser = CKRecord(recordType: "Usuario", recordID: usuario.recordID!)
-                    // adiciona o usuario ao array de usuarios
-                    let arrayUser = self.addElementoArrayReferencia(elemento: recordUser, record: record!, recordType: "usuarios")
-                    // adiciona a lista de usuarios como novo valor na familia
-                    record?.setValue(arrayUser, forKey: "usuarios")
-                }
+                // busca o usuario novo
+                let recordUser = CKRecord(recordType: "Usuario", recordID: newUser.recordID!)
+                // adiciona o usuario ao array de usuarios
+                let arrayUser = self.addElementoArrayReferencia(elemento: recordUser, record: record!, recordType: "usuarios")
+                // adiciona a lista de usuarios como novo valor na familia
+                record?.setValue(arrayUser, forKey: "usuarios")
                 
-                // caso tenha uma atividade nova, adiciona ela ao array
-                if let atividade = newAtividade{
-                    // busca atividade nova
-                    let recordAtividade = CKRecord(recordType: "Atividade", recordID: atividade.recordID!)
-                    // 
-                    let arrayAtividades = self.addElementoArrayReferencia(elemento: recordAtividade, record: record!, recordType: "atividades")
-                    record?.setValue(arrayAtividades, forKey: "atividades")
+                database.save(record!) { (recordSave, error) in
+                    if error == nil{
+                        // salvo
+                        print("Deu update tranquilo aq")
+                    } else {
+                        // nao salvo
+                        print("Deu ruim no update aq bro")
+                    }
                 }
+            } else {
+                // nao encontrou a familia
+                print("error ao buscar familia")
+                print(error as Any)
+            }
+        }
+    }
+    
+    func updateFamiliaAddAtividade(idFamilia: CKRecord.ID, newAtividade: Atividade){
+        /// acesso ao container publico do banco
+        let database = self.container.publicCloudDatabase
+        
+        // id da familia
+        let idFamilia = self.familia?.recordID
+        
+        // busca da familia pelo record id
+        database.fetch(withRecordID: idFamilia!) { (record, error) in
+            if error == nil{
+                // encontrou a familia
+                // caso tenha uma atividade nova, adiciona ela ao array
+                // busca atividade nova
+                let recordAtividade = CKRecord(recordType: "Atividade", recordID: newAtividade.recordID!)
+                //
+                let arrayAtividades = self.addElementoArrayReferencia(elemento: recordAtividade, record: record!, recordType: "atividades")
+                record?.setValue(arrayAtividades, forKey: "atividades")
                 
                 database.save(record!) { (recordSave, error) in
                     if error == nil{
@@ -422,7 +461,7 @@ class DataBaseICloud{
         let database = self.container.publicCloudDatabase
         
         // fazendo query da tabela de familia buscando somente a familia com ID do parametro
-        let predicate = NSPredicate(format: "nome = %@", "122")
+        let predicate = NSPredicate(format: "recordName = %@", id.recordName)
         let query = CKQuery(recordType: "Familia", predicate: predicate)
         
         // determina qual forma os dados serao organizados na busca
@@ -497,7 +536,7 @@ class DataBaseICloud{
      - etiqueta: etiqueta que identifica de onde a atividade é
      - user: usuario que realizou a atividade
      */
-    func createAtividade(nome: String, pontuacao: Int, dia: String?, horario: Date, repete: Int, etiqueta: String, completion: @escaping (Atividade) -> Void){
+    func createAtividade(atividade: Atividade, completion: @escaping (Atividade) -> Void){
         /// acesso ao container publico do banco
         let database = container.publicCloudDatabase
         
@@ -506,30 +545,27 @@ class DataBaseICloud{
         
         let idFamilia = familia!.recordID.recordName
         
-        // setta o usuario como uma referencia a tabela de usuarios na tabela de atividades
-//        let reference = CKRecord.Reference(recordID: user.recordID!, action: CKRecord_Reference_Action.none)
-        
         // settando os valores da atividade no record
-        record.setValue(nome, forKey: "nome")
-        record.setValue(pontuacao, forKey: "pontuacao")
-        if let diaA = dia{
+        if let diaA = atividade.dia{
            record.setValue(diaA, forKey: "dia")
         }
+        record.setValue(atividade.nome, forKey: "nome")
+        record.setValue(atividade.pontuacao, forKey: "pontuacao")
         record.setValue(idFamilia, forKey: "idFamilia")
-        record.setValue(horario, forKey: "horario")
-        record.setValue(repete, forKey: "repeticao")
-        record.setValue(etiqueta, forKey: "etiqueta")
+        record.setValue(atividade.horario, forKey: "horario")
+        record.setValue(atividade.repeticao, forKey: "repeticao")
+        record.setValue(atividade.etiqueta, forKey: "etiqueta")
         record.setValue(false, forKey: "realizou")
-        //        record.setValue(, forKey: "dataFeito")
-//        record.setValue(reference, forKey: "usuario")
         
         // salva o record no banco
         database.save(record) { (recordSave, error) in
             if error == nil{
                 // salvos com sucesso
                 print("Yaaay salvou uma atividade")
-                let atividade = Atividade(recordID: recordSave!.recordID, idFamilia: idFamilia, dia: dia, etiqueta: etiqueta, horario: horario, nome: nome, pontuacao: pontuacao, repeticao: repete, user: nil, dataFeito: nil, realizou: false)
+                let atividade = Atividade(recordID: recordSave!.recordID, idFamilia: idFamilia, dia: atividade.dia, etiqueta: atividade.etiqueta!, horario: atividade.horario!, nome: atividade.nome!, pontuacao: atividade.pontuacao!, repeticao: atividade.repeticao!, user: nil, dataFeito: nil, realizou: false)
                 completion(atividade)
+                let familiaID = CKRecord.ID(recordName: idFamilia)
+                self.updateFamiliaAddAtividade(idFamilia: familiaID, newAtividade: atividade)
             } else {
                 // nao salvos
                 print("Atividade nao salvou amigao")
@@ -544,6 +580,7 @@ class DataBaseICloud{
      - Parameters:
      - nome: novo nome para atividade
      */
+    // VOLTA AQUI DEPOIS
     func updateAtividade(atividade: Atividade){
         /// acesso ao container publico do banco
         let database = self.container.publicCloudDatabase
@@ -555,11 +592,11 @@ class DataBaseICloud{
         database.fetch(withRecordID: atividadeID) { (record, error) in
             if error == nil{
                 // altera o valor do nome da atividade pelo nome novo
-                record?.setValue(atividade.nome, forKey: "nome")
-                record?.setValue(atividade.pontuacao, forKey: "pontuacao")
                 if let diaA = atividade.dia{
                    record?.setValue(diaA, forKey: "dia")
                 }
+                record?.setValue(atividade.nome, forKey: "nome")
+                record?.setValue(atividade.pontuacao, forKey: "pontuacao")
                 record?.setValue(atividade.horario, forKey: "horario")
                 record?.setValue(atividade.repeticao, forKey: "repeticao")
                 record?.setValue(atividade.etiqueta, forKey: "etiqueta")
@@ -581,7 +618,8 @@ class DataBaseICloud{
         }
     }
     
-    func atividadeRealizada(atividade: Atividade){
+    // TESTAR SE A PONTUACAO DO USER TA SENDO ALTERADA
+    func updateAtividadeRealizada(atividade: Atividade){
         /// acesso ao container publico do banco
         let database = self.container.publicCloudDatabase
         
@@ -627,6 +665,7 @@ class DataBaseICloud{
     /**
      Busca as atividades do iCloud
      */
+    // TESTAR O QUE ACONTECE QUANDO O USUARIO Q REALIZOU A ATIVIDADE SAIU DA FAMILIA (BANCO)
     func retrieveAtividade(idFamilia: CKRecord.ID, completion: @escaping ([Atividade]) -> Void){
         /// acesso ao container publico do banco
         let database = self.container.publicCloudDatabase
@@ -642,9 +681,6 @@ class DataBaseICloud{
         // operacao da query criada
         let operation = CKQueryOperation(query: query)
         
-        // zera o array de atividades para popular com atividades novas do banco
-//        atividades.removeAll()
-        
         var atividadesFamilia = [Atividade]()
         
         // busca os dados da tabela de Atividades
@@ -657,7 +693,13 @@ class DataBaseICloud{
                 // busca pela referencia do usuario na tabela de usuario
                 database.fetch(withRecordID: CKRecord.ID(recordName: (userReference.recordID.recordName))) { (recordUser, error) in
                     // instancia o usuario a partir dos valores do usuario da tabela de atividades
-                     let user = Usuario(recordID: recordUser!.recordID, idFamilia: self.familia!.recordID.recordName as NSString, nome: recordUser!["nome"] as! NSString, pontuacao: recordUser!["pontuacao"] as! NSNumber, foto: recordUser!["foto"] as? CKAsset, conquista: recordUser!["conquista"] as! [NSNumber], vitoria: recordUser!["vitoria"] as! NSNumber, derrota: recordUser!["derrota"] as! NSNumber)
+                    var user = Usuario()
+                    
+                    for usuario in self.usuarios {
+                        if usuario.recordID?.recordName == recordUser?.recordID.recordName{
+                            user = usuario
+                        }
+                    }
                     
                     // instancia a atividade buscada
                     activity = Atividade(recordID: record.recordID, idFamilia: record["idFamilia"], dia: record["dia"] as! NSString, etiqueta: record["etiqueta"] as! NSString, horario: record["horario"] as! NSDate, nome: record["nome"] as! NSString, pontuacao: record["pontuacao"] as! NSNumber, repeticao: record["repeticao"] as! NSNumber, usuario: user, dataFeito: record["dataFeito"] as? NSDate, realizou: true)
@@ -688,32 +730,6 @@ class DataBaseICloud{
         // realiza operacao
         database.add(operation)
     }
-
-
-//        operation.recordFetchedBlock = { record in
-//            // instanciando um usuario a partir dos dados buscados do banco
-//            let user = Usuario(recordID: record.recordID, idFamilia: self.familia!.recordID.recordName as NSString, nome: record["nome"] as! NSString, pontuacao: record["pontuacao"] as! NSNumber, foto: record["foto"] as? CKAsset, conquista: record["conquista"] as! [NSNumber], vitoria: record["vitoria"] as! NSNumber, derrota: record["derrota"] as! NSNumber)
-//            // adicionando os usuarios do banco no array
-//            usuarios.append(user)
-//        }
-//
-//        // para realizar acoes após a busca de dados no banco
-//        operation.queryCompletionBlock = { cursor, error in
-//            DispatchQueue.main.async {
-//                if error != nil{
-//                    print(error as Any)
-//                }else{
-//                    print("deu bom")
-//                }
-//            }
-//
-//            completion(usuarios)
-//        }
-//
-//        // realizar operacao
-//        database.add(operation)
-//
-//    }
     
     /**
      Deleta atividade no iCloud
@@ -732,6 +748,7 @@ class DataBaseICloud{
             if error == nil {
                 // deletado
                 print("Deletado")
+                self.atividades.removeAll(where: { $0.recordID?.recordName == atividade.recordID?.recordName })
             } else {
                 // nao deletado
                 print("Nao deletou...")
@@ -739,6 +756,10 @@ class DataBaseICloud{
             }
         }
     }
+    
+    // MARK: - Usuario Private
+    
+    
     
     // MARK: - Funções auxiliares para o banco
     
@@ -814,14 +835,19 @@ class DataBaseICloud{
     public func deletePrivateUsuario(){
         /// acesso ao container privado do banco
         let database = container.privateCloudDatabase
+        
+        let recordName = UserDefaults.standard.string(forKey: "idFamilia")
+        
         // id do usuario no banco
-        let recordID = CKRecord.ID(recordName: "???????????????")
+        let recordID = CKRecord.ID(recordName: recordName!)
         
         // deleta os dados do usuario do banco
         database.delete(withRecordID: recordID) { (recordID, error) in
             if error == nil {
                 // usuario deletado
                 print("adeus usuario")
+                UserDefaults.standard.set(nil, forKey: "idFamilia")
+                UserDefaults.standard.set(nil, forKey: "idUsuario")
             } else {
                 // erro ao deletar usuario
                 print("nao deletou o usuario")
@@ -832,8 +858,13 @@ class DataBaseICloud{
     
     public func retrieveFirstPrivateUsuario(familiaUsuario completion: @escaping (String?, String?) -> Void){
         
-        var idFamilia: String? = nil
-        var idUsuario: String? = nil
+        if(UserDefaults.standard.string(forKey: "idFamilia") != nil){
+            completion(nil, nil)
+            return
+        }
+        
+        var idFamilia = ""
+        var idUsuario = ""
         
         let databasePrivate = self.container.privateCloudDatabase
         
@@ -845,8 +876,8 @@ class DataBaseICloud{
         let operationPrivate = CKQueryOperation(query: queryPrivate)
         
         operationPrivate.recordFetchedBlock = { record in
-            idFamilia = record["recordNameFamilia"] as String?
-            idUsuario = record["recordNameUsuario"] as String?
+            idFamilia = record["recordNameFamilia"] as! String
+            idUsuario = record["recordNameUsuario"] as! String
         }
         
         // para realizar acoes após a busca de dados no banco
@@ -855,6 +886,8 @@ class DataBaseICloud{
                 if error != nil{
                     print(error as Any)
                 }else{
+                    UserDefaults.standard.set(idFamilia, forKey: "idFamila")
+                    UserDefaults.standard.set(idUsuario, forKey: "idUsuario")
                     completion(idFamilia, idUsuario)
                 }
             }
@@ -864,42 +897,6 @@ class DataBaseICloud{
     }
     
     public func retrievePrivateUsuario(completion: @escaping () -> Void){
-        
-        // User Default
-        let defaults = UserDefaults.standard
-        
-        let idFamilia = defaults.string(forKey: "idFamilia")!
-        
-        let databasePublic = self.container.publicCloudDatabase
-        
-        let predicatePublic = NSPredicate(format: "recordName = %@", idFamilia)
-        let queryPublic = CKQuery(recordType: "Familia", predicate: predicatePublic)
-        
-        queryPublic.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
-        
-        let operationPublic = CKQueryOperation(query: queryPublic)
-        
-        operationPublic.recordFetchedBlock = { record in
-            
-            self.retrieveFamilia(id: record["recordID"] as! CKRecord.ID, completion: { familia in
-                self.familia = familia
-            })
-        }
-        
-        operationPublic.queryCompletionBlock = { cursor, error in
-            DispatchQueue.main.async {
-                if error != nil{
-                    print(error as Any)
-                }else{
-                    completion()
-                }
-            }
-        }
-        
-        databasePublic.add(operationPublic)
-    }
-    
-    public func retrievePrivateUsuario2(completion: @escaping () -> Void){
         
         // User Default
         let defaults = UserDefaults.standard

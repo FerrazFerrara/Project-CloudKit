@@ -19,41 +19,27 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         
-        
-        var createdUser: Bool = false
         var storyboard = UIStoryboard()
         var vc = UIViewController()
         
         
-        if(UserDefaults.standard.string(forKey: "idFamilia") != nil){
-            createdUser = true
-            
-        }else{
-             banco.retrieveFirstPrivateUsuario(familiaUsuario:{ idFamilia, idUsuario in
-                if(idFamilia != nil){
-                    createdUser = true
-                    UserDefaults.standard.set(idFamilia, forKey: "idFamila")
-                    UserDefaults.standard.set(idUsuario, forKey: "idUsuario")
-                }
-            })
-        }
-        if(createdUser){
-            
-            storyboard = UIStoryboard(name: "apresentaUser", bundle: nil)
-            vc = storyboard.instantiateViewController(identifier: "UsuarioVC")
-            
-            self.banco.retrievePrivateUsuario2(completion: {
-                self.banco.retrieveUser(id: self.banco.familia!.recordID, completion: { usuarios in
-                    
-                    self.banco.usuarios = usuarios
-                    self.delegate?.updateTableView()
+        banco.retrieveFirstPrivateUsuario(familiaUsuario:{ idFamilia, idUsuario in
+            if(idFamilia != nil){
+                storyboard = UIStoryboard(name: "apresentaUser", bundle: nil)
+                vc = storyboard.instantiateViewController(identifier: "UsuarioVC")
+                
+                self.banco.retrievePrivateUsuario(completion: {
+                    self.banco.retrieveUser(id: self.banco.familia!.recordID, completion: { usuarios in
+                        
+                        self.banco.usuarios = usuarios
+                        self.delegate?.updateTableView()
+                    })
                 })
-            })
-            
-        }else{
-            storyboard = UIStoryboard(name: "Main", bundle: nil)
-            vc = storyboard.instantiateViewController(identifier: "InicioVC")
-        }
+            } else {
+                storyboard = UIStoryboard(name: "Main", bundle: nil)
+                vc = storyboard.instantiateViewController(identifier: "InicioVC")
+            }
+        })
         
         window?.rootViewController = vc
         

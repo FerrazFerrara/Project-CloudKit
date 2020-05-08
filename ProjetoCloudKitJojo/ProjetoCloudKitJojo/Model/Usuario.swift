@@ -21,15 +21,10 @@ class Usuario{
     var vitoria: Int?
     var derrota: Int?
     
-    init(idFamilia: String, nome: String, pontuacao: Int, foto: UIImage?, conquista: [Bool], vitoria: Int, derrota: Int) {
-//        self.recordID = CKRecord.ID(recordName: "08B8053A-C041-4CEF-B3B8-B6F07A184AD2")
+    init(idFamilia: String, nome: String, foto: UIImage?) {
         self.idFamilia = idFamilia
-        self.pontuacao = pontuacao
         self.nome = nome
         self.foto = foto
-        self.conquista = conquista
-        self.vitoria = vitoria
-        self.derrota = derrota
     }
     
     init(recordID: CKRecord.ID, idFamilia: String, nome: String, pontuacao: Int, foto: UIImage?, conquista: [Bool], vitoria: Int, derrota: Int) {

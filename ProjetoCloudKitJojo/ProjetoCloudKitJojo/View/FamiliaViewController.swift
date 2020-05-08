@@ -28,11 +28,14 @@ class FamiliaViewController: UIViewController{
         guard let idFamilia = nomeFamilia.text else { return }
         guard let nomeUser = nomeUsuario.text else { return }
         let recordFamilia = CKRecord.ID(recordName: idFamilia)
-        banco.retrieveFamilia(id: recordFamilia, completion: { familia in
-            self.banco.createUser(idFamilia: familia.recordID.recordName, nome: nomeUser, pontuacao: 0, conquista: [false, false], vitoria: 0, derrota: 0, foto: UIImage(named: "1")!, completion: { user in
-                self.banco.updateFamilia(newFamilia: familia, newUser: user, newAtividade: nil)
-            })
-        })
+
+        banco.retrieveFamilia(id: recordFamilia) { (familia) in
+            let user = Usuario(idFamilia: familia.recordID.recordName, nome: nomeUser, foto: UIImage(named: "1"))
+            self.banco.createUser(usuario: user) { (user) in
+                UserDefaults.standard.set(familia.recordID.recordName, forKey: "idFamilia")
+                UserDefaults.standard.set(user.recordID?.recordName, forKey: "idUsuario")
+            }
+        }
     }
     
 }

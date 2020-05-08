@@ -23,6 +23,25 @@ class Atividade{
     var usuario: Usuario?
     var idFamilia: String?
     
+//    guard let nomeA = nome.text else { return }
+//    guard let diaA = dia.text else { return }
+//    guard let etiquetaA = etiqueta.text else { return }
+//    guard let pontuacaoA = pontuacao.text else { return }
+//    guard let repeticaoA = repeticao.text else { return }
+    
+    init(idFamilia: String, nome: String, dia: String, etiqueta: String, pontuacao: Int, repeticao: Int, horario: Date){
+        self.idFamilia = idFamilia
+        self.nome = nome
+        self.pontuacao = pontuacao
+        self.dia = dia
+        self.etiqueta = etiqueta
+        self.repeticao = repeticao
+        self.horario = horario
+        self.realizou = false
+        self.usuario = nil
+        self.dataFeito = nil
+    }
+    
     init(recordID: CKRecord.ID, idFamilia: String?, dia: String?, etiqueta: String, horario: Date, nome: String, pontuacao: Int, repeticao: Int, user: Usuario?, dataFeito: Date?, realizou: Bool) {
         self.idFamilia = idFamilia
         self.recordID = recordID
