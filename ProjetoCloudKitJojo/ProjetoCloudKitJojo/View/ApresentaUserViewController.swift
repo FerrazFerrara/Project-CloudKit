@@ -19,6 +19,9 @@ class ApresentaUserViewController: UIViewController{
         print("chegou aq")
         tabelViewU.delegate = self
         tabelViewU.dataSource = self
+        if let scene = (self.view.window?.windowScene?.delegate) as? SceneDelegate{
+            scene.delegate = self
+        }
     }
     @IBAction func reloadBtn(_ sender: Any) {
         tabelViewU.reloadData()
@@ -27,10 +30,7 @@ class ApresentaUserViewController: UIViewController{
 
 extension ApresentaUserViewController: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let banco = DataBaseICloud.shared
-        banco.retrieveUser2(id: banco.familia!.recordID) { (users) in
-            self.usuarios = users
-        }
+        
         return self.usuarios.count
     }
     
@@ -40,5 +40,17 @@ extension ApresentaUserViewController: UITableViewDelegate, UITableViewDataSourc
         cell.pontos.text = "\(usuarios[indexPath.row].pontuacao!)"
         
         return cell
+    }
+}
+
+extension ApresentaUserViewController: UpdateDataDelegate{
+   
+    func updateTableView() {
+        let banco = DataBaseICloud.shared
+        
+        banco.retrieveUser2(id: banco.familia!.recordID) { (users) in
+            self.usuarios = users
+            self.tabelViewU.reloadData()
+        }
     }
 }
