@@ -44,7 +44,7 @@ class AtividadeViewController: UIViewController{
         
         banco.retrieveFamilia(id: familiaID) { (familia) in
             self.banco.createAtividade(nome: nomeA, pontuacao: pont, dia: diaA, horario: data, repete: repet, etiqueta: etiquetaA, completion: { atividade in
-                self.banco.updateFamilia(newFamilia: familia, newUser: nil, newAtividade: atividade, newFeedInfo: nil)
+                self.banco.updateFamilia(newFamilia: familia, newUser: nil, newAtividade: atividade)
             })
             
         }
