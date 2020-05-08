@@ -43,7 +43,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             vc = storyboard.instantiateViewController(identifier: "UsuarioVC")
             
             self.banco.retrievePrivateUsuario2(completion: {
-                self.banco.retrieveUser2(id: self.banco.familia!.recordID, completion: { usuarios in
+                self.banco.retrieveUser(id: self.banco.familia!.recordID, completion: { usuarios in
                     
                     self.banco.usuarios = usuarios
                     self.delegate?.updateTableView()
