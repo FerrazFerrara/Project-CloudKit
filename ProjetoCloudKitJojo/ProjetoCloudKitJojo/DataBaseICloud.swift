@@ -36,13 +36,7 @@ class DataBaseICloud{
      Cria usuario e salva no iCloud
      
      - Parameters:
-     - idFamilia: identificador da familia no usuario
-     - nome: nome do usuario
-     - pontuacao: pontuacao inicial do usuario
-     - conquista: array indicando quais conquistas ja foram desbloquadas pelo usuario
-     - vitoria: quantidade de vitorias do jogador
-     - derrota: quantidade de derrotas do jogador
-     - foto: foto de perfil do usuario
+        - usuario: usuario a ser criado
      */
     func createUser(usuario: Usuario, completion: @escaping (Usuario) -> Void){
         /// acesso ao container publico do banco
@@ -75,9 +69,13 @@ class DataBaseICloud{
             if error == nil{
                 // usuario salvo
                 print("Yaaay salvou um usuario")
+                // instanciando o usuario usando o record id para adicionar no array do banco
                 let user = Usuario(recordID: record.recordID, idFamilia: usuario.idFamilia!, nome: usuario.nome!, pontuacao: 0, foto: foto, conquista: [false], vitoria: 0, derrota: 0)
+                // adicionar usuario no array do banco
                 self.usuarios.append(user)
+                // recupera o id da familia do usuario
                 let idFamilia = CKRecord.ID(recordName: usuario.idFamilia!)
+                // adiciona o usuario a familia
                 self.updateFamiliaAddUsuario(idFamilia: idFamilia, newUser: user)
                 completion(user)
             } else {
@@ -89,29 +87,36 @@ class DataBaseICloud{
     }
     
     /**
-     Atualiza o primeiro usuario do array e salva no iCloud
-     
+     Atualiza o nome e a foto do usuario atual
      - Parameters:
-     - novoNome: nome que será sobrescrito no nome atual do usuario
+        - nome: novo nome a ser atualizado
+        - foto: nova foto a ser atualizada
      */
-    func updateUserNomeFoto(){
+    func updateUserNomeFoto(nome: String?, foto: UIImage?){
         /// acesso ao container publico do banco
         let database = self.container.publicCloudDatabase
         
+        // busca o usuario atual
         guard let user = actualUser() else { return }
         
-        /// identificador do primeiro usuario do array de usuarios
+        // busca os dados do usuario atual
         guard let userRecord = user.recordID else { return }
-        guard let userFoto = user.foto else { return }
-        guard let asset = transformImage(foto: userFoto) else { return }
         
         // busca o dado compativel com o id
         database.fetch(withRecordID: userRecord) { (record, error) in
             if error == nil{
                 // id encontrado
                 // armazena o novo valor
-                record?.setValue(user.nome, forKey: "nome")
-                record?.setValue(asset, forKey: "foto")
+                // verifica se tem foto para atualizar
+                if let userFoto = foto {
+                    guard let asset = self.transformImage(foto: userFoto) else { return }
+                    record?.setValue(asset, forKey: "foto")
+                }
+                
+                // verificar se tem nome para atualizar
+                if let nomeUser = nome {
+                    record?.setValue(nomeUser, forKey: "nome")
+                }
                 
                 // salva o dado novamente
                 database.save(record!) { (newRecord, error) in
@@ -129,15 +134,16 @@ class DataBaseICloud{
     }
     
     /**
-     Atualiza o primeiro usuario do array e salva no iCloud
+     Atualiza as vitorias e derrotas to usuario
      
      - Parameters:
-     - novoNome: nome que será sobrescrito no nome atual do usuario
+        - vitoria: true se o usuario ficou em primeiro, false se o usuario ficou em ultimo
      */
-    func updateUserVitoriaDerrota(){
+    func updateUserVitoriaDerrota(vitoria: Bool){
         /// acesso ao container publico do banco
         let database = self.container.publicCloudDatabase
         
+        // busca o usuario atual
         guard let user = actualUser() else { return }
         
         /// identificador do primeiro usuario do array de usuarios
@@ -148,8 +154,13 @@ class DataBaseICloud{
             if error == nil{
                 // id encontrado
                 // armazena o novo valor
-                record?.setValue(user.vitoria, forKey: "vitoria")
-                record?.setValue(user.derrota, forKey: "derrota")
+                if vitoria{
+                    // aumenta em 1 a quantidade de vitorias do usuario
+                    record?.setValue(user.vitoria! += 1, forKey: "vitoria")
+                } else {
+                    // aumenta em 1 a quantidade de derrotas do usuario
+                    record?.setValue(user.derrota! += 1, forKey: "derrota")
+                }
                 
                 // salva o dado novamente
                 database.save(record!) { (newRecord, error) in
@@ -167,7 +178,7 @@ class DataBaseICloud{
     }
     
     /**
-     Atualiza o primeiro usuario do array e salva no iCloud
+     Atualiza as conquistas do usuario
      
      - Parameters:
      - novoNome: nome que será sobrescrito no nome atual do usuario
@@ -205,13 +216,17 @@ class DataBaseICloud{
         }
     }
     
+    /**
+     atualiza a pontuacao do usuario ao cumprir uma tarefa
+     */
     private func updateUserPontuacao(){
         /// acesso ao container publico do banco
         let database = self.container.publicCloudDatabase
         
+        // busca o usuario atual
         guard let user = actualUser() else { return }
         
-        /// identificador do primeiro usuario do array de usuarios
+        /// identificador do usuario
         guard let userID = user.recordID else { return }
         
         // busca o dado compativel com o id
@@ -239,9 +254,12 @@ class DataBaseICloud{
     
     /**
      Busca os dados da tabela de usuarios do banco
+     - Parameters:
+        - id: RecordID da familia do usuario
      */
     func retrieveUser(id: CKRecord.ID, completion: @escaping ([Usuario]) -> Void){
         
+        // array de usuarios q substituira o atual
         var usuarios: [Usuario] = []
         
         /// acesso ao container publico do banco
@@ -668,7 +686,7 @@ class DataBaseICloud{
      Busca as atividades do iCloud
      */
     // TESTAR O QUE ACONTECE QUANDO O USUARIO Q REALIZOU A ATIVIDADE SAIU DA FAMILIA (BANCO)
-    func retrieveAtividade(idFamilia: CKRecord.ID, completion: @escaping ([Atividade]) -> Void){
+    public func retrieveAtividade(idFamilia: CKRecord.ID, completion: @escaping ([Atividade]) -> Void){
         /// acesso ao container publico do banco
         let database = self.container.publicCloudDatabase
         
@@ -739,7 +757,7 @@ class DataBaseICloud{
      - Parameters:
      - atividade: atividade que sera deletada do banco
      */
-    func deleteAtividade(atividade: Atividade){
+    public func deleteAtividade(atividade: Atividade){
         /// acesso ao container publico do banco
         let database = container.publicCloudDatabase
         // id da atividade no banco
