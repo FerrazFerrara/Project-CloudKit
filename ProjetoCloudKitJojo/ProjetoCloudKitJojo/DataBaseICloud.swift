@@ -172,7 +172,7 @@ class DataBaseICloud{
      - Parameters:
      - novoNome: nome que será sobrescrito no nome atual do usuario
      */
-    func updateUserConquista(){
+    func updateUserConquista(conquista: Int){
         /// acesso ao container publico do banco
         let database = self.container.publicCloudDatabase
         
@@ -180,6 +180,8 @@ class DataBaseICloud{
         
         /// identificador do primeiro usuario do array de usuarios
         guard let userRecord = user.recordID else { return }
+        
+        user.conquista![conquista] = true
         
         // busca o dado compativel com o id
         database.fetch(withRecordID: userRecord) { (record, error) in
