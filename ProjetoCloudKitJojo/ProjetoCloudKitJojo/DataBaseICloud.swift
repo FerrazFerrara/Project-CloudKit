@@ -759,52 +759,6 @@ class DataBaseICloud{
     
     // MARK: - Usuario Private
     
-    
-    
-    // MARK: - Funções auxiliares para o banco
-    
-    /**
-     Transforma uma UIImage em CKAsset para adicionar ao banco
-     
-     - Parameters:
-     - foto: foto que sera adicionada ao iCloud
-     
-     - Returns: retorna CKAsset em caso de sucesso ou nil em caso de fracasso no cast
-     */
-    private func transformImage(foto: UIImage) -> CKAsset?{
-        // transforma a UIImage em PNG
-        let data = foto.pngData();
-        // busca a url do diretorio temporario do iPhone
-        let url = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(NSUUID().uuidString+".dat")
-        do {
-            // adiciona a imagem png para a url
-            try data!.write(to: url!)
-            // cria o CKAsset a partir do png encontrado na url
-            let asset = CKAsset(fileURL: url!)
-            return asset
-        } catch let e as NSError {
-            // erro ao adicionar a imagem a url(provavel erro)
-            print("Error! \(e)");
-            return nil
-        }
-    }
-    
-    private func addElementoArrayReferencia(elemento: CKRecord, record: CKRecord, recordType: String) -> [CKRecord.Reference]?{
-        
-        guard var elementosArray = record[recordType] as? [CKRecord.Reference] else {
-            print("erro ao buscar array")
-            return nil
-        }
-        
-        let reference = CKRecord.Reference(record: elemento, action: .none)
-        
-        if !elementosArray.contains(reference){
-            elementosArray.append(reference)
-            print("deu bom")
-        }
-        return elementosArray
-    }
-    
     public func createPrivateUsuario(idFamilia: String, idUser: String){
         
         /// acesso ao container privado do banco
@@ -918,6 +872,50 @@ class DataBaseICloud{
                 print("erro aaaaaaa")
             }
         }
+    }
+    
+    // MARK: - Funções auxiliares para o banco
+    
+    /**
+     Transforma uma UIImage em CKAsset para adicionar ao banco
+     
+     - Parameters:
+     - foto: foto que sera adicionada ao iCloud
+     
+     - Returns: retorna CKAsset em caso de sucesso ou nil em caso de fracasso no cast
+     */
+    private func transformImage(foto: UIImage) -> CKAsset?{
+        // transforma a UIImage em PNG
+        let data = foto.pngData();
+        // busca a url do diretorio temporario do iPhone
+        let url = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(NSUUID().uuidString+".dat")
+        do {
+            // adiciona a imagem png para a url
+            try data!.write(to: url!)
+            // cria o CKAsset a partir do png encontrado na url
+            let asset = CKAsset(fileURL: url!)
+            return asset
+        } catch let e as NSError {
+            // erro ao adicionar a imagem a url(provavel erro)
+            print("Error! \(e)");
+            return nil
+        }
+    }
+    
+    private func addElementoArrayReferencia(elemento: CKRecord, record: CKRecord, recordType: String) -> [CKRecord.Reference]?{
+        
+        guard var elementosArray = record[recordType] as? [CKRecord.Reference] else {
+            print("erro ao buscar array")
+            return nil
+        }
+        
+        let reference = CKRecord.Reference(record: elemento, action: .none)
+        
+        if !elementosArray.contains(reference){
+            elementosArray.append(reference)
+            print("deu bom")
+        }
+        return elementosArray
     }
     
     private func actualUser() -> Usuario?{
